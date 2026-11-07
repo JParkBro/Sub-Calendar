@@ -1,0 +1,25 @@
+*.iml
+# Android Studio 설정 (개인 · 자동 생성)
+.idea/
+.gradle
+/local.properties
+.DS_Store
+build/
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# 비밀 정보 (CLAUDE.md "비밀 정보")
+*.jks
+*.keystore
+keystore.properties
+.env
+.env.*
+.dev.vars
+*-firebase-adminsdk-*.json
+service-account*.json
+google-services.json
+
+# Kotlin 컴파일러 캐시
+.kotlin/
