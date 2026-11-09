@@ -28,7 +28,7 @@ subcalendar/
 ├─ app/
 ├─ build-logic/
 ├─ core/
-│  ├─ model/          [JVM] Subscription, PriceChange, Pause, Payment, PartyMember, UsageLog, Category, Money, BillingCycle
+│  ├─ model/          [JVM] Subscription, PriceChange, Pause, SubscriptionRecord, Payment, PartyMember, UsageLog, Category, Money, BillingCycle
 │  ├─ common/         [JVM] suspendRunCatching, IdGenerator (Result는 kotlin.Result, Clock은 java.time.Clock을 주입)
 │  ├─ domain/         [JVM] 결제일 생성, 기간 집계, 누적 · 아낀 돈, 중복, 가성비, 파티 몫, 알림 대상
 │  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 목록 / 캘린더 / 통계 / 더보기), AppIntents
@@ -147,7 +147,7 @@ subcalendar/
 | `appModule` | app — Navigator, 결과 핸들러, 전체 `includes` |
 | `databaseModule`, `datastoreModule` | core |
 | `firebaseModule` | core:firebase — `CrashReporter`, `AnalyticsLogger`, `RemoteFlags` |
-| `dataModule`, `domainModule` | core |
+| `dataModule` | core:data (`core:domain`은 순수 함수만 있어 Koin 모듈이 없다) |
 | `notificationModule`, `adsModule`, `billingModule` | core |
 | `{feature}Module` × 8 | 각 impl |
 | `widgetModule` | widget |
