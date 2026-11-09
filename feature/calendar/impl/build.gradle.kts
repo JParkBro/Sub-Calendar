@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation(projects.feature.calendar.api)
+    implementation(projects.feature.subscription.api)
 }

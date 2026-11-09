@@ -10,17 +10,24 @@ private const val MONTHS_PER_YEAR = 12L
 private const val WEEKS_PER_YEAR = 52L
 private const val DAYS_PER_YEAR = 365L
 
+/** 기간 안 결제, 날짜 → 이름 순. 결과를 고르지 않은 체험은 뺀다 (product-spec 2-8 · 4-5) */
+fun periodPayments(
+    records: List<SubscriptionRecord>,
+    period: BillingPeriod,
+    today: LocalDate,
+): List<Payment> =
+    records
+        .filterNot { it.subscription.isPendingTrial(today) }
+        .flatMap { it.payments(period.start, period.endExclusive) }
+        .sortedWith(compareBy({ it.date }, { it.subscription.name }))
+
 /** 기간 안 결제의 원화 합. 결과를 고르지 않은 체험은 뺀다 (product-spec 2-8) */
 fun periodTotalKrw(
     records: List<SubscriptionRecord>,
     period: BillingPeriod,
     today: LocalDate,
     usdKrwRate: Long,
-): Long =
-    records
-        .filterNot { it.subscription.isPendingTrial(today) }
-        .flatMap { it.payments(period.start, period.endExclusive) }
-        .sumOf { it.amount.toKrw(usdKrwRate) }
+): Long = periodPayments(records, period, today).sumOf { it.amount.toKrw(usdKrwRate) }
 
 /** 지난달 대비 증감 */
 fun periodChangeKrw(
