@@ -29,7 +29,7 @@ subcalendar/
 ├─ build-logic/
 ├─ core/
 │  ├─ model/          [JVM] Subscription, PriceChange, Pause, Payment, PartyMember, UsageLog, Category, Money, BillingCycle
-│  ├─ common/         [JVM] Result, suspendRunCatching, Clock, 날짜 유틸
+│  ├─ common/         [JVM] suspendRunCatching, IdGenerator (Result는 kotlin.Result, Clock은 java.time.Clock을 주입)
 │  ├─ domain/         [JVM] 결제일 생성, 기간 집계, 누적 · 아낀 돈, 중복, 가성비, 파티 몫, 알림 대상
 │  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 목록 / 캘린더 / 통계 / 더보기), AppIntents
 │  ├─ designsystem/   AppColors(27 토큰) · 2 팔레트, 서비스 색, 공통 컴포넌트 SubCal*
