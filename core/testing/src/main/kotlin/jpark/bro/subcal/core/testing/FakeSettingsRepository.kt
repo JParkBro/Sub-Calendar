@@ -12,32 +12,46 @@ class FakeSettingsRepository : SettingsRepository {
     val notificationSettings = MutableStateFlow(NotificationSettings())
     val listSort = MutableStateFlow(ListSort.NEXT_BILLING)
     val onboardingDone = MutableStateFlow(false)
+    val billingDateHintPending = MutableStateFlow(false)
+
+    /** 넣으면 모든 쓰기가 그 예외로 실패한다 */
+    var failure: Throwable? = null
 
     override fun observeAppSettings(): Flow<AppSettings> = appSettings
 
-    override suspend fun setAppSettings(settings: AppSettings): Result<Unit> {
-        appSettings.value = settings
-        return Result.success(Unit)
-    }
+    override suspend fun setAppSettings(settings: AppSettings): Result<Unit> =
+        fakeWrite(failure) {
+            appSettings.value =
+                settings
+        }
 
     override fun observeNotificationSettings(): Flow<NotificationSettings> = notificationSettings
 
-    override suspend fun setNotificationSettings(settings: NotificationSettings): Result<Unit> {
-        notificationSettings.value = settings
-        return Result.success(Unit)
-    }
+    override suspend fun setNotificationSettings(settings: NotificationSettings): Result<Unit> =
+        fakeWrite(failure) {
+            notificationSettings.value =
+                settings
+        }
 
     override fun observeListSort(): Flow<ListSort> = listSort
 
-    override suspend fun setListSort(sort: ListSort): Result<Unit> {
-        listSort.value = sort
-        return Result.success(Unit)
-    }
+    override suspend fun setListSort(sort: ListSort): Result<Unit> = fakeWrite(failure) { listSort.value = sort }
 
     override fun observeOnboardingDone(): Flow<Boolean> = onboardingDone
 
-    override suspend fun setOnboardingDone(done: Boolean): Result<Unit> {
-        onboardingDone.value = done
-        return Result.success(Unit)
-    }
+    override suspend fun setOnboardingDone(done: Boolean): Result<Unit> =
+        fakeWrite(failure) {
+            onboardingDone.value =
+                done
+        }
+
+    override fun observeBillingDateHintPending(): Flow<Boolean> = billingDateHintPending
+
+    override suspend fun setBillingDateHintPending(pending: Boolean): Result<Unit> =
+        fakeWrite(failure) { billingDateHintPending.value = pending }
 }
+
+private fun fakeWrite(
+    failure: Throwable?,
+    block: () -> Unit,
+): Result<Unit> = failure?.let { Result.failure(it) } ?: Result.success(block())

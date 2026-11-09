@@ -1,5 +1,6 @@
 package jpark.bro.subcal.core.domain.billing
 
+import jpark.bro.subcal.core.model.BillingCycle
 import jpark.bro.subcal.core.model.Currency
 import jpark.bro.subcal.core.model.CycleUnit
 import jpark.bro.subcal.core.model.Money
@@ -120,5 +121,12 @@ class BillingSummaryTest {
             )
 
         assertEquals(listOf("매일", "매달"), upcomingPayments(records, today, limit = 3).map { it.subscription.name })
+    }
+
+    @Test
+    fun `저장 전 요금제도 같은 규칙으로 월 환산한다`() {
+        assertEquals(3_700, monthlyEquivalentKrw(Money(44_400, Currency.KRW), BillingCycle(CycleUnit.YEAR), rate))
+        assertEquals(28_000, monthlyEquivalentKrw(Money(2_000, Currency.USD), BillingCycle(CycleUnit.MONTH), rate))
+        assertEquals(20_000, monthlyEquivalentKrw(Money(60_000, Currency.KRW), BillingCycle(CycleUnit.MONTH, 3), rate))
     }
 }

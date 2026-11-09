@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -11,7 +12,9 @@ import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.ListSort
 import jpark.bro.subcal.core.model.NotificationSettings
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import java.io.IOException
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
 
@@ -19,8 +22,14 @@ import java.time.format.DateTimeParseException
 class SettingsDataStore(
     private val dataStore: DataStore<Preferences>,
 ) {
+    /** 파일을 읽지 못하면(IOException) 기본값으로 동작한다. 그 밖의 예외는 그대로 던진다 */
+    private val preferences: Flow<Preferences> =
+        dataStore.data.catch { error ->
+            if (error is IOException) emit(emptyPreferences()) else throw error
+        }
+
     val appSettings: Flow<AppSettings> =
-        dataStore.data.map { prefs ->
+        preferences.map { prefs ->
             val default = AppSettings()
             AppSettings(
                 themeMode = prefs[THEME_MODE].toEnumOr(default.themeMode),
@@ -50,7 +59,7 @@ class SettingsDataStore(
     }
 
     val notificationSettings: Flow<NotificationSettings> =
-        dataStore.data.map { prefs ->
+        preferences.map { prefs ->
             val default = NotificationSettings()
             NotificationSettings(
                 paymentEnabled = prefs[NOTIFY_PAYMENT_ENABLED] ?: default.paymentEnabled,
@@ -77,16 +86,26 @@ class SettingsDataStore(
         }
     }
 
-    val listSort: Flow<ListSort> = dataStore.data.map { prefs -> prefs[LIST_SORT].toEnumOr(ListSort.NEXT_BILLING) }
+    val listSort: Flow<ListSort> = preferences.map { prefs -> prefs[LIST_SORT].toEnumOr(ListSort.NEXT_BILLING) }
 
     suspend fun setListSort(sort: ListSort) {
         dataStore.edit { prefs -> prefs[LIST_SORT] = sort.name }
     }
 
-    val onboardingDone: Flow<Boolean> = dataStore.data.map { prefs -> prefs[ONBOARDING_DONE] ?: false }
+    val onboardingDone: Flow<Boolean> = preferences.map { prefs -> prefs[ONBOARDING_DONE] ?: false }
 
     suspend fun setOnboardingDone(done: Boolean) {
         dataStore.edit { prefs -> prefs[ONBOARDING_DONE] = done }
+    }
+
+    /** 온보딩에서 한꺼번에 등록한 뒤 홈에 "결제일을 확인해 주세요" 카드를 보여줄지 (product-spec 5장) */
+    val billingDateHintPending: Flow<Boolean> =
+        preferences.map { prefs ->
+            prefs[BILLING_DATE_HINT_PENDING] ?: false
+        }
+
+    suspend fun setBillingDateHintPending(pending: Boolean) {
+        dataStore.edit { prefs -> prefs[BILLING_DATE_HINT_PENDING] = pending }
     }
 
     private companion object {
@@ -102,6 +121,7 @@ class SettingsDataStore(
         val NOTIFY_TIME = stringPreferencesKey("notify_time")
         val LIST_SORT = stringPreferencesKey("list_sort")
         val ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
+        val BILLING_DATE_HINT_PENDING = booleanPreferencesKey("billing_date_hint_pending")
     }
 }
 

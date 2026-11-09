@@ -13,14 +13,13 @@ import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.component.SubCalBottomBar
 import jpark.bro.subcal.core.designsystem.component.SubCalTab
 import jpark.bro.subcal.core.navigation.Navigator
-import org.koin.compose.koinInject
 import org.koin.compose.navigation3.koinEntryProvider
 import org.koin.core.annotation.KoinExperimentalAPI
 
 /** 앱 루트: NavDisplay + 하단 탭. 하단 탭은 탭의 첫 화면에서만 보인다. */
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-internal fun SubCalApp(navigator: Navigator = koinInject()) {
+internal fun SubCalApp(navigator: Navigator) {
     val showTabs = navigator.isTopLevel(navigator.backStack.lastOrNull())
 
     Scaffold(

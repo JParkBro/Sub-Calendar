@@ -6,16 +6,20 @@ import jpark.bro.subcal.core.database.di.databaseModule
 import jpark.bro.subcal.core.datastore.di.datastoreModule
 import jpark.bro.subcal.core.navigation.Navigator
 import jpark.bro.subcal.feature.calendar.impl.di.calendarModule
-import jpark.bro.subcal.feature.home.api.HomeKey
 import jpark.bro.subcal.feature.home.impl.di.homeModule
+import jpark.bro.subcal.feature.onboarding.api.OnboardingResultHandler
+import jpark.bro.subcal.feature.onboarding.impl.di.onboardingModule
 import jpark.bro.subcal.feature.subscription.impl.di.subscriptionModule
+import jpark.bro.subcal.navigation.AppOnboardingResultHandler
 import jpark.bro.subcal.navigation.TopLevelDestination
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule =
     module {
-        single { Navigator(startKey = HomeKey, topLevelKeys = TopLevelDestination.keys) }
+        // 첫 화면은 MainViewModel이 DataStore를 읽은 뒤 parametersOf로 넘긴다 (메인 스레드를 막지 않는다)
+        single { params -> Navigator(startKey = params.get(), topLevelKeys = TopLevelDestination.keys) }
+        single<OnboardingResultHandler> { AppOnboardingResultHandler(get()) }
         viewModelOf(::MainViewModel)
 
         includes(
@@ -24,6 +28,7 @@ val appModule =
             datastoreModule,
             dataModule,
             // feature
+            onboardingModule,
             homeModule,
             subscriptionModule,
             calendarModule,

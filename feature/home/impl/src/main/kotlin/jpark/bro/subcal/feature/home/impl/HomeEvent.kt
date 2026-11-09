@@ -10,9 +10,9 @@ internal sealed interface HomeEvent {
     /** 캘린더 탭으로 */
     data object OpenCalendar : HomeEvent
 
-    /** 목록 탭을 카테고리로 걸러서 */
+    /** 목록 탭. [category]가 있으면 그 카테고리로 걸러서 */
     data class OpenList(
-        val category: Category,
+        val category: Category?,
     ) : HomeEvent
 
     data object OpenServicePicker : HomeEvent

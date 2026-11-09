@@ -115,4 +115,35 @@ class HomeViewModelTest {
                 assertEquals(HomeEvent.OpenEdit(null), awaitItem())
             }
         }
+
+    @Test
+    fun `온보딩에서 등록했으면 결제일 확인 안내를 보여주고 누르면 목록으로 가며 닫는다`() =
+        runTest {
+            settings.billingDateHintPending.value = true
+            assertTrue(viewModel.state.value.showBillingDateHint)
+
+            viewModel.event.test {
+                viewModel.onAction(HomeAction.BillingDateHintClicked)
+                assertEquals(HomeEvent.OpenList(category = null), awaitItem())
+            }
+            assertFalse(settings.billingDateHintPending.value)
+            assertFalse(viewModel.state.value.showBillingDateHint)
+        }
+
+    @Test
+    fun `결제일 확인 안내를 닫는다`() {
+        settings.billingDateHintPending.value = true
+
+        viewModel.onAction(HomeAction.BillingDateHintDismissed)
+
+        assertFalse(viewModel.state.value.showBillingDateHint)
+    }
+
+    @Test
+    fun `구독이 없으면 결제일 확인 안내도 없다`() {
+        settings.billingDateHintPending.value = true
+        subscriptions.records.value = emptyList()
+
+        assertFalse(viewModel.state.value.showBillingDateHint)
+    }
 }

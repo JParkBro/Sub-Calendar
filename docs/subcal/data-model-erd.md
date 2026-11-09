@@ -143,6 +143,7 @@ erDiagram
 | `default_payment_method` | String | – | ✓ | ✓ |
 | `list_sort` | `NEXT_BILLING`·`AMOUNT`·`NAME` | `NEXT_BILLING` | ✗ | ✓ |
 | `onboarding_done` | Boolean | false | ✗ | ✓ |
+| `billing_date_hint_pending` | Boolean (온보딩 등록 후 홈 "결제일을 확인해 주세요" 카드) | false | ✗ | ✓ |
 | `dismissed_cards` | Set<String> | – | ✗ | ✓ |
 | `ads_installed_at` · `ads_last_interstitial_at` · `ads_interstitial_count_today` · `ads_count_date` | Long · Long · Int · String | – | ✗ | ✗ |
 | `remove_ads_cached` | Boolean | false | ✗ | ✗ (Play에서 다시 확인) |

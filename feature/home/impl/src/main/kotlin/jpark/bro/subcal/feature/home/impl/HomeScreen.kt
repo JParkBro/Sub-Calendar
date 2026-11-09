@@ -32,6 +32,8 @@ import jpark.bro.subcal.core.designsystem.component.SubCalCard
 import jpark.bro.subcal.core.designsystem.component.SubCalDivider
 import jpark.bro.subcal.core.designsystem.component.SubCalFab
 import jpark.bro.subcal.core.designsystem.component.SubCalFilterChip
+import jpark.bro.subcal.core.designsystem.component.SubCalIconButton
+import jpark.bro.subcal.core.designsystem.component.SubCalListItem
 import jpark.bro.subcal.core.designsystem.component.SubCalSecondaryButton
 import jpark.bro.subcal.core.designsystem.component.SubCalTopBar
 import jpark.bro.subcal.core.designsystem.preview.ScreenPreviews
@@ -105,6 +107,7 @@ private fun HomeScreen(
                             ),
                     verticalArrangement = Arrangement.spacedBy(AppSpacing.xl),
                 ) {
+                    if (state.showBillingDateHint) BillingDateHintCard(onAction = onAction)
                     MonthCard(state.summary)
                     if (state.isEmpty) {
                         EmptyCard(onAction = onAction)
@@ -263,44 +266,6 @@ private fun CategoryChips(
     }
 }
 
-/** 빈 상태: 안내 + 빠른 등록 칩 */
-@Composable
-private fun EmptyCard(onAction: (HomeAction) -> Unit) {
-    SubCalCard(modifier = Modifier.testTag("empty_card")) {
-        Column(modifier = Modifier.padding(AppSpacing.lg), verticalArrangement = Arrangement.spacedBy(AppSpacing.md)) {
-            Text(
-                text = stringResource(R.string.home_empty_title),
-                style = AppThemeTokens.typography.headlineSm,
-                color = AppThemeTokens.colors.textPrimary,
-            )
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(AppSpacing.sm),
-                verticalArrangement = Arrangement.spacedBy(AppSpacing.sm),
-            ) {
-                QuickAdd.entries.forEach { quickAdd ->
-                    SubCalFilterChip(
-                        text = stringResource(quickAdd.labelRes),
-                        selected = false,
-                        onClick = { onAction(HomeAction.QuickAddClicked(quickAdd)) },
-                        role = Role.Button,
-                        modifier = Modifier.testTag("quick_${quickAdd.name.lowercase()}"),
-                    )
-                }
-            }
-        }
-    }
-}
-
-@get:StringRes
-private val QuickAdd.labelRes: Int
-    get() =
-        when (this) {
-            QuickAdd.NETFLIX -> R.string.home_quick_netflix
-            QuickAdd.YOUTUBE_PREMIUM -> R.string.home_quick_youtube_premium
-            QuickAdd.COUPANG_WOW -> R.string.home_quick_coupang_wow
-            QuickAdd.MANUAL -> R.string.home_quick_manual
-        }
-
 @ScreenPreviews
 @Composable
 private fun HomePreview() {
@@ -310,7 +275,9 @@ private fun HomePreview() {
 @ScreenPreviews
 @Composable
 private fun HomeMonthStartPreview() {
-    AppTheme { HomeScreen(state = previewHomeState(monthStartDay = 25), onAction = {}) }
+    AppTheme {
+        HomeScreen(state = previewHomeState(monthStartDay = 25).copy(showBillingDateHint = true), onAction = {})
+    }
 }
 
 @ScreenPreviews

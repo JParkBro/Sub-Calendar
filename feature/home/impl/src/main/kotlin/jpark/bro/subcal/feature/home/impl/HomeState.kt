@@ -8,6 +8,8 @@ internal data class HomeState(
     val isLoading: Boolean = true,
     /** 등록한 구독이 하나도 없으면 빈 상태 + 빠른 등록 칩 */
     val isEmpty: Boolean = false,
+    /** 온보딩에서 한꺼번에 등록한 뒤 "결제일을 확인해 주세요" (product-spec 5장) */
+    val showBillingDateHint: Boolean = false,
     val summary: MonthSummary = MonthSummary(),
     val upcoming: List<UpcomingPayment> = emptyList(),
     val categories: List<CategoryCount> = emptyList(),

@@ -1,6 +1,7 @@
 package jpark.bro.subcal.feature.subscription.impl.picker
 
 import androidx.lifecycle.viewModelScope
+import jpark.bro.subcal.core.data.preset.matches
 import jpark.bro.subcal.core.data.repository.PresetRepository
 import jpark.bro.subcal.core.data.repository.SubscriptionRepository
 import jpark.bro.subcal.core.model.Category
@@ -44,7 +45,7 @@ internal class ServicePickerViewModel(
                     categories = presets.map { it.category }.distinct().sorted(),
                     services =
                         presets
-                            .filter { search.matches(it) }
+                            .filter { it.matches(search.query, search.category) }
                             .map { it.toItem(isRegistered = it.id in registered) },
                 )
             }
@@ -78,15 +79,8 @@ internal class ServicePickerViewModel(
     private data class Search(
         val query: String = "",
         val category: Category? = null,
-    ) {
-        /** 대소문자 · 공백을 무시하고 이름에 검색어가 들어 있으면 */
-        fun matches(preset: Preset): Boolean =
-            (category == null || preset.category == category) &&
-                preset.name.normalized().contains(query.normalized())
-    }
+    )
 }
-
-private fun String.normalized(): String = filterNot(Char::isWhitespace).lowercase()
 
 private fun Preset.toItem(isRegistered: Boolean): PresetItem =
     PresetItem(

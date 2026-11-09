@@ -17,6 +17,11 @@ internal sealed interface HomeAction {
     /** FAB */
     data object AddClicked : HomeAction
 
+    /** "결제일을 확인해 주세요" 카드: 누르면 목록, 닫으면 다시 보이지 않음 */
+    data object BillingDateHintClicked : HomeAction
+
+    data object BillingDateHintDismissed : HomeAction
+
     data class QuickAddClicked(
         val quickAdd: QuickAdd,
     ) : HomeAction
