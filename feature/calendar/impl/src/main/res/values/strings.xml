@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 캘린더 (product-spec 4-5) -->
     <string name="calendar_title">캘린더</string>
+    <string name="calendar_month">%1$d년 %2$d월</string>
+    <string name="calendar_previous_month">이전 달</string>
+    <string name="calendar_next_month">다음 달</string>
+    <string name="calendar_month_count">이번 달 %1$d건 ·</string>
+    <string name="calendar_day_more">+%1$d</string>
+    <string name="calendar_day_description">%1$d월 %2$d일, 결제 %3$d건</string>
+    <string name="calendar_sheet_title">%1$d월 %2$d일 (%3$s)</string>
 </resources>

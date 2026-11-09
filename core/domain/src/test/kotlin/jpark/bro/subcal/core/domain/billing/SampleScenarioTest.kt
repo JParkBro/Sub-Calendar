@@ -68,6 +68,17 @@ class SampleScenarioTest {
     }
 
     @Test
+    fun `11월 결제 목록은 날짜순 7건이고 체험 종료일은 결제가 아니다`() {
+        val payments = periodPayments(records, BillingPeriod(YearMonth.of(2026, 11)), today)
+
+        assertEquals(
+            listOf("넷플릭스 프리미엄", "쿠팡 와우", "구글 원 200GB", "유튜브 프리미엄", "티빙", "멜론", "스포티파이"),
+            payments.map { it.subscription.name },
+        )
+        assertEquals(listOf(2, 5, 9, 14, 21, 25, 30), payments.map { it.date.dayOfMonth })
+    }
+
+    @Test
     fun `월 평균과 연간 환산`() {
         assertEquals(76_190, monthlyAverageKrw(records, today, rate))
         assertEquals(914_280, annualizedKrw(records, today, rate))
