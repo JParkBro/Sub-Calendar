@@ -2,6 +2,7 @@ package jpark.bro.subcal.feature.calendar.impl
 
 import app.cash.turbine.test
 import jpark.bro.subcal.core.model.AppSettings
+import jpark.bro.subcal.core.model.SubscriptionStatus
 import jpark.bro.subcal.core.testing.FakeSettingsRepository
 import jpark.bro.subcal.core.testing.FakeSubscriptionRepository
 import jpark.bro.subcal.core.testing.MainDispatcherRule
@@ -139,4 +140,31 @@ class CalendarViewModelTest {
             }
             assertNull(viewModel.state.value.selected)
         }
+
+    @Test
+    fun `일시정지한 체험은 종료일 표시가 없다`() {
+        subscriptions.records.value =
+            SampleData.records.map {
+                if (it == SampleData.disneyPlus) {
+                    it.copy(subscription = it.subscription.copy(status = SubscriptionStatus.PAUSED))
+                } else {
+                    it
+                }
+            }
+
+        assertFalse(
+            viewModel.state.value
+                .day(31)
+                .hasTrialEnd,
+        )
+    }
+
+    @Test
+    fun `다른 달의 날짜는 고르지 않는다`() {
+        viewModel.onAction(CalendarAction.DayClicked(LocalDate.of(2026, 11, 2)))
+
+        assertNull(viewModel.state.value.selected)
+        viewModel.onAction(CalendarAction.NextMonthClicked)
+        assertNull(viewModel.state.value.selected)
+    }
 }

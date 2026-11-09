@@ -6,6 +6,7 @@ import jpark.bro.subcal.core.domain.billing.periodPayments
 import jpark.bro.subcal.core.domain.billing.toKrw
 import jpark.bro.subcal.core.model.Payment
 import jpark.bro.subcal.core.model.SubscriptionRecord
+import jpark.bro.subcal.core.model.SubscriptionStatus
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -23,19 +24,21 @@ internal fun buildCalendarState(
 ): CalendarState {
     val payments = periodPayments(records, BillingPeriod(month), today)
     val byDate = payments.groupBy { it.date }
+    // 일시정지 · 해지한 체험은 종료일에 결제가 생기지 않으니 표시하지 않는다
     val trialEnds =
         records
+            .map { it.subscription }
             .filter {
-                it.subscription.isPendingTrial(
-                    today,
-                ) && YearMonth.from(it.subscription.firstBillingDate) == month
-            }.mapTo(mutableSetOf()) { it.subscription.firstBillingDate }
-    val current = YearMonth.from(today)
+                it.status == SubscriptionStatus.ACTIVE &&
+                    it.isPendingTrial(today) &&
+                    YearMonth.from(it.firstBillingDate) == month
+            }.mapTo(mutableSetOf()) { it.firstBillingDate }
+    val range = movableMonths(today)
     return CalendarState(
         isLoading = false,
         month = month,
-        canGoPrevious = month > current.minusMonths(PAST_MONTHS),
-        canGoNext = month < current.plusMonths(FUTURE_MONTHS),
+        canGoPrevious = month > range.start,
+        canGoNext = month < range.endInclusive,
         paymentCount = payments.size,
         totalKrw = payments.sumOf { it.amount.toKrw(usdKrwRate) },
         weeks = weeks(month) { date -> day(date, byDate[date].orEmpty(), date in trialEnds, today) },
@@ -50,6 +53,12 @@ internal fun buildCalendarState(
                 }
             },
     )
+}
+
+/** 이동할 수 있는 달: 지난 [PAST_MONTHS]개월 ~ 앞으로 [FUTURE_MONTHS]개월 (product-spec 4-5) */
+internal fun movableMonths(today: LocalDate): ClosedRange<YearMonth> {
+    val current = YearMonth.from(today)
+    return current.minusMonths(PAST_MONTHS)..current.plusMonths(FUTURE_MONTHS)
 }
 
 /** 일요일 시작. 첫 주 앞 · 마지막 주 뒤의 다른 달 칸은 null */

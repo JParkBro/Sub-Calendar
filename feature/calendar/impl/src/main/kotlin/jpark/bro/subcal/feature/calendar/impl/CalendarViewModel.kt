@@ -36,20 +36,16 @@ internal class CalendarViewModel(
     override fun onAction(action: CalendarAction) {
         when (action) {
             CalendarAction.PreviousMonthClicked -> {
-                if (currentState.canGoPrevious) selection.update { Selection(it.month.minusMonths(1), date = null) }
+                moveMonth(-1)
             }
 
             CalendarAction.NextMonthClicked -> {
-                if (currentState.canGoNext) selection.update { Selection(it.month.plusMonths(1), date = null) }
+                moveMonth(1)
             }
 
             is CalendarAction.DayClicked -> {
-                // 결제가 없는 날은 아무 일도 없다 (4-5)
-                val hasPayments =
-                    currentState.weeks
-                        .flatten()
-                        .any { it?.date == action.date && it.paymentCount > 0 }
-                if (hasPayments) selection.update { it.copy(date = action.date) }
+                // 결제가 없는 날은 빌더가 시트를 만들지 않아 아무 일도 없다 (4-5). 보고 있는 달의 날만 받는다
+                selection.update { if (YearMonth.from(action.date) == it.month) it.copy(date = action.date) else it }
             }
 
             CalendarAction.SheetDismissed -> {
@@ -60,6 +56,15 @@ internal class CalendarViewModel(
                 selection.update { it.copy(date = null) }
                 sendEvent(CalendarEvent.OpenDetail(action.subscriptionId))
             }
+        }
+    }
+
+    /** 화면 상태가 아니라 선택 값으로 범위를 확인해 빠르게 여러 번 눌러도 넘지 않는다 */
+    private fun moveMonth(delta: Long) {
+        val range = movableMonths(today)
+        selection.update { current ->
+            val target = current.month.plusMonths(delta)
+            if (target in range) Selection(target, date = null) else current
         }
     }
 

@@ -101,7 +101,8 @@ private fun DayCell(
                 isSelected -> colors.primarySoft
                 else -> Color.Transparent
             }
-        val trialColor = colors.primary
+        // 오늘 원(primary) 위에서는 on-primary로 그려야 보인다
+        val trialColor = if (day.isToday) colors.onPrimary else colors.primary
         Box(
             modifier =
                 Modifier
