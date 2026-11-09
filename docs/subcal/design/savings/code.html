@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>구독노트 - 절약</title>
+<!-- Tailwind CSS CDN with forms and container plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#4f5beb',
+              600: '#3d4fd6',
+              700: '#313eb3',
+              900: '#1e2468',
+            },
+            surface: {
+              light: '#f8fafc',
+              card: '#ffffff',
+              muted: '#f1f5f9',
+            }
+          },
+          fontFamily: {
+            pretendard: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          borderRadius: {
+            '2xl': '1.25rem',
+            '3xl': '1.75rem',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Typography and Custom Styles -->
+<style data-purpose="custom-typography">
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      letter-spacing: -0.015em;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+<style data-purpose="card-effects">
+    .card-shadow {
+      box-shadow: 0 4px 20px -2px rgba(61, 79, 214, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #2b39b5 0%, #3d4fd6 50%, #5263ea 100%);
+    }
+    .badge-blur {
+      backdrop-filter: blur(8px);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-0 sm:p-4 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+<!-- Mobile Frame Simulator -->
+<div class="w-full max-w-[420px] bg-[#f8faff] min-h-screen sm:min-h-[852px] sm:max-h-[880px] sm:rounded-[42px] shadow-2xl overflow-hidden flex flex-col relative sm:border-[8px] sm:border-slate-800">
+<!-- BEGIN: StatusBar -->
+<header class="pt-3 px-6 pb-2 flex justify-between items-center bg-[#f8faff] z-20 shrink-0 select-none">
+<!-- Time -->
+<span class="text-xs font-semibold tracking-tight text-slate-800">9:41</span>
+<!-- System Icons -->
+<div class="flex items-center space-x-1.5 text-slate-700">
+<!-- Cellular Signal -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<rect height="6" rx="1" width="3" x="2" y="16"></rect>
+<rect height="10" rx="1" width="3" x="7.5" y="12"></rect>
+<rect height="15" rx="1" width="3" x="13" y="7"></rect>
+<rect height="20" rx="1" width="3" x="18.5" y="2"></rect>
+</svg>
+<!-- Wifi -->
+<svg class="w-3.5 h-3.5 stroke-current" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+<path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+<path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+<line x1="12" x2="12.01" y1="20" y2="20"></line>
+</svg>
+<!-- Battery -->
+<div class="w-5 h-2.5 border border-slate-700 rounded-sm p-0.5 flex items-center">
+<div class="w-full h-full bg-slate-800 rounded-2xs"></div>
+</div>
+</div>
+</header>
+<!-- END: StatusBar -->
+<!-- BEGIN: TopAppBar -->
+<nav aria-label="메인 네비게이션" class="px-5 pt-2 pb-3 flex items-center justify-between bg-[#f8faff] shrink-0">
+<div class="flex items-center space-x-2.5">
+<!-- Back or Checkbox icon in Calm Ledger style -->
+<button aria-label="뒤로가기" class="w-8 h-8 flex items-center justify-center rounded-xl bg-white border border-slate-200/80 text-slate-700 shadow-sm active:scale-95 transition-transform">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" viewbox="0 0 24 24">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+</button>
+<h1 class="text-xl font-bold text-slate-900 tracking-tight">절약</h1>
+</div>
+<!-- Optional Help or Setting Action -->
+<button aria-label="설정" class="w-8 h-8 flex items-center justify-center rounded-xl bg-white/70 border border-slate-200/60 text-slate-500 hover:text-slate-800 shadow-2xs">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="1"></circle>
+<circle cx="19" cy="12" r="1"></circle>
+<circle cx="5" cy="12" r="1"></circle>
+</svg>
+</button>
+</nav>
+<!-- END: TopAppBar -->
+<!-- Scrollable Content Area -->
+<main class="flex-1 overflow-y-auto px-5 pb-24 space-y-4 no-scrollbar">
+<!-- BEGIN: FilterChips -->
+<!-- Segment Control Tabs: 해지 고민함 & 절약 기록 -->
+<section aria-label="절약 모드 탭" class="flex items-center space-x-2 pt-1">
+<!-- Active Tab -->
+<button class="px-4 py-2 rounded-full text-xs font-bold bg-slate-900 text-white shadow-sm flex items-center space-x-1.5 transition-all">
+<span>해지 고민함</span>
+<span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
+</button>
+<!-- Inactive Tab -->
+<button class="px-4 py-2 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-all">
+<span>절약 기록</span>
+</button>
+</section>
+<!-- END: FilterChips -->
+<!-- BEGIN: HeroSavingsCard -->
+<!-- Item 1: Main Highlight Card for Total Potential Savings -->
+<section class="hero-gradient rounded-3xl p-5 text-white shadow-lg shadow-brand-500/20 relative overflow-hidden" data-purpose="savings-hero-card">
+<!-- Background Decorative Glow -->
+<div class="absolute -right-8 -top-8 w-36 h-36 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col space-y-1.5">
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium text-white/80 tracking-normal flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              아래 2개를 해지하면
+            </span>
+<span class="text-[11px] font-semibold text-white/70 bg-white/15 px-2 py-0.5 rounded-full badge-blur">
+              연간 예상치
+            </span>
+</div>
+<div class="pt-0.5">
+<div class="text-[26px] font-extrabold tracking-tight text-white flex items-baseline gap-1">
+<span>연 261,600원</span>
+<span class="text-base font-bold text-white/90">절약</span>
+</div>
+</div>
+<!-- Micro Progress Bar -->
+<div class="pt-2">
+<div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden">
+<div class="bg-white h-full rounded-full w-3/4"></div>
+</div>
+<div class="flex justify-between items-center text-[11px] text-white/70 pt-1.5">
+<span>목표 절약률 달성 중</span>
+<span class="font-bold text-white">75%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HeroSavingsCard -->
+<!-- BEGIN: CancelConsiderationList -->
+<!-- List of subscriptions user is contemplating cancelling -->
+<section class="bg-white rounded-3xl p-4 card-shadow border border-slate-100 divide-y divide-slate-100" data-purpose="cancellation-candidate-list">
+<!-- List Header Indicator -->
+<div class="pb-3 flex justify-between items-center">
+<div class="flex items-center space-x-1.5">
+<span class="w-2 h-2 rounded-full bg-brand-600"></span>
+<span class="text-xs font-bold text-slate-800">해지 추천 대상</span>
+</div>
+<span class="text-[11px] font-medium text-slate-400">총 2건 대기</span>
+</div>
+<!-- Item 1: Tving -->
+<div class="py-3 flex items-center justify-between group">
+<div class="flex items-center space-x-3">
+<!-- Icon Avatar -->
+<div class="w-11 h-11 rounded-2xl bg-red-50 flex items-center justify-center font-bold text-red-600 text-sm border border-red-100 shrink-0">
+              티
+            </div>
+<!-- Info Text -->
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 text-[15px] tracking-tight">티빙</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="inline-flex items-center text-xs font-medium text-slate-500">
+                  이번 달 사용 <strong class="ml-1 text-rose-500 font-bold">0회</strong>
+</span>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<button class="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 active:scale-95 border border-rose-200/60 transition-all">
+            해지
+          </button>
+</div>
+<!-- Item 2: Melon -->
+<div class="pt-3 flex items-center justify-between group">
+<div class="flex items-center space-x-3">
+<!-- Icon Avatar -->
+<div class="w-11 h-11 rounded-2xl bg-emerald-50 flex items-center justify-center font-bold text-emerald-600 text-sm border border-emerald-100 shrink-0">
+              멜
+            </div>
+<!-- Info Text -->
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 text-[15px] tracking-tight">멜론</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="inline-flex items-center px-1.5 py-0.2 rounded text-[11px] font-medium bg-amber-50 text-amber-700 border border-amber-200/50">
+                  중복
+                </span>
+<span class="text-xs text-slate-500 font-medium">스포티파이와 중복</span>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<button class="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 active:scale-95 border border-rose-200/60 transition-all">
+            해지
+          </button>
+</div>
+</section>
+<!-- END: CancelConsiderationList -->
+<!-- BEGIN: OverlapDetectionCard -->
+<!-- Item 2: Dashed Alert Card (Duplicate / Overlapping Subscriptions) -->
+<section class="rounded-3xl border-2 border-dashed border-amber-300/80 bg-amber-50/60 p-4 transition-all hover:bg-amber-50/90" data-purpose="overlap-alert-card">
+<div class="flex items-start space-x-3">
+<!-- Warning Badge -->
+<div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<line x1="12" x2="12" y1="8" y2="12"></line>
+<line x1="12" x2="12.01" y1="16" y2="16"></line>
+</svg>
+</div>
+<!-- Content -->
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<h2 class="text-sm font-bold text-slate-900">겹치는 구독이 있어요</h2>
+<span class="text-[11px] font-bold text-amber-700 bg-amber-200/60 px-1.5 py-0.5 rounded-md">중복 감지</span>
+</div>
+<p class="text-xs font-medium text-slate-600 mt-1">
+              음악 스트리밍 <span class="font-bold text-slate-900">2개</span> · 월 <span class="font-bold text-slate-900">21,800원</span>
+</p>
+<div class="mt-2.5 flex items-center space-x-2">
+<span class="text-[11px] text-slate-500">멜론 (10,900원) + 스포티파이 (10,900원)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: OverlapDetectionCard -->
+<!-- BEGIN: AnnualSwitchCalculator -->
+<!-- Item 3: Monthly vs Annual Billing Calculator Card -->
+<section class="bg-white rounded-3xl p-4 card-shadow border border-slate-100 relative overflow-hidden" data-purpose="annual-plan-calculator">
+<!-- Card Title -->
+<div class="flex items-center justify-between mb-2.5">
+<div class="flex items-center space-x-1.5">
+<span class="w-5 h-5 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-xs font-black">
+              %
+            </span>
+<h2 class="text-xs font-bold text-brand-600 tracking-tight">연간 결제로 바꾸면?</h2>
+</div>
+<span class="text-[11px] font-medium text-slate-400">절약 팁</span>
+</div>
+<div class="bg-slate-50/80 rounded-2xl p-3.5 border border-slate-100 flex items-center justify-between">
+<div>
+<div class="flex items-center space-x-2">
+<!-- Service Badge -->
+<span class="w-2 h-2 rounded-full bg-red-600"></span>
+<span class="font-bold text-slate-900 text-sm">유튜브 프리미엄</span>
+</div>
+<div class="text-[11px] text-slate-500 mt-1 flex items-center space-x-1">
+<span>연간 요금제 대비</span>
+</div>
+</div>
+<!-- Price & Discount -->
+<div class="text-right">
+<div class="text-xs text-slate-400 font-medium line-through">
+              월 14,900 × 12
+            </div>
+<div class="text-base font-black text-brand-600 mt-0.5 tracking-tight">
+              -29,800원
+            </div>
+</div>
+</div>
+<!-- Micro Action CTA -->
+<div class="mt-3 flex items-center justify-between text-xs px-1">
+<span class="text-slate-500 font-medium">연간 전환 시 연 16% 절약 가능</span>
+<button class="font-bold text-brand-600 hover:text-brand-700 flex items-center gap-0.5">
+            자세히보기
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</button>
+</div>
+</section>
+<!-- END: AnnualSwitchCalculator -->
+</main>
+<!-- BEGIN: BottomNavigation -->
+<!-- 5-Tab Fintech Bottom Navigation Bar -->
+<nav aria-label="하단 탭 바" class="absolute bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-slate-100 px-3 py-2 z-30">
+<ul class="flex justify-around items-center">
+<!-- Tab: 홈 -->
+<li>
+<a class="flex flex-col items-center justify-center w-14 py-1 text-slate-400 hover:text-slate-700 transition-colors" href="#">
+<svg class="w-5 h-5 stroke-current" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+<span class="text-[11px] font-medium mt-1">홈</span>
+</a>
+</li>
+<!-- Tab: 목록 -->
+<li>
+<a class="flex flex-col items-center justify-center w-14 py-1 text-slate-400 hover:text-slate-700 transition-colors" href="#">
+<svg class="w-5 h-5 stroke-current" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<line x1="8" x2="21" y1="6" y2="6"></line>
+<line x1="8" x2="21" y1="12" y2="12"></line>
+<line x1="8" x2="21" y1="18" y2="18"></line>
+<line x1="3" x2="3.01" y1="6" y2="6"></line>
+<line x1="3" x2="3.01" y1="12" y2="12"></line>
+<line x1="3" x2="3.01" y1="18" y2="18"></line>
+</svg>
+<span class="text-[11px] font-medium mt-1">목록</span>
+</a>
+</li>
+<!-- Tab: 캘린더 -->
+<li>
+<a class="flex flex-col items-center justify-center w-14 py-1 text-slate-400 hover:text-slate-700 transition-colors" href="#">
+<svg class="w-5 h-5 stroke-current" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect>
+<line x1="16" x2="16" y1="2" y2="6"></line>
+<line x1="8" x2="8" y1="2" y2="6"></line>
+<line x1="3" x2="21" y1="10" y2="10"></line>
+</svg>
+<span class="text-[11px] font-medium mt-1">캘린더</span>
+</a>
+</li>
+<!-- Tab: 절약 / 통계 (Active Tab) -->
+<li>
+<a class="flex flex-col items-center justify-center w-14 py-1 text-brand-600 transition-colors relative" href="#">
+<div class="relative">
+<svg class="w-5 h-5 stroke-current" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" viewbox="0 0 24 24">
+<line x1="18" x2="18" y1="20" y2="10"></line>
+<line x1="12" x2="12" y1="20" y2="4"></line>
+<line x1="6" x2="6" y1="20" y2="14"></line>
+</svg>
+<!-- Small Active Indicator Dot -->
+<span class="absolute -top-0.5 -right-1 w-1.5 h-1.5 bg-brand-600 rounded-full"></span>
+</div>
+<span class="text-[11px] font-bold mt-1 text-brand-600">절약</span>
+</a>
+</li>
+<!-- Tab: 더보기 -->
+<li>
+<a class="flex flex-col items-center justify-center w-14 py-1 text-slate-400 hover:text-slate-700 transition-colors" href="#">
+<svg class="w-5 h-5 stroke-current" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="1"></circle>
+<circle cx="19" cy="12" r="1"></circle>
+<circle cx="5" cy="12" r="1"></circle>
+</svg>
+<span class="text-[11px] font-medium mt-1">더보기</span>
+</a>
+</li>
+</ul>
+<!-- iOS Home Indicator bar for mobile authenticity -->
+<div class="w-32 h-1 bg-slate-300 rounded-full mx-auto mt-2 mb-0.5 opacity-60"></div>
+</nav>
+<!-- END: BottomNavigation -->
+</div>
+</body></html>

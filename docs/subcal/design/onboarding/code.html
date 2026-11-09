@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>구독노트 - 온보딩</title>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Pretendard Font -->
+<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#3D4FD6',
+              600: '#3240BD',
+              700: '#2A349F',
+            },
+            surface: {
+              DEFAULT: '#F8F9FF',
+              card: '#FFFFFF',
+              input: '#F4F6F8',
+            },
+            ink: {
+              primary: '#1E232A',
+              secondary: '#4B5563',
+              muted: '#9CA3AF',
+            }
+          },
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 4px 20px -2px rgba(61, 79, 214, 0.08)',
+            'cta': '0 8px 24px -4px rgba(61, 79, 214, 0.35)',
+            'selected': '0 4px 14px 0 rgba(61, 79, 214, 0.15)',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-scrollbars">
+    /* Hide scrollbars for neat mobile UI */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-[#ECEEF2] font-sans antialiased text-ink-primary min-h-screen flex items-center justify-center p-0 sm:p-4">
+<!-- BEGIN: MobileContainer -->
+<!-- Constrained mobile frame representing iPhone / iOS viewport -->
+<main class="w-full max-w-[390px] h-[844px] bg-white sm:rounded-[44px] sm:shadow-2xl overflow-hidden flex flex-col relative border border-gray-100">
+<!-- BEGIN: StatusBar -->
+<header class="w-full px-7 pt-3.5 pb-2 flex justify-between items-center bg-white z-20 shrink-0 select-none" data-purpose="ios-status-bar">
+<!-- Time -->
+<span class="text-[15px] font-semibold tracking-tight text-ink-primary">9:41</span>
+<!-- Right Status Icons -->
+<div class="flex items-center space-x-2">
+<!-- Cellular Signal Icon -->
+<svg class="w-4 h-3.5 fill-ink-primary" viewbox="0 0 17 12">
+<rect height="3" rx="0.5" width="3" x="0" y="9"></rect>
+<rect height="6" rx="0.5" width="3" x="4.5" y="6"></rect>
+<rect height="9" rx="0.5" width="3" x="9" y="3"></rect>
+<rect height="12" rx="0.5" width="3" x="13.5" y="0"></rect>
+</svg>
+<!-- WiFi Icon -->
+<svg class="w-4 h-3.5 fill-ink-primary" viewbox="0 0 16 12">
+<path clip-rule="evenodd" d="M8 12a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-4.95-4.95a7 7 0 0 1 9.9 0l1.06-1.06a8.5 8.5 0 0 0-12.02 0l1.06 1.06zm-2.47-2.47a10.5 10.5 0 0 1 14.84 0l1.06-1.06a12 12 0 0 0-16.96 0l1.06 1.06z" fill-rule="evenodd"></path>
+</svg>
+<!-- Battery Icon -->
+<div class="flex items-center">
+<div class="w-[22px] h-[11px] rounded-[3px] border-[1.2px] border-ink-primary p-[1.5px] flex items-center">
+<div class="h-full w-full bg-ink-primary rounded-[1px]"></div>
+</div>
+<div class="w-[1px] h-[4px] bg-ink-primary rounded-r-[1px] ml-[1px]"></div>
+</div>
+</div>
+</header>
+<!-- END: StatusBar -->
+<!-- BEGIN: OnboardingProgress -->
+<div class="w-full px-6 pt-1 pb-1" data-purpose="onboarding-step-indicator">
+<div class="w-full bg-gray-100 h-1 rounded-full overflow-hidden">
+<div class="bg-brand-500 h-full w-1/3 rounded-full transition-all duration-300"></div>
+</div>
+</div>
+<!-- END: OnboardingProgress -->
+<!-- BEGIN: ScrollableContent -->
+<div class="flex-1 overflow-y-auto no-scrollbar px-5 pb-36 pt-3" data-purpose="main-selection-area">
+<!-- Screen Heading -->
+<section class="mt-2 mb-4" data-purpose="title-section">
+<span class="text-xs font-semibold text-brand-500 tracking-wide bg-brand-50 px-2 py-0.5 rounded-md">STEP 1</span>
+<h1 class="text-[23px] font-bold text-ink-primary tracking-tight leading-snug mt-2">
+          어떤 서비스를 구독 중인가요?
+        </h1>
+<p class="text-[13.5px] text-ink-secondary mt-1.5 leading-relaxed">
+          선택한 서비스는 기본 요금으로 바로 등록돼요.<br/>
+          나중에 자유롭게 변경할 수 있어요.
+        </p>
+</section>
+<!-- Search Field -->
+<div class="relative my-4" data-purpose="search-input">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink-muted">
+<!-- Search Icon -->
+<svg class="w-4 h-4 stroke-current fill-none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24">
+<circle cx="11" cy="11" r="8"></circle>
+<line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+</svg>
+</div>
+<input class="w-full pl-10 pr-4 py-2.5 bg-surface-input text-ink-primary placeholder-ink-muted text-[14px] rounded-xl border border-transparent focus:border-brand-500 focus:bg-white focus:outline-none transition-all duration-150" placeholder="서비스 검색 (예: 넷플릭스, 유튜브)" type="text"/>
+</div>
+<!-- Category Filter Pills -->
+<nav aria-label="카테고리" class="flex space-x-1.5 overflow-x-auto no-scrollbar py-1 mb-4 select-none" data-purpose="category-filters">
+<!-- Active Filter -->
+<button class="px-3.5 py-1.5 bg-ink-primary text-white text-[13px] font-semibold rounded-full shrink-0 shadow-sm transition-transform active:scale-95">
+          전체
+        </button>
+<!-- Inactive Filters -->
+<button class="px-3.5 py-1.5 bg-surface-input hover:bg-gray-200/70 text-ink-secondary text-[13px] font-medium rounded-full shrink-0 transition-transform active:scale-95">
+          영상
+        </button>
+<button class="px-3.5 py-1.5 bg-surface-input hover:bg-gray-200/70 text-ink-secondary text-[13px] font-medium rounded-full shrink-0 transition-transform active:scale-95">
+          음악
+        </button>
+<button class="px-3.5 py-1.5 bg-surface-input hover:bg-gray-200/70 text-ink-secondary text-[13px] font-medium rounded-full shrink-0 transition-transform active:scale-95">
+          쇼핑
+        </button>
+<button class="px-3.5 py-1.5 bg-surface-input hover:bg-gray-200/70 text-ink-secondary text-[13px] font-medium rounded-full shrink-0 transition-transform active:scale-95">
+          클라우드
+        </button>
+<button class="px-3.5 py-1.5 bg-surface-input hover:bg-gray-200/70 text-ink-secondary text-[13px] font-medium rounded-full shrink-0 transition-transform active:scale-95">
+          도서
+        </button>
+</nav>
+<!-- Services 3-Column Grid -->
+<section class="grid grid-cols-3 gap-2.5" data-purpose="subscription-preset-grid">
+<!-- 1. Netflix (SELECTED) -->
+<div class="relative bg-brand-50 border-2 border-brand-500 rounded-2xl p-3 flex flex-col items-center justify-center aspect-[1/1.08] cursor-pointer shadow-selected transition-all hover:-translate-y-0.5" data-purpose="service-card-selected">
+<!-- Selection Check Indicator -->
+<div class="absolute top-2 right-2 w-4 h-4 bg-brand-500 rounded-full flex items-center justify-center">
+<svg class="w-2.5 h-2.5 text-white stroke-current fill-none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" viewbox="0 0 24 24">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<!-- App Icon Logo Badge -->
+<div class="w-11 h-11 rounded-xl bg-black flex items-center justify-center shadow-sm mb-2">
+<span class="text-[#E50914] font-black text-xl tracking-tighter">N</span>
+</div>
+<span class="text-[13px] font-bold text-ink-primary text-center tracking-tight">넷플릭스</span>
+<span class="text-[11px] text-brand-600 font-semibold mt-0.5">17,000원</span>
+</div>
+<!-- 2. YouTube (Unselected) -->
+<div class="bg-surface-card border border-gray-200/90 rounded-2xl p-3 flex flex-col items-center justify-center aspect-[1/1.08] cursor-pointer hover:border-gray-300 transition-all hover:-translate-y-0.5 shadow-sm" data-purpose="service-card">
+<!-- App Icon Logo Badge -->
+<div class="w-11 h-11 rounded-xl bg-[#FF0000] flex items-center justify-center shadow-sm mb-2">
+<svg class="w-5 h-5 fill-white" viewbox="0 0 24 24">
+<polygon points="9.5 7.5 16.5 12 9.5 16.5"></polygon>
+</svg>
+</div>
+<span class="text-[13px] font-medium text-ink-primary text-center tracking-tight">유튜브</span>
+<span class="text-[11px] text-ink-muted mt-0.5">14,900원</span>
+</div>
+<!-- 3. Coupang Wow (SELECTED) -->
+<div class="relative bg-brand-50 border-2 border-brand-500 rounded-2xl p-3 flex flex-col items-center justify-center aspect-[1/1.08] cursor-pointer shadow-selected transition-all hover:-translate-y-0.5" data-purpose="service-card-selected">
+<!-- Selection Check Indicator -->
+<div class="absolute top-2 right-2 w-4 h-4 bg-brand-500 rounded-full flex items-center justify-center">
+<svg class="w-2.5 h-2.5 text-white stroke-current fill-none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" viewbox="0 0 24 24">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<!-- App Icon Logo Badge -->
+<div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-[#3A1400] to-[#E35600] flex items-center justify-center shadow-sm mb-2 text-white font-extrabold text-sm">
+            와우
+          </div>
+<span class="text-[13px] font-bold text-ink-primary text-center tracking-tight">쿠팡 와우</span>
+<span class="text-[11px] text-brand-600 font-semibold mt-0.5">7,890원</span>
+</div>
+<!-- 4. Melon -->
+<div class="bg-surface-card border border-gray-200/90 rounded-2xl p-3 flex flex-col items-center justify-center aspect-[1/1.08] cursor-pointer hover:border-gray-300 transition-all hover:-translate-y-0.5 shadow-sm" data-purpose="service-card">
+<div class="w-11 h-11 rounded-xl bg-[#00CD3C] flex items-center justify-center shadow-sm mb-2 text-white font-black text-sm">
+            멜론
+          </div>
+<span class="text-[13px] font-medium text-ink-primary text-center tracking-tight">멜론</span>
+<span class="text-[11px] text-ink-muted mt-0.5">10,900원</span>
+</div>
+<!-- 5. TVING -->
+<div class="bg-surface-card border border-gray-200/90 rounded-2xl p-3 flex flex-col items-center justify-center aspect-[1/1.08] cursor-pointer hover:border-gray-300 transition-all hover:-translate-y-0.5 shadow-sm" data-purpose="service-card">
+<div class="w-11 h-11 rounded-xl bg-[#FF153C] flex items-center justify-center shadow-sm mb-2 text-white font-black text-sm">
+            티빙
+          </div>
+<span class="text-[13px] font-medium text-ink-primary text-center tracking-tight">티빙</span>
+<span class="text-[11px] text-ink-muted mt-0.5">9,500원</span>
+</div>
+<!-- 6. Google One -->
+<div class="bg-surface-card border border-gray-200/90 rounded-2xl p-3 flex flex-col items-center justify-center aspect-[1/1.08] cursor-pointer hover:border-gray-300 transition-all hover:-translate-y-0.5 shadow-sm" data-purpose="service-card">
+<div class="w-11 h-11 rounded-xl bg-[#4285F4] flex items-center justify-center shadow-sm mb-2 text-white font-bold text-sm">
+<svg class="w-5 h-5 fill-white" viewbox="0 0 24 24">
+<path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"></path>
+</svg>
+</div>
+<span class="text-[13px] font-medium text-ink-primary text-center tracking-tight">구글원</span>
+<span class="text-[11px] text-ink-muted mt-0.5">2,400원</span>
+</div>
+<!-- 7. Disney+ -->
+<div class="bg-surface-card border border-gray-200/90 rounded-2xl p-3 flex flex-col items-center justify-center aspect-[1/1.08] cursor-pointer hover:border-gray-300 transition-all hover:-translate-y-0.5 shadow-sm" data-purpose="service-card">
+<div class="w-11 h-11 rounded-xl bg-[#040B2D] border border-blue-900 flex items-center justify-center shadow-sm mb-2 text-white font-bold text-xs tracking-tighter">
+            D+
+          </div>
+<span class="text-[13px] font-medium text-ink-primary text-center tracking-tight">디즈니+</span>
+<span class="text-[11px] text-ink-muted mt-0.5">9,900원</span>
+</div>
+<!-- 8. Spotify -->
+<div class="bg-surface-card border border-gray-200/90 rounded-2xl p-3 flex flex-col items-center justify-center aspect-[1/1.08] cursor-pointer hover:border-gray-300 transition-all hover:-translate-y-0.5 shadow-sm" data-purpose="service-card">
+<div class="w-11 h-11 rounded-xl bg-[#1DB954] flex items-center justify-center shadow-sm mb-2 text-black font-extrabold text-xs">
+<svg class="w-6 h-6 fill-black" viewbox="0 0 24 24">
+<path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.35-1.436-5.308-1.76-8.793-.963-.335.077-.67-.133-.746-.468-.077-.335.132-.67.468-.746 3.808-.87 7.076-.505 9.72 1.113.295.18.388.563.208.857zm1.225-2.723c-.226.368-.71.482-1.078.256-2.69-1.653-6.79-2.133-9.97-1.167-.413.125-.85-.11-1.075-.423-.125-.413.11-.85.423-1.075 3.633-1.103 8.167-.565 11.244 1.328.368.226.482.71.256 1.081zm.105-2.835C14.692 8.95 8.082 8.73 4.254 9.892c-.495.15-1.02-.135-1.17-.63-.15-.495.135-1.02.63-1.17 4.398-1.335 11.693-1.083 15.428 1.134.444.263.59.838.327 1.282-.264.444-.838.59-1.282.327z"></path>
+</svg>
+</div>
+<span class="text-[13px] font-medium text-ink-primary text-center tracking-tight">스포티파이</span>
+<span class="text-[11px] text-ink-muted mt-0.5">10,900원</span>
+</div>
+<!-- 9. Apple Music -->
+<div class="bg-surface-card border border-gray-200/90 rounded-2xl p-3 flex flex-col items-center justify-center aspect-[1/1.08] cursor-pointer hover:border-gray-300 transition-all hover:-translate-y-0.5 shadow-sm" data-purpose="service-card">
+<div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-[#FC3C44] to-[#F94C57] flex items-center justify-center shadow-sm mb-2 text-white">
+<svg class="w-5 h-5 fill-white" viewbox="0 0 24 24">
+<path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"></path>
+</svg>
+</div>
+<span class="text-[13px] font-medium text-ink-primary text-center tracking-tight">애플뮤직</span>
+<span class="text-[11px] text-ink-muted mt-0.5">8,900원</span>
+</div>
+</section>
+<!-- Custom Service Registration Suggestion Link -->
+<div class="mt-5 text-center">
+<button class="text-xs text-ink-secondary hover:text-brand-500 font-medium py-1 px-2 transition-colors">
+          찾는 서비스가 없으신가요? <span class="underline underline-offset-2 ml-0.5 text-brand-500 font-semibold">직접 입력하기</span>
+</button>
+</div>
+</div>
+<!-- END: ScrollableContent -->
+<!-- BEGIN: FloatingFooterCTA -->
+<!-- Sticky bottom panel that displays real-time selected sum and primary CTA button -->
+<footer class="absolute bottom-0 inset-x-0 bg-white/95 backdrop-blur-md pt-3 pb-8 px-5 border-t border-gray-100 flex flex-col items-center z-30" data-purpose="floating-bottom-action">
+<!-- Selection Summary Feedback -->
+<div class="flex items-center space-x-1.5 mb-2.5">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-brand-50 text-brand-600">
+          실시간 합산
+        </span>
+<p class="text-[14px] font-bold text-ink-primary tracking-tight">
+          2개 선택 <span class="text-gray-300 font-normal">|</span> <span class="text-brand-500">월 24,890원</span>
+</p>
+</div>
+<!-- Main Action Button -->
+<button class="w-full h-[52px] bg-brand-500 hover:bg-brand-600 text-white font-semibold text-[15px] rounded-xl shadow-cta flex items-center justify-center space-x-2 transition-transform active:scale-[0.99] focus:outline-none" data-purpose="submit-btn" type="button">
+<span>2개 등록하고 시작하기</span>
+<svg class="w-4 h-4 stroke-current fill-none stroke-[2.5]" viewbox="0 0 24 24">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</button>
+<!-- Secondary Skip Button -->
+<button class="mt-3 text-[13px] font-medium text-ink-muted hover:text-ink-secondary transition-colors" data-purpose="skip-btn" type="button">
+        건너뛰기
+      </button>
+<!-- Home Indicator Line (iOS style) -->
+<div class="w-32 h-1 bg-gray-300 rounded-full mt-3"></div>
+</footer>
+<!-- END: FloatingFooterCTA -->
+</main>
+<!-- END: MobileContainer -->
+</body></html>

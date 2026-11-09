@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;min-height:100%;}body{overscroll-behavior-y:none;background-color:#f8f9ff;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-container": "#541d00", "on-surface-variant": "#454654", "secondary": "#a33e00", "on-primary": "#ffffff", "primary": "#1f33be", "background": "#f8f9ff", "surface": "#f8f9ff", "on-surface": "#161c25", "surface-container-highest": "#dde3ef", "secondary-fixed-dim": "#ffb596", "primary-container": "#3d4fd6", "on-error-container": "#93000a", "on-primary-fixed": "#000b62", "on-tertiary-fixed-variant": "#00531c", "tertiary-fixed-dim": "#53e16f", "on-primary-fixed-variant": "#1e32bd", "primary-fixed-dim": "#bcc2ff", "secondary-container": "#fd6604", "inverse-on-surface": "#ebf1fe", "inverse-primary": "#bcc2ff", "on-error": "#ffffff", "surface-dim": "#d5dae7", "surface-container": "#e9eefb", "primary-fixed": "#dfe0ff", "outline": "#757686", "on-secondary-fixed-variant": "#7c2e00", "surface-bright": "#f8f9ff", "surface-tint": "#3c4ed5", "outline-variant": "#c5c5d7", "surface-variant": "#dde3ef", "inverse-surface": "#2b313a", "surface-container-high": "#e3e8f5", "tertiary-container": "#006f28", "tertiary": "#00541d", "on-tertiary-container": "#69f581", "on-secondary-fixed": "#360f00", "secondary-fixed": "#ffdbcd", "error": "#ba1a1a", "tertiary-fixed": "#72fe88", "on-tertiary": "#ffffff", "on-primary-container": "#d4d7ff", "on-secondary": "#ffffff", "error-container": "#ffdad6", "surface-container-low": "#eff4ff", "on-tertiary-fixed": "#002107", "on-background": "#161c25", "surface-container-lowest": "#ffffff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-lg": "1.25rem", "space-sm": "0.5rem", "space-md": "1rem", "space-xl": "2rem", "gutter": "1rem", "margin": "1.25rem" }, "fontFamily": { "headline-lg-mobile": ["Plus Jakarta Sans"], "title-lg": ["Plus Jakarta Sans"], "title-md": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "numeral-display": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"] }, "fontSize": { "headline-lg-mobile": ["26px", { "lineHeight": "34px", "fontWeight": "700" }], "title-lg": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "18px", "fontWeight": "600" }], "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "numeral-display": ["28px", { "lineHeight": "36px", "fontWeight": "800" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "30px", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><h1 class="font-title-lg text-title-lg text-on-surface font-semibold tracking-tight">Home</h1></div><div class="flex items-center gap-space-xs"><button aria-label="검색" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">search</span></button><button aria-label="알림" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors relative"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-secondary-container"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full px-margin space-y-space-md">
+<!-- Top Segment / Period Selector Pill & Subheader -->
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">2024년 11월 기준 지출 리포트</span>
+</div>
+<!-- Period Dropdown Pill -->
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors active:scale-95 text-on-surface" id="periodSelectorBtn">
+<span class="font-label-md text-label-md font-semibold" id="selectedPeriodLabel">월간</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant transition-transform" id="periodChevron">expand_more</span>
+</button>
+</div>
+<!-- 1. Category Distribution Donut Chart Card -->
+<section class="flex flex-col p-4 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="flex items-center justify-center w-5 h-5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">1</span>
+<h2 class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">카테고리별 비중</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">월 87,400원</span>
+</div>
+<div class="flex items-center justify-between gap-4 py-2">
+<!-- SVG Donut Chart with Interactive Hover/Selection Rings -->
+<div class="relative w-36 h-36 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
+<!-- Background track -->
+<circle class="text-surface-container" cx="50" cy="50" fill="transparent" r="38" stroke="currentColor" stroke-width="15"></circle>
+<!-- 기타: 18% (offset 0 -> dash 45.2, gap 251.3 - 45.2 = 206.1) -->
+<circle class="transition-all duration-300 hover:opacity-85 cursor-pointer" cx="50" cy="50" fill="transparent" id="donut-segment-other" r="38" stroke="#757686" stroke-dasharray="43 208" stroke-dashoffset="0" stroke-width="15"></circle>
+<!-- 음악: 18% -->
+<circle class="transition-all duration-300 hover:opacity-85 cursor-pointer" cx="50" cy="50" fill="transparent" id="donut-segment-music" r="38" stroke="#006f28" stroke-dasharray="43 208" stroke-dashoffset="-43" stroke-width="15"></circle>
+<!-- 쇼핑: 22% -->
+<circle class="transition-all duration-300 hover:opacity-85 cursor-pointer" cx="50" cy="50" fill="transparent" id="donut-segment-shop" r="38" stroke="#fd6604" stroke-dasharray="52.5 198.5" stroke-dashoffset="-86" stroke-width="15"></circle>
+<!-- 영상: 42% -->
+<circle class="transition-all duration-300 hover:opacity-85 cursor-pointer" cx="50" cy="50" fill="transparent" id="donut-segment-video" r="38" stroke="#3d4fd6" stroke-dasharray="100.3 150.7" stroke-dashoffset="-138.5" stroke-width="15"></circle>
+</svg>
+<!-- Donut Center Badge -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">총 지출</span>
+<span class="font-title-md text-title-md text-on-surface font-bold leading-tight">6개</span>
+</div>
+</div>
+<!-- Categories Legend Table (Tappable to Filter) -->
+<div class="flex flex-col flex-1 justify-center space-y-2">
+<!-- Category Item 1: 영상 -->
+<button class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container transition-all group text-left w-full" onclick="highlightCategory('video', '영상 (OTT)')">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-3 h-3 rounded-full bg-primary-container shrink-0"></span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary-container transition-colors truncate">영상</span>
+</div>
+<span class="font-label-lg text-label-lg font-bold text-on-surface ml-2">42%</span>
+</button>
+<!-- Category Item 2: 쇼핑 -->
+<button class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container transition-all group text-left w-full" onclick="highlightCategory('shop', '쇼핑/멤버십')">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-3 h-3 rounded-full bg-secondary-container shrink-0"></span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-secondary-container transition-colors truncate">쇼핑</span>
+</div>
+<span class="font-label-lg text-label-lg font-bold text-on-surface ml-2">22%</span>
+</button>
+<!-- Category Item 3: 음악 -->
+<button class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container transition-all group text-left w-full" onclick="highlightCategory('music', '음악/오디오')">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-3 h-3 rounded-full bg-tertiary-container shrink-0"></span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-tertiary-container transition-colors truncate">음악</span>
+</div>
+<span class="font-label-lg text-label-lg font-bold text-on-surface ml-2">18%</span>
+</button>
+<!-- Category Item 4: 기타 -->
+<button class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container transition-all group text-left w-full" onclick="highlightCategory('other', '기타 유틸리티')">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-3 h-3 rounded-full bg-outline shrink-0"></span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-outline transition-colors truncate">기타</span>
+</div>
+<span class="font-label-lg text-label-lg font-bold text-on-surface ml-2">18%</span>
+</button>
+</div>
+</div>
+<!-- Micro Navigation Prompt -->
+<div class="mt-2 pt-2 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm" id="categoryFeedbackBox">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary-container">touch_app</span>
+<span>항목을 탭하면 세부 구독 내역으로 이동해요</span>
+</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</div>
+</section>
+<!-- 2. Recent 12 Months Trend Bar Chart Card -->
+<section class="flex flex-col p-4 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="flex items-center justify-center w-5 h-5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">2</span>
+<h2 class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">최근 12개월</h2>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm font-semibold text-primary-container">이번 달 +8,900원</span>
+</div>
+</div>
+<!-- Active Hover / Bar Tooltip Display -->
+<div class="flex items-baseline justify-between mb-3 px-1">
+<span class="font-body-md text-body-md text-on-surface-variant" id="trendMonthLabel">2024년 11월 지출</span>
+<div class="flex items-baseline gap-1">
+<span class="font-numeral-display text-numeral-display text-primary-container font-extrabold" id="trendAmountLabel">87,400</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">원</span>
+</div>
+</div>
+<!-- 12-Month Bar Visualizer -->
+<div class="flex items-end justify-between gap-1.5 h-36 pt-4 pb-1 px-1">
+<!-- 12th month past: 12월 (54,000원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2023년 12월', '54,000', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 48%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">12</span>
+</div>
+<!-- 1월 (58,000원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2024년 1월', '58,000', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 52%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">1</span>
+</div>
+<!-- 2월 (51,000원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2024년 2월', '51,000', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 46%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">2</span>
+</div>
+<!-- 3월 (62,500원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2024년 3월', '62,500', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 56%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">3</span>
+</div>
+<!-- 4월 (64,000원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2024년 4월', '64,000', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 58%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">4</span>
+</div>
+<!-- 5월 (61,000원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2024년 5월', '61,000', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 55%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">5</span>
+</div>
+<!-- 6월 (71,000원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2024년 6월', '71,000', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 64%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">6</span>
+</div>
+<!-- 7월 (73,500원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2024년 7월', '73,500', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 67%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">7</span>
+</div>
+<!-- 8월 (76,000원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2024년 8월', '76,000', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 70%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">8</span>
+</div>
+<!-- 9월 (81,000원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2024년 9월', '81,000', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 75%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">9</span>
+</div>
+<!-- 10월 (78,500원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end group cursor-pointer" onclick="updateBarDetail('2024년 10월', '78,500', this)">
+<div class="w-full bg-surface-container-highest rounded-t-sm group-hover:bg-primary-fixed transition-all" style="height: 72%;"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-2">10</span>
+</div>
+<!-- 11월 (Current Active Month: 87,400원) -->
+<div class="flex flex-col items-center flex-1 h-full justify-end cursor-pointer" id="currentMonthBar" onclick="updateBarDetail('2024년 11월 (현재)', '87,400', this)">
+<div class="w-full bg-primary-container rounded-t-sm relative shadow-sm" style="height: 88%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-[9px] font-bold shadow whitespace-nowrap">
+            현재
+          </div>
+</div>
+<span class="font-label-sm text-[10px] text-primary-container font-extrabold mt-2">11</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-center mt-2">
+      결제 이력 테이블 기반으로 자동 정산된 내역입니다.
+    </p>
+</section>
+<!-- 3. Annual Projection Card (연간 환산 경각심) -->
+<section class="relative overflow-hidden p-5 rounded-xl bg-gradient-to-br from-primary-container to-primary text-on-primary shadow-md">
+<!-- Subtle Background Ambient Geometry -->
+<div class="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-surface-container-lowest/10 pointer-events-none blur-xl"></div>
+<div class="absolute right-4 top-4 opacity-20 pointer-events-none">
+<span class="material-symbols-outlined text-[64px]">savings</span>
+</div>
+<div class="relative z-10 flex flex-col space-y-1">
+<div class="flex items-center gap-2">
+<span class="flex items-center justify-center w-5 h-5 rounded-full bg-surface-container-lowest/20 text-on-primary font-label-sm text-label-sm font-bold">3</span>
+<span class="font-body-md text-body-md text-on-primary/90 font-medium">지금처럼 유지하면 1년에</span>
+</div>
+<div class="flex items-baseline gap-1.5 pt-1">
+<span class="font-numeral-display text-[30px] font-extrabold tracking-tight text-on-primary">1,048,800</span>
+<span class="font-headline-md text-headline-md font-bold text-on-primary">원</span>
+</div>
+<div class="pt-2 flex items-center justify-between">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-lowest/15 text-on-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>전년 대비 약 14.2만 원 증가 추세</span>
+</div>
+<button class="font-label-sm text-label-sm text-primary-fixed underline underline-offset-2 hover:opacity-90">
+          절약 가이드
+        </button>
+</div>
+</div>
+</section>
+<!-- 4. Actionable Dual Opportunity Cards (해지 고민함 & 절약 성과) -->
+<section class="grid grid-cols-2 gap-space-sm pb-space-lg">
+<!-- Left Card: 해지 고민함 (2개) -->
+<button class="flex flex-col justify-between p-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container transition-all active:scale-[0.98] text-left shadow-sm group" onclick="handleNavigation('churn-review')">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">해지 고민함</span>
+<span class="w-6 h-6 rounded-full bg-error-container/60 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[16px]">priority_high</span>
+</span>
+</div>
+<div class="mt-4 flex items-center justify-between w-full">
+<div class="flex items-baseline gap-0.5">
+<span class="font-numeral-display text-[22px] font-bold text-error">2</span>
+<span class="font-title-md text-title-md font-bold text-on-surface">개</span>
+</div>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+</div>
+<div class="mt-2 w-full pt-2">
+<span class="inline-block px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-[10px] font-semibold">
+          월 24,800원 절약 가능
+        </span>
+</div>
+</button>
+<!-- Right Card: 지금까지 절약 (21만원) -->
+<button class="flex flex-col justify-between p-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container transition-all active:scale-[0.98] text-left shadow-sm group" onclick="handleNavigation('savings-archive')">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">지금까지 절약</span>
+<span class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+</span>
+</div>
+<div class="mt-4 flex items-center justify-between w-full">
+<div class="flex items-baseline gap-0.5">
+<span class="font-numeral-display text-[22px] font-bold text-tertiary">21</span>
+<span class="font-title-md text-title-md font-bold text-on-surface">만원</span>
+</div>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+</div>
+<div class="mt-2 w-full pt-2">
+<span class="inline-block px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-label-sm text-[10px] font-semibold">
+          누적 4개 구독 해지완료
+        </span>
+</div>
+</button>
+</section>
+<!-- Interactive Feedback Toast (Hidden by Default) -->
+<div class="fixed bottom-20 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-xl bg-inverse-surface text-inverse-on-surface font-body-md text-body-md shadow-xl opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2" id="actionToast">
+<span class="material-symbols-outlined text-[18px] text-primary-fixed">info</span>
+<span id="toastMessage">카테고리 상세 목록으로 이동합니다.</span>
+</div>
+</div>
+<script>
+  // Highlighting selected category in donut
+  function highlightCategory(categoryKey, categoryName) {
+    const toast = document.getElementById('actionToast');
+    const toastMsg = document.getElementById('toastMessage');
+    const feedbackBox = document.getElementById('categoryFeedbackBox');
+
+    if (feedbackBox) {
+      feedbackBox.innerHTML = `
+        <span class="flex items-center gap-1 font-semibold text-primary-container">
+          <span class="material-symbols-outlined text-[14px]">filter_alt</span>
+          <span>${categoryName} 구독 목록으로 필터링됨</span>
+        </span>
+        <span class="material-symbols-outlined text-[14px] text-primary-container">arrow_forward</span>
+      `;
+    }
+
+    if (toast && toastMsg) {
+      toastMsg.innerText = `${categoryName} 구독 3개 항목 확인 중...`;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2000);
+    }
+  }
+
+  // Updating Bar Visualizer detail on bar tap
+  function updateBarDetail(monthText, amountText, barElement) {
+    const monthLabel = document.getElementById('trendMonthLabel');
+    const amountLabel = document.getElementById('trendAmountLabel');
+    if (monthLabel && amountLabel) {
+      monthLabel.innerText = `${monthText} 지출`;
+      amountLabel.innerText = amountText;
+    }
+
+    // Reset previous selection visuals if needed
+    document.querySelectorAll('[data-selected="true"]').forEach(el => {
+      el.removeAttribute('data-selected');
+    });
+    barElement.setAttribute('data-selected', 'true');
+  }
+
+  // Navigation Toast for Secondary Cards
+  function handleNavigation(destination) {
+    const toast = document.getElementById('actionToast');
+    const toastMsg = document.getElementById('toastMessage');
+    if (!toast || !toastMsg) return;
+
+    if (destination === 'churn-review') {
+      toastMsg.innerText = '해지 고민함 (넷플릭스, 쿠팡) 화면으로 이동합니다';
+    } else {
+      toastMsg.innerText = '절약 성공 내역(총 210,000원) 목록으로 이동합니다';
+    }
+
+    toast.classList.remove('opacity-0', 'pointer-events-none');
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'pointer-events-none');
+    }, 2200);
+  }
+
+  // Period Selector toggle micro-interaction
+  document.getElementById('periodSelectorBtn')?.addEventListener('click', function() {
+    const label = document.getElementById('selectedPeriodLabel');
+    const chevron = document.getElementById('periodChevron');
+    if (!label) return;
+    
+    if (label.innerText === '월간') {
+      label.innerText = '연간';
+      chevron?.classList.add('rotate-180');
+    } else {
+      label.innerText = '월간';
+      chevron?.classList.remove('rotate-180');
+    }
+  });
+
+  // Highlight '통계' tab in parent shell navigation
+  (function setActiveTab() {
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+      if (link.getAttribute('data-path') === 'spending-analytics' || link.textContent.includes('통계')) {
+        link.classList.remove('text-on-surface-variant');
+        link.classList.add('text-primary-container', 'font-semibold');
+        const icon = link.querySelector('.material-symbols-outlined');
+        if (icon) {
+          icon.style.fontVariationSettings = "'FILL' 1";
+        }
+      } else {
+        link.classList.remove('text-primary-container', 'font-semibold');
+        link.classList.add('text-on-surface-variant');
+      }
+    });
+
+    // Update Header Title to '통계'
+    const headerTitle = document.querySelector('header h1');
+    if (headerTitle) {
+      headerTitle.textContent = '통계';
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-2px_12px_rgba(22,28,37,0.04)]" data-active-classes="text-primary-container font-semibold"><div class="flex items-center justify-around h-16 px-space-xs"><a class="flex flex-col items-center justify-center flex-1 h-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="home" href="#"><span class="material-symbols-outlined text-[24px]">home</span><span class="font-label-sm text-label-sm mt-0.5">홈</span></a><a class="flex flex-col items-center justify-center flex-1 h-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscription-list" href="#"><span class="material-symbols-outlined text-[24px]">format_list_bulleted</span><span class="font-label-sm text-label-sm mt-0.5">목록</span></a><a class="flex flex-col items-center justify-center flex-1 h-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="billing-calendar" href="#"><span class="material-symbols-outlined text-[24px]">calendar_month</span><span class="font-label-sm text-label-sm mt-0.5">캘린더</span></a><a class="flex flex-col items-center justify-center flex-1 h-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="spending-analytics" href="#"><span class="material-symbols-outlined text-[24px]">bar_chart</span><span class="font-label-sm text-label-sm mt-0.5">통계</span></a><a class="flex flex-col items-center justify-center flex-1 h-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="more-settings" href="#"><span class="material-symbols-outlined text-[24px]">more_horiz</span><span class="font-label-sm text-label-sm mt-0.5">더보기</span></a></div></nav></body></html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>2026 구독 결산 - 구독노트</title>
+<!-- Tailwind CSS CDN with forms and container queries plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            canvas: '#0B0F19',
+            cardBg: '#131B2E',
+            accentIndigo: '#6366F1',
+            accentMint: '#10B981',
+            accentCyan: '#38BDF8',
+            surfaceMuted: '#1E293B',
+            textPrimary: '#F8FAFC',
+            textSecondary: '#94A3B8'
+          },
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<style data-purpose="custom-styling">
+    /* Smooth transitions and custom gradients */
+    .glass-card {
+      background: linear-gradient(180deg, rgba(26, 35, 58, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+      box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+    }
+    .graphic-glow {
+      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.22) 0%, rgba(56, 189, 248, 0.1) 45%, rgba(15, 23, 42, 0) 75%);
+    }
+    /* Hide scrollbars */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-canvas text-textPrimary font-sans antialiased min-h-screen flex justify-center items-center p-0 select-none">
+<!-- Mobile Frame Container (Instagram Story / Mobile App Proportion) -->
+<div class="w-full max-w-[420px] h-[100dvh] max-h-[890px] flex flex-col justify-between bg-[#0A0E1A] overflow-hidden relative border border-slate-800/60 sm:rounded-[36px] shadow-2xl">
+<!-- BEGIN: TopBar -->
+<header class="w-full pt-3 px-5 flex-shrink-0 z-20" data-purpose="app-header">
+<!-- Android Status Bar -->
+<div class="flex items-center justify-between text-xs text-slate-400 font-medium py-1 px-1">
+<span class="tracking-tight text-slate-300 font-semibold text-[13px]">9:41</span>
+<div class="flex items-center space-x-2">
+<!-- Signal Icon -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9zm0 2c3.87 0 7 3.13 7 7 0 1.48-.46 2.85-1.25 4L12 19.33 6.25 16C5.46 14.85 5 13.48 5 12c0-3.87 3.13-7 7-7z" opacity="0.3"></path>
+<path d="M2 22h20L12 2 2 22z"></path>
+</svg>
+<!-- Wifi Icon -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4zm0 3.5c3.63 0 6.94 1.34 9.48 3.55L12 18.2 2.52 11.05C5.06 8.84 8.37 7.5 12 7.5z"></path>
+</svg>
+<!-- Battery Icon -->
+<div class="w-5 h-2.5 border border-slate-400 rounded-sm p-[1px] flex items-center">
+<div class="h-full bg-slate-300 rounded-[1px] w-3.5"></div>
+</div>
+</div>
+</div>
+<!-- Header Navigation Bar -->
+<nav class="flex items-center justify-between mt-2.5 pb-2">
+<button aria-label="닫기" class="w-9 h-9 rounded-full bg-slate-800/60 border border-slate-700/50 flex items-center justify-center text-slate-300 active:scale-95 transition-transform hover:bg-slate-800" type="button">
+<i class="w-5 h-5" data-lucide="x"></i>
+</button>
+<div class="text-xs tracking-wider uppercase font-medium text-slate-400">구독노트 연말 리포트</div>
+<button aria-label="정보" class="w-9 h-9 rounded-full bg-slate-800/60 border border-slate-700/50 flex items-center justify-center text-slate-300 active:scale-95 transition-transform hover:bg-slate-800" type="button">
+<i class="w-5 h-5" data-lucide="more-horizontal"></i>
+</button>
+</nav>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: ReportCardArea -->
+<main class="flex-1 px-4 py-2 flex flex-col justify-center items-center relative z-10 w-full" data-purpose="report-card-container">
+<!-- Primary Shareable Card (Insta Story Aspect Ratio Safe) -->
+<article class="w-full glass-card border border-white/10 rounded-[28px] p-5 sm:p-6 flex flex-col justify-between relative overflow-hidden backdrop-blur-md">
+<!-- Subtle Background Ambient Glow -->
+<div class="absolute -top-16 -right-16 w-52 h-52 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-16 -left-16 w-52 h-52 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Top Card Badge & Header -->
+<div class="relative z-10">
+<!-- Badge -->
+<div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-indigo-500/15 border border-indigo-400/25 text-indigo-300 text-xs font-semibold mb-3">
+<i class="w-3.5 h-3.5 text-indigo-400" data-lucide="sparkles"></i>
+<span>2026 구독 결산</span>
+</div>
+<!-- Bold Emotional Headline -->
+<h1 class="text-[25px] sm:text-[27px] font-bold tracking-tight text-white leading-snug">
+            올해 구독에<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 via-white to-sky-200 font-extrabold">98만 4천원</span>을 썼어요
+          </h1>
+</div>
+<!-- Abstract Geometric Fintech Data Visual Area -->
+<div class="relative my-4 py-3 w-full flex items-center justify-center graphic-glow rounded-2xl border border-white/[0.04]" data-purpose="abstract-infographic">
+<svg class="w-48 h-32 sm:h-36 overflow-visible" fill="none" viewbox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="orbitGrad" x1="0" x2="200" y1="0" y2="130">
+<stop offset="0%" stop-color="#818CF8" stop-opacity="0.8"></stop>
+<stop offset="50%" stop-color="#38BDF8" stop-opacity="0.4"></stop>
+<stop offset="100%" stop-color="#6366F1" stop-opacity="0.1"></stop>
+</lineargradient>
+<lineargradient gradientunits="userSpaceOnUse" id="barGrad" x1="0" x2="0" y1="100" y2="0">
+<stop offset="0%" stop-color="#1E293B"></stop>
+<stop offset="100%" stop-color="#6366F1"></stop>
+</lineargradient>
+</defs>
+<!-- Decorative Concentric Arcs -->
+<circle cx="100" cy="65" r="54" stroke="#334155" stroke-dasharray="4 4" stroke-opacity="0.3" stroke-width="1.5"></circle>
+<path d="M 40 65 A 60 60 0 0 1 160 65" stroke="url(#orbitGrad)" stroke-linecap="round" stroke-width="3"></path>
+<circle class="animate-pulse" cx="158" cy="62" fill="#38BDF8" r="5"></circle>
+<!-- Stylized Monthly Spending Wave / Bars -->
+<rect fill="#334155" fill-opacity="0.6" height="30" rx="4" width="8" x="52" y="55"></rect>
+<rect fill="#475569" fill-opacity="0.7" height="41" rx="4" width="8" x="68" y="44"></rect>
+<rect fill="url(#barGrad)" height="53" rx="4" width="8" x="84" y="32"></rect>
+<rect fill="#6366F1" height="61" rx="4" width="8" x="100" y="24"></rect>
+<rect fill="#38BDF8" height="47" rx="4" width="8" x="116" y="38"></rect>
+<rect fill="#475569" fill-opacity="0.7" height="37" rx="4" width="8" x="132" y="48"></rect>
+<!-- Center Sparkle / Stat Pin -->
+<circle cx="104" cy="24" fill="#FFFFFF" r="3.5"></circle>
+<text fill="#94A3B8" font-size="9.5" font-weight="500" letter-spacing="0.08em" text-anchor="middle" x="100" y="105">MONTHLY AVERAGE ₩82,000</text>
+</svg>
+</div>
+<!-- Key Stat Rows -->
+<section class="space-y-2.5 text-sm relative z-10" data-purpose="stat-metrics">
+<!-- Row 1: Longest Subscription -->
+<div class="flex items-center justify-between py-2 px-3 rounded-xl bg-slate-900/40 border border-white/5">
+<span class="text-slate-400 font-medium text-[13px] flex items-center gap-1.5">
+<i class="w-3.5 h-3.5 text-slate-400" data-lucide="clock"></i>
+              가장 오래 쓴 구독
+            </span>
+<span class="text-slate-200 font-semibold text-[13.5px] flex items-center gap-1.5">
+<span class="inline-block w-2 h-2 rounded-full bg-red-500"></span>
+              넷플릭스 · 5년째
+            </span>
+</div>
+<!-- Row 2: Best Value Subscription -->
+<div class="flex items-center justify-between py-2 px-3 rounded-xl bg-slate-900/40 border border-white/5">
+<span class="text-slate-400 font-medium text-[13px] flex items-center gap-1.5">
+<i class="w-3.5 h-3.5 text-slate-400" data-lucide="award"></i>
+              가장 가성비 좋은 구독
+            </span>
+<span class="text-slate-200 font-semibold text-[13.5px] flex items-center gap-1.5">
+<span class="inline-block w-2 h-2 rounded-full bg-sky-400"></span>
+              쿠팡 와우
+            </span>
+</div>
+<!-- Row 3: Saved by Cancellation -->
+<div class="flex items-center justify-between py-2 px-3 rounded-xl bg-emerald-950/20 border border-emerald-500/20">
+<span class="text-slate-300 font-medium text-[13px] flex items-center gap-1.5">
+<i class="w-3.5 h-3.5 text-emerald-400" data-lucide="shield-check"></i>
+              올해 해지로 절약
+            </span>
+<span class="text-emerald-400 font-bold text-[14px]">
+              21만원
+            </span>
+</div>
+</section>
+<!-- Card Footer Watermark -->
+<footer class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-center space-x-1.5 opacity-80" data-purpose="branding-watermark">
+<div class="w-4 h-4 rounded-md bg-indigo-500 flex items-center justify-center">
+<i class="w-2.5 h-2.5 text-white" data-lucide="layers"></i>
+</div>
+<span class="text-xs font-semibold tracking-wide text-slate-400">구독노트</span>
+</footer>
+</article>
+<!-- Carousel Pagination Indicator (Dots for 4~5 swipe cards) -->
+<nav aria-label="카드 페이지 탐색" class="flex items-center justify-center space-x-1.5 mt-3.5 mb-1">
+<!-- Active Dot (Card 1) -->
+<span class="w-6 h-1.5 rounded-full bg-slate-200 transition-all"></span>
+<!-- Inactive Dots -->
+<span class="w-1.5 h-1.5 rounded-full bg-slate-600/70"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-slate-600/70"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-slate-600/70"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-slate-600/70"></span>
+</nav>
+</main>
+<!-- END: ReportCardArea -->
+<!-- BEGIN: ActionControls -->
+<footer class="w-full px-5 pb-7 pt-2 flex flex-col items-center flex-shrink-0 z-20" data-purpose="bottom-share-action">
+<!-- Main Action Button (Share as Image / Instagram Story) -->
+<button class="w-full py-3.5 px-4 bg-slate-100 hover:bg-white text-slate-900 font-bold text-[15px] rounded-2xl shadow-lg shadow-black/40 flex items-center justify-center space-x-2 active:scale-[0.98] transition-all duration-150" id="share-btn" type="button">
+<i class="w-4 h-4 text-slate-900" data-lucide="share-2"></i>
+<span>이미지로 공유하기</span>
+</button>
+<!-- Subtext / Story Hint -->
+<div class="flex items-center space-x-1.5 mt-2.5 text-slate-400 text-xs font-normal">
+<i class="w-3.5 h-3.5 text-slate-400" data-lucide="instagram"></i>
+<span>인스타그램 스토리 비율로 공유할 수 있어요</span>
+</div>
+</footer>
+<!-- END: ActionControls -->
+</div>
+<!-- Initialize Lucide Icons -->
+<script data-purpose="icon-loader">
+    document.addEventListener("DOMContentLoaded", function() {
+      lucide.createIcons();
+    });
+  </script>
+</body></html>

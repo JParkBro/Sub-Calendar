@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>구독 추가 - 서비스 선택</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts & Pretendard CDN -->
+<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#4F46E5',
+              600: '#3D4FD6', // Calm Ledger Deep Indigo Accent
+              700: '#3730A3',
+            },
+            surface: {
+              background: '#F8F9FA',
+              card: '#FFFFFF',
+              muted: '#F1F3F5',
+            }
+          },
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'sans-serif'],
+            number: ['"Plus Jakarta Sans"', 'Pretendard', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-layout">
+    /* iOS Tap Highlight Reset & Smooth transitions */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    input {
+      user-select: auto;
+    }
+    /* Hide scrollbar for clean app experience */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 flex justify-center items-center min-h-screen p-0 sm:p-4 font-sans text-slate-900 antialiased selection:bg-indigo-100">
+<!-- BEGIN: MobileDeviceFrame -->
+<main class="w-full max-w-[390px] h-[844px] bg-[#F8F9FA] flex flex-col relative overflow-hidden shadow-2xl sm:rounded-[48px] border-0 sm:border-[8px] sm:border-slate-800">
+<!-- BEGIN: StatusBar -->
+<header class="w-full pt-3 px-7 flex justify-between items-center z-30 select-none" data-purpose="ios-status-bar">
+<!-- Time -->
+<span class="font-number font-semibold text-[15px] tracking-tight text-slate-800">9:41</span>
+<!-- iOS Status Icons -->
+<div class="flex items-center space-x-2 text-slate-800">
+<!-- Cellular Signal -->
+<svg class="w-4 h-3.5 fill-current" viewbox="0 0 17 12">
+<rect height="4" rx="0.75" width="2.5" x="0" y="8"></rect>
+<rect height="6.5" rx="0.75" width="2.5" x="4" y="5.5"></rect>
+<rect height="9" rx="0.75" width="2.5" x="8" y="3"></rect>
+<rect height="11.5" rx="0.75" width="2.5" x="12" y="0.5"></rect>
+</svg>
+<!-- Wi-Fi -->
+<svg class="w-4 h-3.5 fill-current" viewbox="0 0 16 12">
+<path d="M8 2.8C10.7 2.8 13.1 3.9 14.8 5.6L16 4.3C13.9 2.2 11.1 1 8 1 4.9 1 2.1 2.2 0 4.3L1.2 5.6C2.9 3.9 5.3 2.8 8 2.8ZM8 6.2C9.8 6.2 11.4 6.9 12.6 8.1L13.8 6.8C12.3 5.3 10.3 4.4 8 4.4 5.7 4.4 3.7 5.3 2.2 6.8L3.4 8.1C4.6 6.9 6.2 6.2 8 6.2ZM8 9.5C8.9 9.5 9.7 9.8 10.3 10.4L8 12.8 5.7 10.4C6.3 9.8 7.1 9.5 8 9.5Z"></path>
+</svg>
+<!-- Battery -->
+<div class="flex items-center">
+<div class="w-5 h-2.5 border border-slate-700 rounded-[3px] p-[1px] flex items-center">
+<div class="h-full w-full bg-slate-800 rounded-[1.5px]"></div>
+</div>
+<div class="w-[1.5px] h-1 bg-slate-700 rounded-r-[1px] -ml-[0.5px]"></div>
+</div>
+</div>
+</header>
+<!-- END: StatusBar -->
+<!-- BEGIN: NavigationBar -->
+<nav class="px-5 pt-3 pb-2 flex items-center justify-between" data-purpose="screen-navigation">
+<div class="flex items-center space-x-3">
+<!-- Back Navigation Button -->
+<button aria-label="뒤로 가기" class="w-10 h-10 -ml-2 rounded-full flex items-center justify-center text-slate-700 active:bg-slate-200/60 transition-colors" type="button">
+<svg class="w-6 h-6 stroke-[2.2]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15.75 19.5L8.25 12l7.5-7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<h1 class="text-xl font-bold tracking-tight text-slate-900">구독 추가</h1>
+</div>
+<!-- Dismiss / Close button -->
+<button aria-label="닫기" class="text-sm font-medium text-slate-400 hover:text-slate-600 transition-colors px-1 py-1" type="button">
+        취소
+      </button>
+</nav>
+<!-- END: NavigationBar -->
+<!-- BEGIN: SearchSection -->
+<section class="px-5 pt-1 pb-3" data-purpose="search-container">
+<div class="relative flex items-center">
+<span class="absolute left-3.5 text-slate-400 pointer-events-none flex items-center">
+<svg class="w-4 h-4 stroke-[2.2]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</span>
+<input class="w-full h-11 pl-10 pr-4 bg-slate-100 hover:bg-slate-200/70 focus:bg-white text-[15px] text-slate-900 placeholder:text-slate-400 rounded-xl border border-transparent focus:border-indigo-500/30 focus:ring-4 focus:ring-indigo-500/10 transition duration-150 outline-none" placeholder="서비스 이름 검색" type="text"/>
+</div>
+</section>
+<!-- END: SearchSection -->
+<!-- BEGIN: MainContentList -->
+<div class="flex-1 overflow-y-auto px-5 pt-2 pb-28 no-scrollbar" data-purpose="service-catalog-scroll">
+<!-- Section Title -->
+<div class="flex items-center justify-between mb-3 px-0.5">
+<h2 class="text-[13px] font-semibold tracking-tight text-slate-500">많이 쓰는 서비스</h2>
+<span class="text-xs text-slate-400">인기순</span>
+</div>
+<!-- Service Item Cards List -->
+<div class="space-y-2" data-purpose="preset-list">
+<!-- 1. Disney+ -->
+<div class="group flex items-center justify-between p-3.5 bg-white active:scale-[0.985] rounded-2xl border border-slate-100 hover:border-slate-200 shadow-[0_2px_6px_rgba(0,0,0,0.02)] transition-all" role="button" tabindex="0">
+<div class="flex items-center space-x-3.5">
+<!-- Icon Avatar -->
+<div class="w-11 h-11 rounded-xl bg-[#040814] flex items-center justify-center shadow-inner flex-shrink-0">
+<span class="font-number font-bold text-[13px] tracking-tight text-[#0063E5] flex items-center">
+                D<span class="text-white text-xs ml-0.5">+</span>
+</span>
+</div>
+<!-- Name & Meta -->
+<div>
+<p class="font-semibold text-[15px] text-slate-900 group-hover:text-brand-600 transition-colors">디즈니+</p>
+<p class="text-xs text-slate-400 mt-0.5">OTT · 스트리밍</p>
+</div>
+</div>
+<!-- Pricing & Arrow -->
+<div class="flex items-center space-x-2">
+<span class="font-number font-bold text-[15px] text-slate-900">9,900원~</span>
+<svg class="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+</svg>
+</div>
+</div>
+<!-- 2. WATCHA -->
+<div class="group flex items-center justify-between p-3.5 bg-white active:scale-[0.985] rounded-2xl border border-slate-100 hover:border-slate-200 shadow-[0_2px_6px_rgba(0,0,0,0.02)] transition-all" role="button" tabindex="0">
+<div class="flex items-center space-x-3.5">
+<div class="w-11 h-11 rounded-xl bg-[#FF0558] flex items-center justify-center shadow-sm flex-shrink-0">
+<span class="font-bold text-[15px] text-white">왓</span>
+</div>
+<div>
+<p class="font-semibold text-[15px] text-slate-900 group-hover:text-brand-600 transition-colors">왓챠</p>
+<p class="text-xs text-slate-400 mt-0.5">OTT · 영화/시리즈</p>
+</div>
+</div>
+<div class="flex items-center space-x-2">
+<span class="font-number font-bold text-[15px] text-slate-900">7,900원~</span>
+<svg class="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+</svg>
+</div>
+</div>
+<!-- 3. Spotify -->
+<div class="group flex items-center justify-between p-3.5 bg-white active:scale-[0.985] rounded-2xl border border-slate-100 hover:border-slate-200 shadow-[0_2px_6px_rgba(0,0,0,0.02)] transition-all" role="button" tabindex="0">
+<div class="flex items-center space-x-3.5">
+<div class="w-11 h-11 rounded-xl bg-[#1DB954] flex items-center justify-center shadow-sm flex-shrink-0">
+<svg class="w-6 h-6 text-black fill-current" viewbox="0 0 24 24">
+<path d="M12 2C6.477 2 2 6.477 2 12c0 5.524 4.477 10 10 10s10-4.476 10-10c0-5.523-4.477-10-10-10zm4.586 14.424c-.18.295-.563.387-.857.207-2.35-1.435-5.308-1.76-8.793-.963-.335.077-.67-.133-.746-.467-.077-.334.132-.67.467-.746 3.808-.87 7.076-.505 9.722 1.112.294.18.386.563.207.857zm1.225-2.723c-.226.368-.711.485-1.079.26-2.69-1.653-6.79-2.132-9.972-1.166-.413.125-.85-.11-1-.523-.15-.413.086-.85.498-.975 3.634-1.103 8.156-.57 11.264 1.341.368.226.485.711.26 1.079zm.106-2.836C14.693 8.97 9.39 8.794 6.326 9.724c-.494.15-1.018-.13-1.168-.624-.15-.494.13-1.018.624-1.168 3.518-1.068 9.38-.864 13.09 1.338.444.263.59.84.327 1.284-.263.444-.84.59-1.284.327z"></path>
+</svg>
+</div>
+<div>
+<p class="font-semibold text-[15px] text-slate-900 group-hover:text-brand-600 transition-colors">스포티파이</p>
+<p class="text-xs text-slate-400 mt-0.5">음악 스트리밍</p>
+</div>
+</div>
+<div class="flex items-center space-x-2">
+<span class="font-number font-bold text-[15px] text-slate-900">10,900원~</span>
+<svg class="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+</svg>
+</div>
+</div>
+<!-- 4. Baemin Club -->
+<div class="group flex items-center justify-between p-3.5 bg-white active:scale-[0.985] rounded-2xl border border-slate-100 hover:border-slate-200 shadow-[0_2px_6px_rgba(0,0,0,0.02)] transition-all" role="button" tabindex="0">
+<div class="flex items-center space-x-3.5">
+<div class="w-11 h-11 rounded-xl bg-[#2AC1BC] flex items-center justify-center shadow-sm flex-shrink-0">
+<span class="font-bold text-[15px] text-white">배</span>
+</div>
+<div>
+<p class="font-semibold text-[15px] text-slate-900 group-hover:text-brand-600 transition-colors">배민클럽</p>
+<p class="text-xs text-slate-400 mt-0.5">배달 무료 혜택</p>
+</div>
+</div>
+<div class="flex items-center space-x-2">
+<span class="font-number font-bold text-[15px] text-slate-900">3,990원</span>
+<svg class="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+</svg>
+</div>
+</div>
+<!-- 5. ChatGPT Plus -->
+<div class="group flex items-center justify-between p-3.5 bg-white active:scale-[0.985] rounded-2xl border border-slate-100 hover:border-slate-200 shadow-[0_2px_6px_rgba(0,0,0,0.02)] transition-all" role="button" tabindex="0">
+<div class="flex items-center space-x-3.5">
+<div class="w-11 h-11 rounded-xl bg-[#10A37F] flex items-center justify-center shadow-sm flex-shrink-0">
+<span class="font-number font-bold text-[16px] text-white">C</span>
+</div>
+<div>
+<p class="font-semibold text-[15px] text-slate-900 group-hover:text-brand-600 transition-colors">ChatGPT Plus</p>
+<p class="text-xs text-slate-400 mt-0.5">생성형 AI 생산성</p>
+</div>
+</div>
+<div class="flex items-center space-x-2">
+<span class="font-number font-bold text-[15px] text-slate-900">$20</span>
+<svg class="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+</svg>
+</div>
+</div>
+<!-- 6. NAVER Plus Membership -->
+<div class="group flex items-center justify-between p-3.5 bg-white active:scale-[0.985] rounded-2xl border border-slate-100 hover:border-slate-200 shadow-[0_2px_6px_rgba(0,0,0,0.02)] transition-all" role="button" tabindex="0">
+<div class="flex items-center space-x-3.5">
+<div class="w-11 h-11 rounded-xl bg-[#03C75A] flex items-center justify-center shadow-sm flex-shrink-0">
+<span class="font-bold text-[14px] text-white">네+</span>
+</div>
+<div>
+<p class="font-semibold text-[15px] text-slate-900 group-hover:text-brand-600 transition-colors">네이버플러스 멤버십</p>
+<p class="text-xs text-slate-400 mt-0.5">쇼핑 적립 &amp; 디지털콘텐츠</p>
+</div>
+</div>
+<div class="flex items-center space-x-2">
+<span class="font-number font-bold text-[15px] text-slate-900">4,900원</span>
+<svg class="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<!-- END: MainContentList -->
+<!-- BEGIN: BottomPinnedCard -->
+<!-- Fixed directly above bottom safe area, styled with dashed outline and calm brand styling -->
+<aside class="absolute bottom-6 left-0 right-0 px-5 z-20 pointer-events-auto" data-purpose="custom-manual-input-cta">
+<div class="bg-gradient-to-t from-[#F8F9FA] via-[#F8F9FA]/90 to-transparent pt-4 -mx-5 px-5">
+<button class="w-full bg-[#F3F6FD] hover:bg-[#EBF1FC] active:scale-[0.98] border-2 border-dashed border-indigo-200/90 rounded-2xl p-3.5 flex items-center justify-between text-left transition-all duration-150 shadow-sm group" type="button">
+<div class="flex items-center space-x-3.5">
+<!-- Plus Circular Badge -->
+<div class="w-10 h-10 rounded-xl bg-white border border-indigo-100 flex items-center justify-center text-brand-600 shadow-sm flex-shrink-0 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+<svg class="w-5 h-5 stroke-[2.4]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<!-- Labels -->
+<div>
+<p class="text-[15px] font-bold text-slate-900 leading-tight">목록에 없어요</p>
+<p class="text-[13px] text-slate-500 mt-0.5">이름과 금액을 직접 입력하기</p>
+</div>
+</div>
+<!-- Subtle indicator badge or chevron -->
+<div class="w-7 h-7 rounded-full bg-white/80 flex items-center justify-center text-slate-400 group-hover:text-brand-600 transition-colors">
+<svg class="w-4 h-4 stroke-[2.2]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+</div>
+</aside>
+<!-- END: BottomPinnedCard -->
+<!-- BEGIN: HomeIndicator -->
+<footer class="absolute bottom-1 left-0 right-0 h-4 flex justify-center items-center z-30 pointer-events-none">
+<div class="w-32 h-1 bg-slate-300 rounded-full"></div>
+</footer>
+<!-- END: HomeIndicator -->
+</main>
+<!-- END: MobileDeviceFrame -->
+</body></html>
