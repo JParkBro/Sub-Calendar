@@ -16,6 +16,7 @@ import jpark.bro.subcal.core.model.Money
 import java.util.Locale
 
 private const val CENTS_PER_DOLLAR = 100
+private const val MANWON = 10_000L
 
 /** 금액 색 (theme-guide.md 6장 2번) */
 enum class MoneyTone {
@@ -65,6 +66,24 @@ fun formatMoney(money: Money): String =
         },
         formatMoneyNumber(money),
     )
+
+/** 큰 원화 금액을 만 원 단위로: 914,280 → 91만 원 (반올림). 1만 원 미만은 [formatMoney]와 같다 */
+@Composable
+fun formatKrwInManwon(krw: Long): String {
+    val manwon = roundToManwon(krw)
+    return if (manwon == null) {
+        formatMoney(Money(krw, Currency.KRW))
+    } else {
+        stringResource(R.string.common_money_manwon, String.format(Locale.US, "%,d", manwon))
+    }
+}
+
+/** 만 원 단위 반올림. 절댓값이 1만 원 미만이면 null */
+internal fun roundToManwon(krw: Long): Long? {
+    if (krw > -MANWON && krw < MANWON) return null
+    val rounded = (Math.abs(krw) + MANWON / 2) / MANWON
+    return if (krw < 0) -rounded else rounded
+}
 
 /** 통화 기호를 뺀 숫자: 천 단위 쉼표, USD는 소수 둘째 자리까지. 기기 언어와 상관없이 같은 모양이다 */
 internal fun formatMoneyNumber(money: Money): String =

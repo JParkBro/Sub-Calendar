@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 홈 (product-spec 4-1) -->
     <string name="home_title">홈</string>
+    <string name="home_add">구독 추가</string>
+    <string name="home_month_title">%1$d월 구독료</string>
+    <string name="home_month_range">%1$d.%2$02d ~ %3$d.%4$02d</string>
+    <string name="home_month_change_up">지난달보다 +%1$s</string>
+    <string name="home_month_change_down">지난달보다 −%1$s</string>
+    <string name="home_month_change_same">지난달과 같아요</string>
+    <string name="home_month_average">월 평균 %1$s · 연간 %2$s</string>
+    <string name="home_upcoming_title">다가오는 결제</string>
+    <string name="home_upcoming_see_all">전체보기</string>
+    <string name="home_upcoming_empty">예정된 결제가 없어요</string>
+    <string name="home_category_chip">%1$s %2$d</string>
+    <string name="home_empty_title">구독을 등록해 보세요</string>
+    <string name="home_quick_netflix">넷플릭스</string>
+    <string name="home_quick_youtube_premium">유튜브 프리미엄</string>
+    <string name="home_quick_coupang_wow">쿠팡 와우</string>
+    <string name="home_quick_manual">직접 입력</string>
 </resources>

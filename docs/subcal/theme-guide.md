@@ -129,7 +129,7 @@ WCAG: 일반 텍스트 4.5:1, 큰 텍스트 · UI 그래픽 3:1.
 | 추가 | `SubCalServiceIcon(name, colorKey, size, dimmed)`, `SubCalAmountField`(숫자 키패드 · 천 단위 쉼표 · 통화 선택), `SubCalDonutChart` · `SubCalBarChart`(Canvas, 외부 차트 라이브러리 없음) |
 | 제외 | `DaysKakaoButton`, `DaysItemIcon`, 커플 · 사진 관련 컴포넌트 |
 
-`core:ui`: `MoneyText(money, style, tone)` · `formatMoney`, `PaymentRow`(아이콘 · 이름 · 날짜 · D-day · 금액 한 줄), `SubCalDatePickerDialog`, `SubCalWebView`(정책 문서 · 다른 앱 둘러보기).
+`core:ui`: `MoneyText(money, style, tone)` · `formatMoney` · `formatKrwInManwon`(만 원 단위), `PaymentRow`(아이콘 · 이름 · 날짜 · D-day · 금액 한 줄), `SubCalDatePickerDialog`, `SubCalWebView`(정책 문서 · 다른 앱 둘러보기).
 
 ## 8. Android(Compose) 적용
 
