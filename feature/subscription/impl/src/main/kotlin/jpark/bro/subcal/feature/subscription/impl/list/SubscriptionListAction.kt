@@ -17,4 +17,7 @@ internal sealed interface SubscriptionListAction {
     ) : SubscriptionListAction
 
     data object SortSheetDismissed : SubscriptionListAction
+
+    /** FAB */
+    data object AddClicked : SubscriptionListAction
 }

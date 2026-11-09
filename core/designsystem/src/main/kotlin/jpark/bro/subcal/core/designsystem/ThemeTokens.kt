@@ -88,6 +88,9 @@ object AppFixedColors {
             "BLACK" to Color(0xFF202124),
         )
 
+    /** 아이콘 색 선택지 (theme-guide 5장 순서) */
+    val serviceColorKeys: List<String> = serviceColors.keys.toList()
+
     /** 서비스 아이콘 위 이니셜 */
     val onService = Color(0xFFFFFFFF)
 

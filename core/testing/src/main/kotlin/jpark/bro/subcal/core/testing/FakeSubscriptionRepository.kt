@@ -22,6 +22,9 @@ class FakeSubscriptionRepository(
 ) : SubscriptionRepository {
     val records = MutableStateFlow(initial)
     var failure: Throwable? = null
+
+    /** 마지막 [update]의 적용 시점 */
+    var lastUpdateTiming: PriceChangeTiming? = null
     private var nextId = 1
 
     override fun observeRecords(): Flow<List<SubscriptionRecord>> = records
@@ -40,10 +43,12 @@ class FakeSubscriptionRepository(
         id: String,
         input: SubscriptionInput,
         timing: PriceChangeTiming,
-    ): Result<Unit> =
-        write {
+    ): Result<Unit> {
+        lastUpdateTiming = timing
+        return write {
             records.update { it.edit(id) { input.toSubscription(id).copy(status = status, cancelledOn = cancelledOn) } }
         }
+    }
 
     override suspend fun pause(id: String): Result<Unit> =
         write {

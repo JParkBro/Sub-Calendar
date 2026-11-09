@@ -23,11 +23,13 @@ import jpark.bro.subcal.core.designsystem.R
 import jpark.bro.subcal.core.designsystem.preview.ComponentPreviews
 import jpark.bro.subcal.core.designsystem.preview.SubCalPreviewSurface
 import jpark.bro.subcal.core.model.Currency
+import jpark.bro.subcal.core.model.Money
 
 /** Long 범위 안에서 다룰 수 있도록 정수부 자릿수를 제한한다 */
 private const val MAX_INTEGER_DIGITS = 12
 private const val MAX_FRACTION_DIGITS = 2
 private const val GROUP_SIZE = 3
+private const val CENTS_PER_DOLLAR = 100L
 
 /**
  * 금액 입력: 숫자 키패드 · 천 단위 쉼표 · 통화 선택 (theme-guide.md 7장).
@@ -101,6 +103,39 @@ internal fun sanitizeAmountInput(
             .take(MAX_FRACTION_DIGITS)
     return "${integer.ifEmpty { "0" }}.$fraction"
 }
+
+/** [SubCalAmountField] 입력 원문을 최소 단위 금액으로 바꾼다. 비었으면 null (product-spec 2-4) */
+fun amountInputToMinor(
+    input: String,
+    currency: Currency,
+): Long? {
+    if (input.isEmpty()) return null
+    val integer = input.substringBefore('.').ifEmpty { "0" }.toLong()
+    return when (currency) {
+        Currency.KRW -> {
+            integer
+        }
+
+        Currency.USD -> {
+            val cents = input.substringAfter('.', "").padEnd(MAX_FRACTION_DIGITS, '0').toLong()
+            integer * CENTS_PER_DOLLAR + cents
+        }
+    }
+}
+
+/** 저장한 금액을 [SubCalAmountField] 입력 원문으로 바꾼다. USD는 센트가 0이면 소수를 붙이지 않는다 */
+fun minorToAmountInput(money: Money): String =
+    when (money.currency) {
+        Currency.KRW -> {
+            money.amountMinor.toString()
+        }
+
+        Currency.USD -> {
+            val cents = money.amountMinor % CENTS_PER_DOLLAR
+            val dollars = money.amountMinor / CENTS_PER_DOLLAR
+            if (cents == 0L) dollars.toString() else "$dollars.${cents.toString().padStart(MAX_FRACTION_DIGITS, '0')}"
+        }
+    }
 
 /** 입력 원문은 그대로 두고 화면에만 쉼표를 그린다. 커서 위치를 원문과 맞춘다 */
 internal object ThousandsSeparatorTransformation : VisualTransformation {

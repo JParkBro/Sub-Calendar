@@ -5,6 +5,9 @@ import jpark.bro.subcal.core.model.Category
 import jpark.bro.subcal.core.model.Currency
 import jpark.bro.subcal.core.model.CycleUnit
 import jpark.bro.subcal.core.model.Money
+import jpark.bro.subcal.core.model.Preset
+import jpark.bro.subcal.core.model.PresetCatalog
+import jpark.bro.subcal.core.model.PresetPlan
 import jpark.bro.subcal.core.model.PriceChange
 import jpark.bro.subcal.core.model.Subscription
 import jpark.bro.subcal.core.model.SubscriptionRecord
@@ -142,9 +145,51 @@ object SampleData {
             )
         }
 
+    /** 테스트용 프리셋 5개. 요금은 9장 샘플에 맞춘 값이고 실제 프리셋 JSON과 다를 수 있다 */
+    val catalog: PresetCatalog =
+        PresetCatalog(
+            version = 1,
+            pricesAsOf = "2026.10",
+            services =
+                listOf(
+                    preset(
+                        "netflix",
+                        "넷플릭스",
+                        Category.VIDEO,
+                        "RED",
+                        plan("광고형 스탠다드", 7_000),
+                        plan("스탠다드", 13_500),
+                        plan("프리미엄", 17_000),
+                    ),
+                    preset("disney_plus", "디즈니+", Category.VIDEO, "BLACK", plan("스탠다드", 9_900), plan("프리미엄", 13_900)),
+                    preset("watcha", "왓챠", Category.VIDEO, "PINK"),
+                    preset("spotify", "스포티파이", Category.MUSIC, "GREEN", plan("프리미엄", 10_900)),
+                    preset(
+                        "chatgpt_plus",
+                        "ChatGPT Plus",
+                        Category.AI,
+                        "TEAL",
+                        PresetPlan("Plus", Money(2_000, Currency.USD), BillingCycle(CycleUnit.MONTH)),
+                    ),
+                ),
+        )
+
     /** 이용 중 7개 + 체험 중 2개 + 해지 1개 */
     val records: List<SubscriptionRecord> =
         listOf(spotify, netflix, coupangWow, googleOne, youtubePremium, tving, melon, disneyPlus, millie, watcha)
+
+    private fun preset(
+        id: String,
+        name: String,
+        category: Category,
+        colorKey: String,
+        vararg plans: PresetPlan,
+    ): Preset = Preset(id, name, category, colorKey, plans.toList(), cancelUrl = "https://example.com/$id/cancel")
+
+    private fun plan(
+        name: String,
+        amount: Long,
+    ): PresetPlan = PresetPlan(name, Money(amount, Currency.KRW), BillingCycle(CycleUnit.MONTH))
 
     private fun record(
         id: String,

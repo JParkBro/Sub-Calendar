@@ -26,12 +26,14 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import jpark.bro.subcal.core.designsystem.AppSpacing
 import jpark.bro.subcal.core.designsystem.AppTheme
 import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.component.SubCalBottomSheet
 import jpark.bro.subcal.core.designsystem.component.SubCalCard
+import jpark.bro.subcal.core.designsystem.component.SubCalFab
 import jpark.bro.subcal.core.designsystem.component.SubCalFilterChip
 import jpark.bro.subcal.core.designsystem.component.SubCalListItem
 import jpark.bro.subcal.core.designsystem.component.SubCalServiceIcon
@@ -42,6 +44,7 @@ import jpark.bro.subcal.core.model.ListSort
 import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.ui.MoneyText
 import jpark.bro.subcal.core.ui.MoneyTone
+import jpark.bro.subcal.core.ui.ObserveEvents
 import jpark.bro.subcal.core.ui.billingCycleLabel
 import jpark.bro.subcal.core.ui.categoryLabel
 import jpark.bro.subcal.core.ui.formatMoney
@@ -49,13 +52,23 @@ import jpark.bro.subcal.feature.subscription.api.SubscriptionListKey
 import jpark.bro.subcal.feature.subscription.impl.R
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import jpark.bro.subcal.core.designsystem.R as DesignR
+
+/** 마지막 행이 FAB에 가리지 않게 (FAB 56dp + 여백) */
+private val FAB_CLEARANCE = 88.dp
 
 @Composable
 internal fun SubscriptionListRoot(
     key: SubscriptionListKey,
+    onAddClick: () -> Unit,
     viewModel: SubscriptionListViewModel = koinViewModel { parametersOf(key) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    ObserveEvents(viewModel.event) { event ->
+        when (event) {
+            SubscriptionListEvent.OpenServicePicker -> onAddClick()
+        }
+    }
     SubscriptionListScreen(state = state, onAction = viewModel::onAction)
 }
 
@@ -65,21 +78,33 @@ private fun SubscriptionListScreen(
     onAction: (SubscriptionListAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    Box(
         modifier =
             modifier
                 .fillMaxSize()
                 .background(AppThemeTokens.colors.bg)
                 .testTag("subscription_list"),
     ) {
-        SubCalTopBar(title = stringResource(R.string.subscription_list_title))
-        FilterRow(state = state, onAction = onAction)
-        SortAndTotalRow(sort = state.sort, monthlyTotalKrw = state.content.monthlyTotalKrw, onAction = onAction)
-        if (!state.isLoading && state.content.sections.isEmpty()) {
-            EmptyContent(modifier = Modifier.weight(1f))
-        } else {
-            SubscriptionSections(sections = state.content.sections, modifier = Modifier.weight(1f))
+        Column(modifier = Modifier.fillMaxSize()) {
+            SubCalTopBar(title = stringResource(R.string.subscription_list_title))
+            FilterRow(state = state, onAction = onAction)
+            SortAndTotalRow(sort = state.sort, monthlyTotalKrw = state.content.monthlyTotalKrw, onAction = onAction)
+            if (!state.isLoading && state.content.sections.isEmpty()) {
+                EmptyContent(modifier = Modifier.weight(1f))
+            } else {
+                SubscriptionSections(sections = state.content.sections, modifier = Modifier.weight(1f))
+            }
         }
+        SubCalFab(
+            icon = DesignR.drawable.ic_add,
+            contentDescription = stringResource(R.string.subscription_list_add),
+            onClick = { onAction(SubscriptionListAction.AddClicked) },
+            modifier =
+                Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(AppSpacing.marginMobile)
+                    .testTag("add_fab"),
+        )
     }
 
     if (state.isSortSheetOpen) {
@@ -177,7 +202,7 @@ private fun SubscriptionSections(
             PaddingValues(
                 start = AppSpacing.marginMobile,
                 end = AppSpacing.marginMobile,
-                bottom = AppSpacing.xl,
+                bottom = FAB_CLEARANCE,
             ),
         verticalArrangement = Arrangement.spacedBy(AppSpacing.sm),
     ) {

@@ -1,5 +1,6 @@
 package jpark.bro.subcal.feature.subscription.impl.list
 
+import app.cash.turbine.test
 import jpark.bro.subcal.core.model.Category
 import jpark.bro.subcal.core.model.Currency
 import jpark.bro.subcal.core.model.ListSort
@@ -10,6 +11,7 @@ import jpark.bro.subcal.core.testing.FakeSubscriptionRepository
 import jpark.bro.subcal.core.testing.MainDispatcherRule
 import jpark.bro.subcal.core.testing.SampleData
 import jpark.bro.subcal.feature.subscription.api.SubscriptionListKey
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -198,4 +200,15 @@ class SubscriptionListViewModelTest {
         assertTrue(state.content.sections.isEmpty())
         assertEquals(0, state.content.monthlyTotalKrw)
     }
+
+    @Test
+    fun `추가 버튼은 서비스 선택을 연다`() =
+        runTest {
+            val viewModel = viewModel()
+
+            viewModel.event.test {
+                viewModel.onAction(SubscriptionListAction.AddClicked)
+                assertEquals(SubscriptionListEvent.OpenServicePicker, awaitItem())
+            }
+        }
 }
