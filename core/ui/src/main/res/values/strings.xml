@@ -5,4 +5,23 @@
     <string name="common_money_usd">$%1$s</string>
 
     <string name="common_date_month_day">%1$d월 %2$d일</string>
+
+    <!-- 카테고리 (product-spec 2-11) -->
+    <string name="common_category_video">영상</string>
+    <string name="common_category_music">음악</string>
+    <string name="common_category_shopping">쇼핑 · 생활</string>
+    <string name="common_category_cloud">클라우드</string>
+    <string name="common_category_ai">AI · 생산성</string>
+    <string name="common_category_reading">독서</string>
+    <string name="common_category_game">게임</string>
+    <string name="common_category_etc">기타</string>
+
+    <!-- 결제 주기 (product-spec 2-2) -->
+    <string name="common_cycle_monthly">매월 %1$d일</string>
+    <string name="common_cycle_yearly">매년 %1$d월 %2$d일</string>
+    <string name="common_cycle_weekly">매주 %1$s</string>
+    <string name="common_cycle_every_days">%1$d일마다</string>
+    <string name="common_cycle_every_weeks">%1$d주마다</string>
+    <string name="common_cycle_every_months">%1$d개월마다</string>
+    <string name="common_cycle_every_years">%1$d년마다</string>
 </resources>
