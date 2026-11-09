@@ -18,6 +18,7 @@ internal fun buildHomeState(
     records: List<SubscriptionRecord>,
     settings: AppSettings,
     today: LocalDate,
+    showBillingDateHint: Boolean = false,
 ): HomeState {
     val rate = settings.usdKrwRate
     val period = BillingPeriod.containing(today, settings.monthStartDay)
@@ -36,6 +37,8 @@ internal fun buildHomeState(
     return HomeState(
         isLoading = false,
         isEmpty = records.isEmpty(),
+        // 등록한 구독을 모두 지웠으면 안내할 결제일도 없다
+        showBillingDateHint = showBillingDateHint && records.isNotEmpty(),
         summary = summary,
         upcoming =
             upcomingPayments(records, today, UPCOMING_LIMIT).map {

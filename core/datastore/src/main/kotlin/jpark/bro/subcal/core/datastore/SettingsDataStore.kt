@@ -89,6 +89,16 @@ class SettingsDataStore(
         dataStore.edit { prefs -> prefs[ONBOARDING_DONE] = done }
     }
 
+    /** 온보딩에서 한꺼번에 등록한 뒤 홈에 "결제일을 확인해 주세요" 카드를 보여줄지 (product-spec 5장) */
+    val billingDateHintPending: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[BILLING_DATE_HINT_PENDING] ?: false
+        }
+
+    suspend fun setBillingDateHintPending(pending: Boolean) {
+        dataStore.edit { prefs -> prefs[BILLING_DATE_HINT_PENDING] = pending }
+    }
+
     private companion object {
         val THEME_MODE = stringPreferencesKey("theme_mode")
         val MONTH_START_DAY = intPreferencesKey("month_start_day")
@@ -102,6 +112,7 @@ class SettingsDataStore(
         val NOTIFY_TIME = stringPreferencesKey("notify_time")
         val LIST_SORT = stringPreferencesKey("list_sort")
         val ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
+        val BILLING_DATE_HINT_PENDING = booleanPreferencesKey("billing_date_hint_pending")
     }
 }
 

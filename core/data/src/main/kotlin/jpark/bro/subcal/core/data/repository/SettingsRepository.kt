@@ -23,4 +23,9 @@ interface SettingsRepository {
     fun observeOnboardingDone(): Flow<Boolean>
 
     suspend fun setOnboardingDone(done: Boolean): Result<Unit>
+
+    /** 온보딩 등록 후 홈의 "결제일을 확인해 주세요" 카드 */
+    fun observeBillingDateHintPending(): Flow<Boolean>
+
+    suspend fun setBillingDateHintPending(pending: Boolean): Result<Unit>
 }

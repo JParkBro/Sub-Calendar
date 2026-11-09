@@ -24,6 +24,8 @@ dependencies {
     implementation(projects.core.data)
 
     // feature
+    implementation(projects.feature.onboarding.api)
+    implementation(projects.feature.onboarding.impl)
     implementation(projects.feature.home.api)
     implementation(projects.feature.home.impl)
     implementation(projects.feature.subscription.api)

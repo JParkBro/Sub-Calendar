@@ -46,6 +46,7 @@ class DefaultSettingsRepositoryTest {
             )
             assertEquals(ListSort.NEXT_BILLING, repository.observeListSort().first())
             assertFalse(repository.observeOnboardingDone().first())
+            assertFalse(repository.observeBillingDateHintPending().first())
         }
 
     @Test
@@ -115,5 +116,15 @@ class DefaultSettingsRepositoryTest {
 
             assertEquals(ListSort.AMOUNT, repository.observeListSort().first())
             assertTrue(repository.observeOnboardingDone().first())
+        }
+
+    @Test
+    fun `결제일 확인 안내는 켜고 끌 수 있다`() =
+        runTest {
+            repository.setBillingDateHintPending(true).getOrThrow()
+            assertTrue(repository.observeBillingDateHintPending().first())
+
+            repository.setBillingDateHintPending(false).getOrThrow()
+            assertFalse(repository.observeBillingDateHintPending().first())
         }
 }

@@ -28,4 +28,9 @@ internal class DefaultSettingsRepository(
 
     override suspend fun setOnboardingDone(done: Boolean): Result<Unit> =
         suspendRunCatching { dataStore.setOnboardingDone(done) }
+
+    override fun observeBillingDateHintPending(): Flow<Boolean> = dataStore.billingDateHintPending
+
+    override suspend fun setBillingDateHintPending(pending: Boolean): Result<Unit> =
+        suspendRunCatching { dataStore.setBillingDateHintPending(pending) }
 }

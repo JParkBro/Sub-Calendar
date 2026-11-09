@@ -39,6 +39,8 @@ include(":core:data")
 include(":core:navigation")
 include(":core:testing")
 
+include(":feature:onboarding:api")
+include(":feature:onboarding:impl")
 include(":feature:home:api")
 include(":feature:home:impl")
 include(":feature:subscription:api")
