@@ -3,6 +3,7 @@
     <!-- 금액 표시 (formatMoney, product-spec 2-4) -->
     <string name="common_money_krw">%1$s원</string>
     <string name="common_money_usd">$%1$s</string>
+    <string name="common_money_manwon">%1$s만 원</string>
 
     <string name="common_date_month_day">%1$d월 %2$d일</string>
 
