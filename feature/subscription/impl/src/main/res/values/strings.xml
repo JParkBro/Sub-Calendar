@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="subscription_list_title">목록</string>
+    <!-- 목록 (product-spec 4-2) -->
+    <string name="subscription_list_title">구독 목록</string>
+    <string name="subscription_list_filter_active">이용 중 %1$d</string>
+    <string name="subscription_list_filter_paused">일시정지 %1$d</string>
+    <string name="subscription_list_filter_cancelled">해지 %1$d</string>
+    <string name="subscription_list_filter_trial">체험 중 %1$d</string>
+    <string name="subscription_list_category_filter">%1$s ✕</string>
+    <string name="subscription_list_category_filter_clear">%1$s 필터 해제</string>
+    <string name="subscription_list_sort_title">정렬</string>
+    <string name="subscription_list_sort_next_billing">결제일순</string>
+    <string name="subscription_list_sort_amount">금액순</string>
+    <string name="subscription_list_sort_name">이름순</string>
+    <string name="subscription_list_total_label">월 환산</string>
+    <string name="subscription_list_row_subtitle">%1$s · %2$s</string>
+    <string name="subscription_list_row_monthly">/월 %1$s</string>
+    <string name="subscription_list_empty">이 상태의 구독이 없어요</string>
 </resources>

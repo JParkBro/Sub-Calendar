@@ -33,7 +33,7 @@ subcalendar/
 │  ├─ domain/         [JVM] 결제일 생성, 기간 집계, 누적 · 아낀 돈, 중복, 가성비, 파티 몫, 알림 대상
 │  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 목록 / 캘린더 / 통계 / 더보기), AppIntents
 │  ├─ designsystem/   AppColors(27 토큰) · 2 팔레트, 서비스 색, 공통 컴포넌트 SubCal*
-│  ├─ ui/             MviViewModel, ObserveEvents, MoneyText · formatMoney, PaymentRow, DatePicker
+│  ├─ ui/             MviViewModel, ObserveEvents, MoneyText · formatMoney, 카테고리 · 결제 주기 표시, PaymentRow, DatePicker
 │  ├─ database/       Room (subscription, price_change, pause, usage_log, party_member, party_settlement, widget_config)
 │  ├─ datastore/      설정(화면 모드 · 알림 · 월 시작일 · 환율 · 정렬), 온보딩 완료, 광고 노출 기록, 광고 제거 캐시
 │  ├─ firebase/       Crashlytics · Analytics 래퍼, Remote Config(광고 빈도 · 차단 스위치)
