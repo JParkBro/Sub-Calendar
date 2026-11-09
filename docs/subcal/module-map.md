@@ -28,7 +28,7 @@ subcalendar/
 ├─ app/
 ├─ build-logic/
 ├─ core/
-│  ├─ model/          [JVM] Subscription, PriceChange, Pause, SubscriptionRecord, Payment, PartyMember, UsageLog, Category, Money, BillingCycle
+│  ├─ model/          [JVM] Subscription, SubscriptionInput, PriceChange, Pause, SubscriptionRecord, Payment, Preset, AppSettings, NotificationSettings, PartyMember, UsageLog, Category, Money, BillingCycle
 │  ├─ common/         [JVM] suspendRunCatching, IdGenerator (Result는 kotlin.Result, Clock은 java.time.Clock을 주입)
 │  ├─ domain/         [JVM] 결제일 생성, 기간 집계, 누적 · 아낀 돈, 중복, 가성비, 파티 몫, 알림 대상
 │  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 목록 / 캘린더 / 통계 / 더보기), AppIntents
@@ -166,7 +166,7 @@ subcalendar/
 1. **기반**: `core:model`, `core:common` (프로젝트 골격 build-logic · flavor · ktlint · detekt는 완료)
 2. **계산**: `core:domain` 결제일 · 기간 집계 · 누적 + 경계값 테스트 (product-spec 2장, 9장 기대 값을 테스트로)
 3. **디자인 시스템**: `core:designsystem` 인디고 2 팔레트, `SubCal*` 컴포넌트, 서비스 색, `SubCalServiceIcon`, `core:ui` `MoneyText`
-4. **데이터**: `core:database` v1(subscription · price_change · pause) + DAO 테스트, `core:datastore`, `core:data`(Subscription · Settings · Preset Repository), 프리셋 JSON
+4. **데이터**: `core:database` v1(subscription · price_change · pause · widget_config) + DAO 테스트, `core:datastore`, `core:data`(Subscription · Settings · Preset Repository), 프리셋 JSON
 5. **1차 화면**: `feature:subscription`(목록 · 선택 · 입력 · 상세) → `feature:home` → `feature:calendar` → `feature:onboarding`
 6. **알림**: `core:notification`(ReminderScheduler · ReminderWorker · 채널 `payment`), 알림 설정 화면
 7. **더보기**: `feature:settings`(설정 · 백업 내보내기/불러오기 · 정책 웹뷰 · 모든 데이터 삭제), Android 자동 백업 규칙
