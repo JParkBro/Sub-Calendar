@@ -122,7 +122,7 @@ private fun ServicePickerScreen(
             SubCalListItem(
                 title = stringResource(R.string.subscription_picker_manual_title),
                 subtitle = stringResource(R.string.subscription_picker_manual_subtitle),
-                onClick = { onAction(ServicePickerAction.ManualEntryClicked) },
+                showChevron = true,
             )
         }
     }
@@ -167,7 +167,7 @@ private fun PresetRow(
         SubCalListItem(
             title = item.name,
             subtitle = categoryLabel(item.category),
-            onClick = onClick,
+            showChevron = true,
             leading = { SubCalServiceIcon(name = item.name, colorKey = item.colorKey) },
             trailing = {
                 Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(AppSpacing.xs)) {

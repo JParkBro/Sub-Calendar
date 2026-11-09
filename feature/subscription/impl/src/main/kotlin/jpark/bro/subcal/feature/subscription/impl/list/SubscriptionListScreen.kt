@@ -61,12 +61,14 @@ private val FAB_CLEARANCE = 88.dp
 internal fun SubscriptionListRoot(
     key: SubscriptionListKey,
     onAddClick: () -> Unit,
+    onOpenDetail: (id: String) -> Unit,
     viewModel: SubscriptionListViewModel = koinViewModel { parametersOf(key) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             SubscriptionListEvent.OpenServicePicker -> onAddClick()
+            is SubscriptionListEvent.OpenDetail -> onOpenDetail(event.id)
         }
     }
     SubscriptionListScreen(state = state, onAction = viewModel::onAction)
@@ -92,7 +94,11 @@ private fun SubscriptionListScreen(
             if (!state.isLoading && state.content.sections.isEmpty()) {
                 EmptyContent(modifier = Modifier.weight(1f))
             } else {
-                SubscriptionSections(sections = state.content.sections, modifier = Modifier.weight(1f))
+                SubscriptionSections(
+                    sections = state.content.sections,
+                    onRowClick = { onAction(SubscriptionListAction.RowClicked(it)) },
+                    modifier = Modifier.weight(1f),
+                )
             }
         }
         SubCalFab(
@@ -194,6 +200,7 @@ private fun SortAndTotalRow(
 @Composable
 private fun SubscriptionSections(
     sections: List<SubscriptionSection>,
+    onRowClick: (id: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -213,7 +220,7 @@ private fun SubscriptionSections(
                 }
             }
             items(section.rows, key = { it.id }) { row ->
-                SubscriptionRowCard(row)
+                SubscriptionRowCard(row = row, onClick = { onRowClick(row.id) })
             }
         }
     }

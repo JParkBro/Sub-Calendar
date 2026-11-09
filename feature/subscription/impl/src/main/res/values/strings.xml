@@ -53,7 +53,7 @@
     <string name="subscription_edit_first_billing">첫 결제일</string>
     <string name="subscription_edit_trial_end">체험 종료일</string>
     <string name="subscription_edit_past_payments">지금까지 %1$d회 결제</string>
-    <string name="subscription_edit_date">%1$d.%2$02d.%3$02d</string>
+    <string name="subscription_date_full">%1$d.%2$02d.%3$02d</string>
     <string name="subscription_edit_trial">무료체험</string>
     <string name="subscription_edit_trial_hint">체험이 끝나기 전에 알려드려요</string>
     <string name="subscription_edit_trial_start">체험 시작일</string>
@@ -84,4 +84,41 @@
     <string name="subscription_edit_price_change_start_hint">지난 결제도 모두 새 금액으로 계산해요</string>
     <string name="subscription_edit_save_failed">저장하지 못했어요. 다시 시도해 주세요.</string>
     <string name="subscription_edit_delete_failed">삭제하지 못했어요. 다시 시도해 주세요.</string>
+
+    <!-- 구독 상세 (product-spec 4-4) -->
+    <string name="subscription_detail_title">구독 상세</string>
+    <string name="subscription_detail_back">뒤로</string>
+    <string name="subscription_detail_edit">수정</string>
+    <string name="subscription_detail_separator">" · "</string>
+    <string name="subscription_detail_status_active">이용 중</string>
+    <string name="subscription_detail_status_trial">체험 중</string>
+    <string name="subscription_detail_status_paused">일시정지</string>
+    <string name="subscription_detail_status_cancelled">해지</string>
+    <string name="subscription_detail_cumulative">지금까지 %1$d회</string>
+    <string name="subscription_detail_next_payment">다음 결제</string>
+    <string name="subscription_detail_trial_end">체험 종료 · 첫 결제</string>
+    <string name="subscription_detail_month_day">%1$d월 %2$d일</string>
+    <string name="subscription_detail_history">결제 이력</string>
+    <string name="subscription_detail_history_empty">아직 결제가 없어요</string>
+    <string name="subscription_detail_history_more">전체 이력 보기</string>
+    <string name="subscription_detail_price_up">인상</string>
+    <string name="subscription_detail_price_down">인하</string>
+    <string name="subscription_detail_paused_range">일시정지 %1$s ~ %2$s</string>
+    <string name="subscription_detail_paused_open">일시정지 %1$s ~ 지금</string>
+    <string name="subscription_detail_memo">메모</string>
+    <string name="subscription_detail_pause">일시정지</string>
+    <string name="subscription_detail_go_cancel">해지하러 가기</string>
+    <string name="subscription_detail_resume">다시 시작</string>
+    <string name="subscription_detail_cancel">해지</string>
+    <string name="subscription_detail_undo_cancel">해지 취소</string>
+    <string name="subscription_detail_cancel_title">해지했나요?</string>
+    <string name="subscription_detail_cancel_message">앱이 대신 해지하지는 않아요. 서비스에서 해지했다면 해지로 표시하세요. 해지일부터 결제가 생기지 않고 아낀 돈에 들어가요.</string>
+    <string name="subscription_detail_cancel_date">해지일</string>
+    <string name="subscription_detail_cancel_confirm">해지로 표시</string>
+    <string name="subscription_detail_cancel_not_yet">아직 안 했어요</string>
+    <string name="subscription_detail_action_failed">저장하지 못했어요. 다시 시도해 주세요.</string>
+    <string name="subscription_detail_open_failed">해지 페이지를 열지 못했어요. 주소를 확인해 주세요.</string>
+
+    <!-- 결제 이력 전체 -->
+    <string name="subscription_history_title">%1$s 결제 이력</string>
 </resources>

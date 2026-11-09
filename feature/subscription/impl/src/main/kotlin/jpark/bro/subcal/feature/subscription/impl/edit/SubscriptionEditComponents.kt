@@ -206,7 +206,7 @@ internal fun DateSection(
 @Composable
 private fun DateText(date: LocalDate) {
     Text(
-        text = stringResource(R.string.subscription_edit_date, date.year, date.monthValue, date.dayOfMonth),
+        text = stringResource(R.string.subscription_date_full, date.year, date.monthValue, date.dayOfMonth),
         style = AppThemeTokens.typography.labelLg.copy(fontFeatureSettings = "tnum"),
         color = AppThemeTokens.colors.textPrimary,
     )

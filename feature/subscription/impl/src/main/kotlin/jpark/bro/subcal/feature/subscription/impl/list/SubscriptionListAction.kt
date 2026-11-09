@@ -20,4 +20,8 @@ internal sealed interface SubscriptionListAction {
 
     /** FAB */
     data object AddClicked : SubscriptionListAction
+
+    data class RowClicked(
+        val id: String,
+    ) : SubscriptionListAction
 }
