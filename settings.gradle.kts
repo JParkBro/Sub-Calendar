@@ -27,3 +27,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "SubCalendar"
 include(":app")
+
+include(":core:model")
+include(":core:common")
