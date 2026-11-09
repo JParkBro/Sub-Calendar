@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "pricesAsOf": "2026.11",
+  "services": [
+    {
+      "id": "netflix",
+      "name": "넷플릭스",
+      "category": "VIDEO",
+      "colorKey": "RED",
+      "plans": [
+        {
+          "name": "스탠다드",
+          "amountMinor": 13500,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        },
+        {
+          "name": "프리미엄",
+          "amountMinor": 17000,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        },
+        {
+          "name": "광고형 스탠다드",
+          "amountMinor": 7000,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "youtube_premium",
+      "name": "유튜브 프리미엄",
+      "category": "VIDEO",
+      "colorKey": "PINK",
+      "plans": [
+        {
+          "name": "개인",
+          "amountMinor": 14900,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "tving",
+      "name": "티빙",
+      "category": "VIDEO",
+      "colorKey": "ORANGE",
+      "plans": [
+        {
+          "name": "기본",
+          "amountMinor": 10900,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "coupang_play",
+      "name": "쿠팡플레이",
+      "category": "VIDEO",
+      "colorKey": "TEAL",
+      "plans": []
+    },
+    {
+      "id": "wavve",
+      "name": "웨이브",
+      "category": "VIDEO",
+      "colorKey": "BLUE",
+      "plans": []
+    },
+    {
+      "id": "disney_plus",
+      "name": "디즈니+",
+      "category": "VIDEO",
+      "colorKey": "BLACK",
+      "plans": [
+        {
+          "name": "프리미엄",
+          "amountMinor": 13900,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "watcha",
+      "name": "왓챠",
+      "category": "VIDEO",
+      "colorKey": "PINK",
+      "plans": [
+        {
+          "name": "기본",
+          "amountMinor": 7900,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "melon",
+      "name": "멜론",
+      "category": "MUSIC",
+      "colorKey": "GREEN",
+      "plans": [
+        {
+          "name": "기본",
+          "amountMinor": 10900,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "genie",
+      "name": "지니",
+      "category": "MUSIC",
+      "colorKey": "BLUE",
+      "plans": []
+    },
+    {
+      "id": "spotify",
+      "name": "스포티파이",
+      "category": "MUSIC",
+      "colorKey": "GREEN",
+      "plans": [
+        {
+          "name": "개인",
+          "amountMinor": 10900,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "youtube_music",
+      "name": "유튜브 뮤직",
+      "category": "MUSIC",
+      "colorKey": "RED",
+      "plans": []
+    },
+    {
+      "id": "flo",
+      "name": "플로",
+      "category": "MUSIC",
+      "colorKey": "PURPLE",
+      "plans": []
+    },
+    {
+      "id": "apple_music",
+      "name": "애플 뮤직",
+      "category": "MUSIC",
+      "colorKey": "PINK",
+      "plans": []
+    },
+    {
+      "id": "coupang_wow",
+      "name": "쿠팡 와우",
+      "category": "SHOPPING",
+      "colorKey": "ORANGE",
+      "plans": [
+        {
+          "name": "와우 멤버십",
+          "amountMinor": 7890,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "naver_plus",
+      "name": "네이버플러스 멤버십",
+      "category": "SHOPPING",
+      "colorKey": "GREEN",
+      "plans": [
+        {
+          "name": "월간",
+          "amountMinor": 4900,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "baemin_club",
+      "name": "배민클럽",
+      "category": "SHOPPING",
+      "colorKey": "TEAL",
+      "plans": [
+        {
+          "name": "월간",
+          "amountMinor": 3990,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "kurly_members",
+      "name": "컬리멤버스",
+      "category": "SHOPPING",
+      "colorKey": "PURPLE",
+      "plans": []
+    },
+    {
+      "id": "google_one",
+      "name": "구글 원",
+      "category": "CLOUD",
+      "colorKey": "BLUE",
+      "plans": [
+        {
+          "name": "200GB 연간",
+          "amountMinor": 44400,
+          "currency": "KRW",
+          "cycleUnit": "YEAR"
+        }
+      ]
+    },
+    {
+      "id": "icloud_plus",
+      "name": "iCloud+",
+      "category": "CLOUD",
+      "colorKey": "BLUE",
+      "plans": []
+    },
+    {
+      "id": "naver_mybox",
+      "name": "네이버 MYBOX",
+      "category": "CLOUD",
+      "colorKey": "GREEN",
+      "plans": []
+    },
+    {
+      "id": "chatgpt_plus",
+      "name": "ChatGPT Plus",
+      "category": "AI",
+      "colorKey": "TEAL",
+      "plans": [
+        {
+          "name": "Plus",
+          "amountMinor": 2000,
+          "currency": "USD",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "claude_pro",
+      "name": "Claude Pro",
+      "category": "AI",
+      "colorKey": "AMBER",
+      "plans": []
+    },
+    {
+      "id": "notion",
+      "name": "Notion",
+      "category": "AI",
+      "colorKey": "BLACK",
+      "plans": []
+    },
+    {
+      "id": "microsoft_365",
+      "name": "Microsoft 365",
+      "category": "AI",
+      "colorKey": "ORANGE",
+      "plans": []
+    },
+    {
+      "id": "millie",
+      "name": "밀리의 서재",
+      "category": "READING",
+      "colorKey": "AMBER",
+      "plans": [
+        {
+          "name": "월간",
+          "amountMinor": 9900,
+          "currency": "KRW",
+          "cycleUnit": "MONTH"
+        }
+      ]
+    },
+    {
+      "id": "ridi_select",
+      "name": "리디셀렉트",
+      "category": "READING",
+      "colorKey": "BLUE",
+      "plans": []
+    },
+    {
+      "id": "nintendo_online",
+      "name": "닌텐도 스위치 온라인",
+      "category": "GAME",
+      "colorKey": "RED",
+      "plans": []
+    },
+    {
+      "id": "playstation_plus",
+      "name": "PlayStation Plus",
+      "category": "GAME",
+      "colorKey": "BLUE",
+      "plans": []
+    }
+  ]
+}
