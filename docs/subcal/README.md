@@ -10,8 +10,8 @@
 | [theme-guide.md](theme-guide.md) | 인디고 테마 라이트/다크 2 팔레트, 토큰 27개(데이즈와 같은 이름), 타이포 · 모서리, 공통 컴포넌트 | 디자인 · UI 개발 |
 | [module-map.md](module-map.md) | 모듈 목록, 내비게이션 키, 기능 간 의존, 화면별 Event, 개발 순서 | 개발 시작 · 기능 추가 |
 | [data-model-erd.md](data-model-erd.md) | ERD, Room 테이블, 계산하는 값과 저장하는 값, 백업 JSON 형식 | 데이터 작업 |
-| [ads-strategy.md](ads-strategy.md) | 광고 배치 · 빈도, 광고 제거 구매, AdMob 정책 | 수익화 작업 |
-| [infra.md](infra.md) | Firebase Spark 구성, 정책 페이지, 자동 백업, 출시 체크리스트 | 출시 전 |
+| [ads-strategy.md](ads-strategy.md) | 광고 배치 · 빈도, 광고 제거 구매, AdMob 정책 | 출시 단계 |
+| [infra.md](infra.md) | Firebase Spark 구성, 정책 페이지, 자동 백업, 출시 체크리스트 | 출시 단계 (자동 백업은 7단계) |
 | `assets/theme-tokens.json` | 테마 색상 값 원본 (2 팔레트 × 27 토큰) | 디자인 시스템 코드 생성 |
 | `design/{화면}/` | Stitch 시안 16개: `screen.png` + `code.html`. 화면별 폴더는 product-spec 3-2, 따르지 않을 부분은 11장. 색 · 글꼴 · 기능 범위는 이 폴더 문서가 기준이고 시안은 레이아웃 참고용 | 화면 구현 |
 | `design/_stitch-design-system/DESIGN.md` | Stitch 디자인 시스템(Calm Ledger) 원본. 색 값은 `theme-tokens.json`이 기준 | 화면 구현 |
@@ -34,7 +34,8 @@
 - 결제 내역 · 누적 지출 · 절약액은 저장하지 않고 결제 규칙에서 계산 (데이즈의 "자동 기념일은 계산" 원칙과 같음).
 - 해지는 삭제가 아니라 상태. 해지한 구독이 "아낀 돈"의 근거가 된다.
 - 하단 탭은 홈 / 목록 / 캘린더 / 통계 / 더보기.
-- 출시는 3단계: 1차 MVP(관리 · 캘린더 · 알림), 2차(분석 · 절약 · 무료체험 · 위젯), 3차(파티 정산 · 가성비 · 연말 리포트).
+- 기능은 3단계: 1차 MVP(관리 · 캘린더 · 알림), 2차(분석 · 절약 · 무료체험 · 위젯), 3차(파티 정산 · 가성비 · 연말 리포트).
+- **개인용 앱으로 먼저 만든다.** 1 ~ 3차는 Room · DataStore만 쓰고, 외부 설정이 필요한 Firebase · 광고 · 결제 · 정책 페이지 · 스토어 등록은 마지막 "출시 단계"에서 한다 (`module-map.md` 9장).
 
 **기술**
 - Room이 유일한 원본. 기기 변경은 Android 자동 백업 + 직접 내보내는 JSON 백업으로 해결.

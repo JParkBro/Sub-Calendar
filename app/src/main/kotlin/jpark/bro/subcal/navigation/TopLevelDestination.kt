@@ -8,7 +8,7 @@ import jpark.bro.subcal.feature.calendar.api.CalendarKey
 import jpark.bro.subcal.feature.home.api.HomeKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionListKey
 
-/** 하단 탭 (product-spec 3-1). 더보기는 7단계, 통계는 10단계에 추가한다 */
+/** 하단 탭 (product-spec 3-1). 더보기는 6 · 7단계, 통계는 8단계에 추가한다 (module-map 9장) */
 internal enum class TopLevelDestination(
     val key: NavKey,
     @StringRes val labelRes: Int,
