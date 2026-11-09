@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>구독노트 - 구독 상세</title>
+<!-- Tailwind CSS v3 with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#4F46E5',
+              primary: '#3D4FD6',
+              dark: '#2B38A5',
+              surface: '#F4F6F8'
+            },
+            notice: {
+              orange: '#EA580C',
+              badge: '#FFF7ED'
+            }
+          },
+          fontFamily: {
+            pretendard: [
+              'Pretendard',
+              '-apple-system',
+              'BlinkMacSystemFont',
+              'system-ui',
+              'Roboto',
+              'Helvetica Neue',
+              'Segoe UI',
+              'Apple SD Gothic Neo',
+              'Noto Sans KR',
+              'Malgun Gothic',
+              'sans-serif'
+            ]
+          },
+          boxShadow: {
+            card: '0 2px 10px rgba(0, 0, 0, 0.04)',
+            floating: '0 8px 24px rgba(61, 79, 214, 0.12)'
+          }
+        }
+      }
+    };
+  </script>
+<!-- Typography and Base Styles -->
+<style data-purpose="typography">
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    
+    body {
+      font-family: 'Pretendard', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #E2E8F0;
+    }
+  </style>
+<!-- Layout and Utility Helpers -->
+<style data-purpose="layout-helpers">
+    /* Hide scrollbar for clean mobile preview */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-0 sm:p-4 text-slate-800">
+<!-- Mobile Frame Container (Simulated Android Phone Device) -->
+<div class="w-full max-w-[400px] h-[844px] max-h-screen bg-[#F4F6F8] sm:rounded-[36px] overflow-hidden shadow-2xl flex flex-col relative border border-slate-200/80">
+<!-- BEGIN: AndroidStatusBar -->
+<header class="w-full pt-3 px-6 pb-2 flex justify-between items-center text-xs font-semibold text-slate-600 select-none z-10 shrink-0">
+<span>9:41</span>
+<div class="flex items-center space-x-2">
+<!-- Signal Indicator -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9zm0 16.5l-5-3.13C5.78 15.15 5 13.66 5 12c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.66-.78 3.15-2 4.37l-5 3.13z"></path>
+</svg>
+<!-- Wifi Indicator -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4zm0 3.5c3.55 0 6.78 1.41 9.16 3.7L12 18.3 2.84 11.2C5.22 8.91 8.45 7.5 12 7.5z"></path>
+</svg>
+<!-- Battery Indicator -->
+<div class="w-5 h-2.5 border border-slate-600 rounded-sm p-0.5 flex items-center">
+<div class="w-3 h-full bg-slate-600 rounded-xs"></div>
+</div>
+</div>
+</header>
+<!-- END: AndroidStatusBar -->
+<!-- BEGIN: TopAppBar -->
+<nav class="px-5 py-2.5 flex items-center justify-between shrink-0 bg-[#F4F6F8]/90 backdrop-blur-sm z-10">
+<!-- Back Button -->
+<button aria-label="뒤로가기" class="w-10 h-10 -ml-2 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-200/60 active:scale-95 transition-all" type="button">
+<svg class="w-6 h-6 stroke-current stroke-2 fill-none" viewbox="0 0 24 24">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<h1 class="text-base font-bold text-slate-800">구독 상세</h1>
+<!-- More Actions Button -->
+<button aria-label="더보기" class="w-10 h-10 -mr-2 rounded-full flex items-center justify-center text-slate-600 hover:bg-slate-200/60 active:scale-95 transition-all" type="button">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<circle cx="12" cy="5" r="1.75"></circle>
+<circle cx="12" cy="12" r="1.75"></circle>
+<circle cx="12" cy="19" r="1.75"></circle>
+</svg>
+</button>
+</nav>
+<!-- END: TopAppBar -->
+<!-- BEGIN: MainContentScrollArea -->
+<main class="flex-1 overflow-y-auto px-5 pt-1 pb-6 space-y-4 no-scrollbar">
+<!-- Service Profile Header Card -->
+<section class="bg-white rounded-2xl p-4 shadow-card border border-slate-100 flex items-center justify-between" data-purpose="service-header">
+<div class="flex items-center space-x-3.5">
+<!-- Netflix Icon (Dark tile with bold red N) -->
+<div class="w-12 h-12 rounded-xl bg-black flex items-center justify-center shadow-sm shrink-0">
+<span class="text-[#E50914] font-black text-2xl tracking-tighter select-none">N</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center space-x-2">
+<span class="text-lg font-bold text-slate-900 leading-tight">넷플릭스</span>
+<span class="px-2 py-0.5 text-[11px] font-semibold text-brand-primary bg-indigo-50 border border-indigo-100 rounded-full">구독 중</span>
+</div>
+<p class="text-xs text-slate-500 mt-0.5">스탠다드 · 매월 2일 · 신한카드</p>
+</div>
+</div>
+</section>
+<!-- Key Metrics / Statistics (2-Column Grid) -->
+<section class="grid grid-cols-2 gap-3" data-purpose="key-metrics">
+<!-- Monthly Price Card -->
+<div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-card flex flex-col justify-between">
+<span class="text-xs font-medium text-slate-400">월 요금</span>
+<div class="mt-2.5">
+<span class="text-[19px] font-extrabold text-slate-900 tracking-tight">17,000</span>
+<span class="text-sm font-semibold text-slate-700 ml-0.5">원</span>
+</div>
+</div>
+<!-- Cumulative Spent Card -->
+<div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-card flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium text-slate-400">지금까지</span>
+<span class="text-[10px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">28회</span>
+</div>
+<div class="mt-2.5">
+<span class="text-[19px] font-extrabold text-brand-primary tracking-tight">47만 6천</span>
+<span class="text-sm font-semibold text-brand-primary ml-0.5">원</span>
+</div>
+</div>
+</section>
+<!-- Usage & Cost Efficiency Card (가성비 체크) -->
+<section class="bg-gradient-to-r from-white to-indigo-50/50 rounded-2xl p-4 border border-indigo-100 shadow-card flex items-center justify-between" data-purpose="usage-value-check">
+<div>
+<div class="flex items-center space-x-1.5">
+<span class="text-[14px] font-bold text-slate-800">이번 달 2번 봤어요</span>
+</div>
+<p class="text-xs font-medium text-slate-500 mt-0.5">
+            1회당 <span class="text-brand-primary font-bold">8,500원</span>
+</p>
+</div>
+<!-- Quick Log Button -->
+<button class="px-3.5 py-1.5 bg-white border border-brand-primary/30 hover:border-brand-primary text-brand-primary font-semibold text-xs rounded-xl shadow-xs active:bg-brand-50 active:scale-95 transition-all flex items-center space-x-1" id="checkButton" type="button">
+<svg class="w-3.5 h-3.5 stroke-current stroke-2 fill-none" viewbox="0 0 24 24">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>1 체크</span>
+</button>
+</section>
+<!-- Payment History List -->
+<section class="bg-white rounded-2xl p-4 border border-slate-100 shadow-card" data-purpose="payment-history">
+<div class="flex items-center justify-between pb-3 border-b border-slate-100">
+<h2 class="text-sm font-bold text-slate-800">결제 이력</h2>
+<span class="text-xs text-slate-400 font-medium">최근 4개월</span>
+</div>
+<div class="divide-y divide-slate-50 text-sm">
+<!-- Item 1 -->
+<div class="py-3 flex items-center justify-between">
+<span class="text-slate-600 text-[13px] font-medium">2026.10.02</span>
+<div class="flex items-center space-x-1.5">
+<span class="font-bold text-slate-800">17,000원</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="py-3 flex items-center justify-between">
+<span class="text-slate-600 text-[13px] font-medium">2026.09.02</span>
+<div class="flex items-center space-x-1.5">
+<span class="font-bold text-slate-800">17,000원</span>
+</div>
+</div>
+<!-- Item 3: Price Increased Row -->
+<div class="py-3 flex items-center justify-between">
+<span class="text-slate-600 text-[13px] font-medium">2026.08.02</span>
+<div class="flex items-center space-x-1.5">
+<span class="font-bold text-slate-800">17,000원</span>
+<span class="px-1.5 py-0.5 text-[10px] font-bold text-notice-orange bg-notice-badge rounded-md border border-orange-200">인상</span>
+</div>
+</div>
+<!-- Item 4: Previous Baseline Row -->
+<div class="py-3 flex items-center justify-between">
+<span class="text-slate-400 text-[13px] font-medium">2026.07.02</span>
+<span class="font-medium text-slate-400">13,500원</span>
+</div>
+</div>
+</section>
+<!-- Memo Card -->
+<section class="bg-white rounded-2xl p-4 border border-slate-100 shadow-card" data-purpose="memo-section">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-wider">메모</span>
+<button class="text-xs text-slate-400 hover:text-slate-600 flex items-center space-x-1" type="button">
+<svg class="w-3.5 h-3.5 stroke-current stroke-2 fill-none" viewbox="0 0 24 24">
+<path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>수정</span>
+</button>
+</div>
+<p class="mt-2 text-sm text-slate-700 font-medium">가족 공유 X (개인 프로필 전용)</p>
+</section>
+</main>
+<!-- END: MainContentScrollArea -->
+<!-- BEGIN: BottomActionButtons -->
+<footer class="p-4 bg-white/95 backdrop-blur-md border-t border-slate-200/70 shrink-0" data-purpose="bottom-actions">
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Pause Button -->
+<button class="py-3 px-4 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-50 active:bg-slate-100 active:scale-[0.98] transition-all text-center" type="button">
+          일시정지
+        </button>
+<!-- Unsubscribe / Cancel Flow Button -->
+<button class="py-3 px-4 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-50 active:bg-slate-100 active:scale-[0.98] transition-all flex items-center justify-center space-x-1" type="button">
+<span>해지하러 가기</span>
+<svg class="w-3.5 h-3.5 stroke-current stroke-2 fill-none ml-0.5" viewbox="0 0 24 24">
+<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- Android Home Navigation Gesture Bar Indicator -->
+<div class="w-32 h-1 bg-slate-300 rounded-full mx-auto mt-3"></div>
+</footer>
+<!-- END: BottomActionButtons -->
+</div>
+<!-- Interactive script for usage counter button demonstration -->
+<script data-purpose="interactive-actions">
+    document.getElementById('checkButton')?.addEventListener('click', function() {
+      this.classList.add('bg-brand-50');
+      setTimeout(() => {
+        this.classList.remove('bg-brand-50');
+      }, 200);
+    });
+  </script>
+</body></html>

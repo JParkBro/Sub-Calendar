@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>구독 정보 입력 - 디즈니+ | 구독노트</title>
+<!-- Tailwind CSS CDN with forms plugin -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: '#3D4FD6',
+              primaryDark: '#2E3DB8',
+              primaryLight: '#EEF1FC',
+              surface: '#F4F6F8',
+              surfaceAlt: '#F8F9FA',
+              border: '#E5E8EB',
+              textPrimary: '#191F28',
+              textSecondary: '#4E5968',
+              textMuted: '#8B95A1',
+              accentOrange: '#FF6B4A',
+            },
+            disney: '#0B1538'
+          },
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'sans-serif'],
+          },
+          boxShadow: {
+            subtle: '0 2px 8px -2px rgba(0, 0, 0, 0.05)',
+            btn: '0 4px 14px 0 rgba(61, 79, 214, 0.28)',
+          }
+        }
+      }
+    };
+  </script>
+<!-- BEGIN: Custom Font & Reset Styles -->
+<style data-purpose="typography">
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+  </style>
+<style data-purpose="custom-layout">
+    /* Hide scrollbars for clean app viewport */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<!-- END: Custom Font & Reset Styles -->
+</head>
+<body class="bg-slate-100 text-brand-textPrimary flex justify-center items-center min-h-screen p-0 sm:p-4">
+<!-- BEGIN: MobileDeviceFrame -->
+<main class="w-full max-w-[412px] bg-white h-screen sm:h-[890px] sm:rounded-[36px] shadow-2xl flex flex-col overflow-hidden relative border-0 sm:border border-slate-200" data-purpose="mobile-screen-container">
+<!-- BEGIN: SystemStatusBar -->
+<header class="w-full pt-3 px-6 pb-2 flex justify-between items-center bg-white z-20 shrink-0" data-purpose="android-status-bar">
+<!-- Time -->
+<span class="text-sm font-semibold tracking-tight text-brand-textPrimary">9:41</span>
+<!-- Android System Icons -->
+<div aria-label="System status icons" class="flex items-center gap-1.5 text-brand-textPrimary">
+<!-- Cellular Icon -->
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
+<path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9zm0 2c3.87 0 7 3.13 7 7 0 1.54-.5 2.97-1.35 4.13L12 19.54l-5.65-3.41C5.5 14.97 5 13.54 5 12c0-3.87 3.13-7 7-7z"></path>
+</svg>
+<!-- Wifi Icon -->
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
+<path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0 0 12 4zm0 3c3.78 0 7.22 1.48 9.77 3.9L12 18.67 2.23 10.9A13.9 13.9 0 0 1 12 7z"></path>
+</svg>
+<!-- Battery Icon -->
+<div class="w-5 h-2.5 border border-brand-textPrimary rounded-sm p-0.5 flex items-center">
+<div class="bg-brand-textPrimary h-full w-full rounded-2xs"></div>
+</div>
+</div>
+</header>
+<!-- END: SystemStatusBar -->
+<!-- BEGIN: AppNavigationBar -->
+<nav class="h-14 px-4 flex items-center justify-between border-b border-brand-border/60 bg-white shrink-0" data-purpose="top-navigation">
+<div class="flex items-center gap-2">
+<button aria-label="뒤로 가기" class="p-2 -ml-1 text-brand-textPrimary hover:bg-brand-surface rounded-full transition-colors active:scale-95" type="button">
+<svg class="w-6 h-6 stroke-current stroke-2 fill-none" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+</button>
+<!-- Brand Icon & Name -->
+<div class="flex items-center gap-2 ml-0.5">
+<div class="w-8 h-8 rounded-lg bg-disney flex items-center justify-center text-white shadow-xs">
+<!-- Stylized Disney D+ logo -->
+<span class="text-sm font-black italic tracking-tighter text-blue-200">D+</span>
+</div>
+<h1 class="text-lg font-bold text-brand-textPrimary tracking-tight">디즈니+</h1>
+</div>
+</div>
+<!-- Action Button / Reset -->
+<button class="text-xs font-medium text-brand-textMuted px-2.5 py-1.5 rounded-md hover:bg-brand-surface active:text-brand-textPrimary transition-colors" type="button">
+        초기화
+      </button>
+</nav>
+<!-- END: AppNavigationBar -->
+<!-- BEGIN: FormScrollContent -->
+<div class="flex-1 overflow-y-auto px-5 py-4 space-y-6 no-scrollbar pb-32" data-purpose="form-fields-container">
+<!-- BEGIN: PlanSelectionSection -->
+<section aria-labelledby="plan-section-label" class="space-y-2.5">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-brand-textSecondary tracking-normal" id="plan-section-label">요금제</span>
+<span class="text-[11px] text-brand-textMuted">플랜 선택 시 금액이 자동 입력됩니다</span>
+</div>
+<div aria-label="요금제 선택" class="grid grid-cols-2 gap-2" role="radiogroup">
+<!-- Unselected Plan -->
+<button aria-checked="false" class="py-2.5 px-3 rounded-xl border border-brand-border bg-white text-brand-textSecondary text-xs font-medium hover:border-slate-300 hover:bg-brand-surfaceAlt flex items-center justify-center gap-1.5 transition-all" role="radio" type="button">
+<span>스탠다드</span>
+<span class="text-brand-textMuted font-normal">9,900</span>
+</button>
+<!-- Selected Plan (Premium 13,900) -->
+<button aria-checked="true" class="py-2.5 px-3 rounded-xl border-2 border-brand-primary bg-brand-primaryLight/70 text-brand-primary text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition-all relative" role="radio" type="button">
+<span>프리미엄</span>
+<span class="font-extrabold text-brand-primary">13,900</span>
+<div class="w-1.5 h-1.5 rounded-full bg-brand-primary absolute -top-0.5 -right-0.5"></div>
+</button>
+</div>
+</section>
+<!-- END: PlanSelectionSection -->
+<!-- BEGIN: PriceFieldSection -->
+<section class="bg-brand-surface rounded-2xl p-4 flex items-center justify-between border border-slate-100" data-purpose="amount-card">
+<div>
+<label class="block text-xs font-medium text-brand-textMuted mb-0.5" for="price-input">금액</label>
+<span class="text-xs text-brand-textSecondary">매월 정기결제</span>
+</div>
+<div class="flex items-center gap-1">
+<input class="w-28 text-right font-extrabold text-xl text-brand-textPrimary bg-transparent border-0 p-0 focus:ring-0 cursor-pointer" id="price-input" type="text" value="13,900"/>
+<span class="text-base font-bold text-brand-textPrimary">원</span>
+</div>
+</section>
+<!-- END: PriceFieldSection -->
+<!-- BEGIN: BillingCycleSection -->
+<section aria-labelledby="billing-cycle-label" class="space-y-2">
+<label class="text-xs font-semibold text-brand-textSecondary" id="billing-cycle-label">결제 주기</label>
+<div aria-label="결제 주기" class="grid grid-cols-4 gap-2" role="radiogroup">
+<!-- 매월 (Active) -->
+<button aria-checked="true" class="h-9 rounded-xl bg-brand-textPrimary text-white text-xs font-semibold flex items-center justify-center shadow-xs transition-transform active:scale-95" role="radio" type="button">
+            매월
+          </button>
+<!-- 매년 -->
+<button aria-checked="false" class="h-9 rounded-xl bg-brand-surface text-brand-textSecondary text-xs font-medium border border-transparent hover:border-slate-200 transition-colors" role="radio" type="button">
+            매년
+          </button>
+<!-- 매주 -->
+<button aria-checked="false" class="h-9 rounded-xl bg-brand-surface text-brand-textSecondary text-xs font-medium border border-transparent hover:border-slate-200 transition-colors" role="radio" type="button">
+            매주
+          </button>
+<!-- 직접 -->
+<button aria-checked="false" class="h-9 rounded-xl bg-brand-surface text-brand-textSecondary text-xs font-medium border border-transparent hover:border-slate-200 transition-colors" role="radio" type="button">
+            직접
+          </button>
+</div>
+</section>
+<!-- END: BillingCycleSection -->
+<!-- BEGIN: DetailFormList -->
+<section class="bg-white rounded-2xl border border-brand-border/80 divide-y divide-brand-border/60 overflow-hidden" data-purpose="structured-info-fields">
+<!-- 첫 결제일 -->
+<div class="flex items-center justify-between px-4 py-3.5 hover:bg-brand-surface/50 cursor-pointer transition-colors">
+<span class="text-sm font-medium text-brand-textSecondary">첫 결제일</span>
+<button class="flex items-center gap-1.5 text-sm font-semibold text-brand-textPrimary focus:outline-none" type="button">
+<span>2026.11.01</span>
+<svg class="w-4 h-4 text-brand-textMuted stroke-current stroke-2 fill-none" viewbox="0 0 24 24">
+<rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect>
+<line x1="16" x2="16" y1="2" y2="6"></line>
+<line x1="8" x2="8" y1="2" y2="6"></line>
+<line x1="3" x2="21" y1="10" y2="10"></line>
+</svg>
+</button>
+</div>
+<!-- 결제 수단 -->
+<div class="flex items-center justify-between px-4 py-3.5 hover:bg-brand-surface/50 cursor-pointer transition-colors">
+<span class="text-sm font-medium text-brand-textSecondary">결제 수단</span>
+<button class="flex items-center gap-1.5 text-sm font-semibold text-brand-textPrimary focus:outline-none" type="button">
+<span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>
+<span>신한카드</span>
+<svg class="w-4 h-4 text-brand-textMuted stroke-current stroke-2 fill-none" viewbox="0 0 24 24">
+<polyline points="6 9 12 15 18 9"></polyline>
+</svg>
+</button>
+</div>
+<!-- 카테고리 -->
+<div class="flex items-center justify-between px-4 py-3.5 hover:bg-brand-surface/50 cursor-pointer transition-colors">
+<span class="text-sm font-medium text-brand-textSecondary">카테고리</span>
+<button class="flex items-center gap-1.5 text-sm font-semibold text-brand-textPrimary focus:outline-none" type="button">
+<span class="px-1.5 py-0.5 rounded text-[11px] bg-indigo-50 text-brand-primary font-medium">OTT</span>
+<span>영상</span>
+<svg class="w-4 h-4 text-brand-textMuted stroke-current stroke-2 fill-none" viewbox="0 0 24 24">
+<polyline points="6 9 12 15 18 9"></polyline>
+</svg>
+</button>
+</div>
+</section>
+<!-- END: DetailFormList -->
+<!-- BEGIN: FreeTrialCardSection -->
+<section class="rounded-2xl border border-brand-primary/20 bg-brand-primaryLight/35 p-4 space-y-3.5" data-purpose="trial-highlight-box">
+<!-- Toggle header row -->
+<div class="flex items-center justify-between">
+<div class="space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="text-sm font-bold text-brand-textPrimary tracking-tight">무료체험 중이에요</span>
+<span class="px-1.5 py-0.5 bg-brand-primary text-white text-[10px] font-bold rounded">D-7</span>
+</div>
+<p class="text-xs text-brand-textSecondary">종료일에 맞춰 결제 전 미리 알려드려요</p>
+</div>
+<!-- Switch Toggle (ON state) -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="free-trial-toggle" type="checkbox"/>
+<div class="w-12 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-6 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+</label>
+</div>
+<!-- Free Trial Expire Field (Visible conditionally when toggled on) -->
+<div class="pt-2 border-t border-brand-primary/10 flex items-center justify-between text-xs">
+<span class="font-medium text-brand-textSecondary">체험 종료일</span>
+<button class="font-bold text-brand-primary bg-white/80 border border-brand-primary/20 px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-2xs" type="button">
+<span>2026.10.31</span>
+<svg class="w-3.5 h-3.5 stroke-current stroke-2 fill-none" viewbox="0 0 24 24">
+<polyline points="6 9 12 15 18 9"></polyline>
+</svg>
+</button>
+</div>
+</section>
+<!-- END: FreeTrialCardSection -->
+<!-- BEGIN: NotificationSection -->
+<section class="bg-white rounded-2xl border border-brand-border/80 px-4 py-3.5 flex items-center justify-between" data-purpose="notification-setting-card">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-brand-textSecondary">
+<svg class="w-4 h-4 fill-none stroke-current stroke-2" viewbox="0 0 24 24">
+<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+<path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+</svg>
+</div>
+<span class="text-sm font-medium text-brand-textSecondary">알림</span>
+</div>
+<button class="flex items-center gap-1 text-sm font-semibold text-brand-textPrimary focus:outline-none" type="button">
+<span class="text-brand-primary font-bold">결제 1일 전</span>
+<svg class="w-4 h-4 text-brand-textMuted stroke-current stroke-2 fill-none" viewbox="0 0 24 24">
+<polyline points="6 9 12 15 18 9"></polyline>
+</svg>
+</button>
+</section>
+<!-- END: NotificationSection -->
+</div>
+<!-- END: FormScrollContent -->
+<!-- BEGIN: BottomStickyAction -->
+<footer class="absolute bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-slate-100 p-4 pb-6 sm:pb-5 space-y-3 z-30" data-purpose="bottom-action-panel">
+<!-- Main Action Button -->
+<button class="w-full h-13 py-3.5 px-4 bg-brand-primary hover:bg-brand-primaryDark active:scale-[0.99] text-white text-base font-bold rounded-xl shadow-btn transition duration-150 flex items-center justify-center gap-2" type="button">
+<span>구독 추가</span>
+</button>
+<!-- Android Home Bar indicator -->
+<div aria-hidden="true" class="w-32 h-1 bg-slate-300 rounded-full mx-auto"></div>
+</footer>
+<!-- END: BottomStickyAction -->
+</main>
+<!-- END: MobileDeviceFrame -->
+<!-- BEGIN: InteractiveScripts -->
+<script data-purpose="plan-amount-toggle">
+    document.addEventListener('DOMContentLoaded', () => {
+      const priceInput = document.getElementById('price-input');
+      const planButtons = document.querySelectorAll('[role="radio"]');
+
+      // Simple UX showcase for plan changing
+      planButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const text = btn.innerText;
+          if (text.includes('9,900')) {
+            if (priceInput) priceInput.value = '9,900';
+          } else if (text.includes('13,900')) {
+            if (priceInput) priceInput.value = '13,900';
+          }
+        });
+      });
+    });
+  </script>
+<!-- END: InteractiveScripts -->
+</body></html>

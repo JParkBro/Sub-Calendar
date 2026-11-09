@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>유튜브 프리미엄 파티 정산 - Calm Ledger</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Plus Jakarta Sans & Pretendard styling support -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans+KR:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#4f46e5',
+              600: '#3d4fd6',
+              700: '#313cb8',
+              900: '#1e2468',
+            },
+            kakao: {
+              yellow: '#FEE500',
+              label: '#191919'
+            },
+            surface: {
+              bg: '#f8f9ff',
+              card: '#ffffff',
+              border: '#eaedf6'
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans KR"', '"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-scroll-and-reset">
+    /* Reset and mobile viewport setup */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Noto Sans KR', 'Plus Jakarta Sans', sans-serif;
+    }
+    /* Hide scrollbars for slick app look */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="p-0 sm:p-4 bg-slate-900">
+<!-- Mobile Device Shell Frame -->
+<div class="w-full max-w-[390px] h-[844px] bg-[#f8f9ff] text-slate-800 flex flex-col relative overflow-hidden sm:rounded-[44px] shadow-2xl border-0 sm:border-[8px] sm:border-slate-800">
+<!-- BEGIN: AndroidStatusBar -->
+<header class="w-full pt-3 px-6 pb-2 flex items-center justify-between text-xs font-semibold text-slate-700 select-none shrink-0" data-purpose="status-bar">
+<span>9:41</span>
+<!-- Connectivity & Battery icons -->
+<div class="flex items-center space-x-1.5 text-slate-600">
+<!-- Signal Icon -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z" opacity="0.2"></path>
+<rect height="5" rx="0.5" width="3" x="2" y="16"></rect>
+<rect height="9" rx="0.5" width="3" x="7" y="12"></rect>
+<rect height="13" rx="0.5" width="3" x="12" y="8"></rect>
+<rect height="17" rx="0.5" width="3" x="17" y="4"></rect>
+</svg>
+<!-- Wi-Fi Icon -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0012 4zm0 4c3.48 0 6.67 1.34 9.06 3.53L12 19.53 2.94 11.53C5.33 9.34 8.52 8 12 8z"></path>
+</svg>
+<!-- Battery Icon -->
+<div class="w-5 h-2.5 border border-slate-700 rounded-sm p-0.5 flex items-center">
+<div class="w-full h-full bg-slate-800 rounded-2xs"></div>
+</div>
+</div>
+</header>
+<!-- END: AndroidStatusBar -->
+<!-- BEGIN: TopAppBar -->
+<nav class="px-5 py-2.5 flex items-center justify-between shrink-0" data-purpose="app-bar">
+<!-- Back Button -->
+<button aria-label="뒤로가기" class="w-9 h-9 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-200/60 active:scale-95 transition-transform">
+<svg class="w-5 h-5 stroke-[2.2] stroke-current" fill="none" viewbox="0 0 24 24">
+<path d="M15.75 19.5L8.25 12l7.5-7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Screen Title -->
+<div class="flex items-center space-x-2">
+<!-- YouTube Small Logo Accent -->
+<div class="w-5 h-5 rounded-md bg-red-600 flex items-center justify-center text-white shadow-xs">
+<svg class="w-3 h-3 fill-current" viewbox="0 0 24 24">
+<path d="M8 5v14l11-7z"></path>
+</svg>
+</div>
+<h1 class="text-base font-bold text-slate-900 tracking-tight">유튜브 프리미엄 파티</h1>
+</div>
+<!-- More Options Button -->
+<button aria-label="메뉴 더보기" class="w-9 h-9 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-200/60 active:scale-95 transition-transform">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<circle cx="12" cy="5" r="1.75"></circle>
+<circle cx="12" cy="12" r="1.75"></circle>
+<circle cx="12" cy="19" r="1.75"></circle>
+</svg>
+</button>
+</nav>
+<!-- END: TopAppBar -->
+<!-- Scrollable Content Area -->
+<main class="flex-1 overflow-y-auto no-scrollbar px-5 pt-2 pb-6 space-y-4" data-purpose="main-content">
+<!-- BEGIN: Area1_SettlementSummaryCard -->
+<!-- Summary Card with Calm Ledger Brand Navy/Indigo gradient -->
+<section class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#303cb5] to-[#1e2468] p-5 text-white shadow-lg shadow-indigo-900/15" data-purpose="settlement-summary">
+<!-- Ambient decorative blur -->
+<div class="absolute -right-8 -top-8 w-28 h-28 bg-indigo-400/20 rounded-full blur-xl pointer-events-none"></div>
+<!-- Top summary row -->
+<div class="flex justify-between items-start mb-3">
+<div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-white/15 text-indigo-100 backdrop-blur-xs mb-1.5">
+              자동 1/N 정산
+            </span>
+<div class="text-xs text-indigo-200 font-medium">총 14,900원 ÷ 4명</div>
+</div>
+<!-- Per person price badge -->
+<div class="text-right">
+<span class="text-xs text-indigo-200 block font-normal">1인 부담금</span>
+<div class="text-xl font-black tracking-tight text-white mt-0.5">3,725원</div>
+</div>
+</div>
+<!-- Progress bar visual split -->
+<div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden mb-3.5">
+<div class="bg-emerald-400 h-full rounded-full transition-all duration-500" style="width: 75%"></div>
+</div>
+<!-- Bottom metadata and payer indicator -->
+<div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs text-indigo-100/90">
+<div class="flex items-center space-x-1.5">
+<svg class="w-3.5 h-3.5 text-indigo-300" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>매월 14일 정기결제</span>
+</div>
+<span class="font-semibold text-emerald-300 flex items-center space-x-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>내가 결제자</span>
+</span>
+</div>
+</section>
+<!-- END: Area1_SettlementSummaryCard -->
+<!-- BEGIN: Area2_MonthlySettlementList -->
+<section class="bg-white rounded-2xl p-4 shadow-xs border border-slate-100" data-purpose="monthly-settlement-status">
+<!-- Section Header -->
+<div class="flex items-center justify-between mb-3 px-1">
+<div class="flex items-center space-x-2">
+<h2 class="text-base font-bold text-slate-900 tracking-tight">11월 정산 현황</h2>
+<span class="text-[11px] font-semibold text-slate-400">11.14 기준</span>
+</div>
+<div class="flex items-center space-x-1">
+<span class="text-xs font-semibold text-slate-500">진행도</span>
+<span class="text-xs font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md">2 / 3 완료</span>
+</div>
+</div>
+<!-- Member List -->
+<div class="divide-y divide-slate-100" data-purpose="member-list">
+<!-- Member 1: 나 (결제자) -->
+<div class="py-3 flex items-center justify-between hover:bg-slate-50/70 px-2 rounded-xl transition-colors">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-slate-700 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                나
+              </div>
+<div>
+<div class="text-sm font-bold text-slate-900 flex items-center space-x-1.5">
+<span>나</span>
+<span class="text-[10px] bg-slate-100 text-slate-600 font-semibold px-1.5 py-0.2 rounded border border-slate-200">결제자</span>
+</div>
+<div class="text-xs text-slate-400">대표 계정주</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs font-semibold text-slate-400 px-2 py-1">-</span>
+</div>
+</div>
+<!-- Member 2: 민지 (정산 완료) -->
+<div class="py-3 flex items-center justify-between hover:bg-slate-50/70 px-2 rounded-xl transition-colors">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-indigo-100 text-brand-600 font-bold text-xs flex items-center justify-center">
+                민
+              </div>
+<div>
+<div class="text-sm font-semibold text-slate-800">민지</div>
+<div class="text-[11px] text-slate-400">11월 14일 송금 완료</div>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-100/80">
+<svg class="w-3 h-3 mr-1 stroke-current stroke-[2.5]" fill="none" viewbox="0 0 24 24">
+<path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+              받음
+            </span>
+</div>
+<!-- Member 3: 준호 (정산 완료) -->
+<div class="py-3 flex items-center justify-between hover:bg-slate-50/70 px-2 rounded-xl transition-colors">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 font-bold text-xs flex items-center justify-center">
+                준
+              </div>
+<div>
+<div class="text-sm font-semibold text-slate-800">준호</div>
+<div class="text-[11px] text-slate-400">11월 15일 송금 완료</div>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-100/80">
+<svg class="w-3 h-3 mr-1 stroke-current stroke-[2.5]" fill="none" viewbox="0 0 24 24">
+<path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+              받음
+            </span>
+</div>
+<!-- Member 4: 서연 (미정산 대상) -->
+<div class="py-3 flex items-center justify-between bg-amber-50/40 -mx-1 px-3 rounded-xl border border-amber-200/50">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 font-bold text-xs flex items-center justify-center relative">
+                서
+                <span class="w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white absolute -top-0.5 -right-0.5"></span>
+</div>
+<div>
+<div class="text-sm font-bold text-slate-900 flex items-center space-x-1">
+<span>서연</span>
+<span class="text-[10px] text-rose-500 font-semibold">리마인더 대상</span>
+</div>
+<div class="text-[11px] text-rose-600/80 font-medium">3,725원 대기 중</div>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-700 border border-rose-200">
+              미정산
+            </span>
+</div>
+</div>
+<!-- Add Member Button CTA -->
+<button class="w-full mt-2.5 py-2.5 flex items-center justify-center text-xs font-bold text-brand-600 hover:bg-brand-50/70 rounded-xl transition-colors border border-dashed border-indigo-200" data-purpose="add-member-button">
+<svg class="w-4 h-4 mr-1.5 stroke-[2.5] stroke-current" fill="none" viewbox="0 0 24 24">
+<path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          멤버 추가하기
+        </button>
+</section>
+<!-- END: Area2_MonthlySettlementList -->
+<!-- BEGIN: Area3_MessagePreviewCard -->
+<section class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs relative" data-purpose="message-preview-container">
+<!-- Label row -->
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center space-x-1.5 text-xs font-semibold text-slate-500">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>정산 알림 메시지 미리보기</span>
+</div>
+<button class="text-[11px] text-brand-600 font-semibold hover:underline">문구 수정</button>
+</div>
+<!-- Speech bubble message -->
+<div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100 text-slate-800 text-xs leading-relaxed font-medium select-all">
+<p class="text-slate-900 font-semibold mb-1">
+            "서연아 이번 달 유튜브 프리미엄 3,725원 보내줘! 🙏"
+          </p>
+<p class="text-[11px] text-slate-400">
+            계좌: 토스뱅크 1000-00-123456 (예금주: 김정산)
+          </p>
+</div>
+<p class="mt-2 text-[10px] text-slate-400 text-right">
+          미정산자 서연 1명에게 전송됩니다
+        </p>
+</section>
+<!-- END: Area3_MessagePreviewCard -->
+</main>
+<!-- BEGIN: BottomStickyActionCTA -->
+<footer class="p-4 bg-white/95 backdrop-blur-md border-t border-slate-100 shrink-0 space-y-2" data-purpose="bottom-cta-dock">
+<!-- Main Kakao Settlement Action Button -->
+<button class="w-full h-12 bg-kakao-yellow hover:bg-[#FADA0A] active:scale-[0.99] transition-all rounded-xl flex items-center justify-center space-x-2 text-kakao-label font-bold text-sm shadow-sm" data-purpose="kakao-request-button">
+<!-- Kakao Speech Bubble Icon -->
+<svg class="w-4 h-4 fill-[#381E1F]" viewbox="0 0 24 24">
+<path d="M12 3C6.48 3 2 6.48 2 10.77c0 2.76 1.83 5.18 4.6 6.54l-1.18 4.36c-.1.38.33.68.66.47l5.22-3.46c.23.02.46.03.7.03 5.52 0 10-3.48 10-7.77S17.52 3 12 3z"></path>
+</svg>
+<span>카카오톡으로 정산 요청</span>
+</button>
+<!-- Sub Alternative Sharing (Android System Share Intent) -->
+<button class="w-full py-1 text-center text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors" data-purpose="system-share-intent">
+        다른 앱으로 공유하기 (시스템 공유)
+      </button>
+<!-- Home bar indicator (iOS/Android gesture bar) -->
+<div class="w-32 h-1 bg-slate-300 rounded-full mx-auto mt-1"></div>
+</footer>
+<!-- END: BottomStickyActionCTA -->
+</div>
+</body></html>

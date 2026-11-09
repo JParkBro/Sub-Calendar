@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;min-height:100%;}body{overscroll-behavior-y:none;background-color:#f8f9ff;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-container": "#541d00", "on-surface-variant": "#454654", "secondary": "#a33e00", "on-primary": "#ffffff", "primary": "#1f33be", "background": "#f8f9ff", "surface": "#f8f9ff", "on-surface": "#161c25", "surface-container-highest": "#dde3ef", "secondary-fixed-dim": "#ffb596", "primary-container": "#3d4fd6", "on-error-container": "#93000a", "on-primary-fixed": "#000b62", "on-tertiary-fixed-variant": "#00531c", "tertiary-fixed-dim": "#53e16f", "on-primary-fixed-variant": "#1e32bd", "primary-fixed-dim": "#bcc2ff", "secondary-container": "#fd6604", "inverse-on-surface": "#ebf1fe", "inverse-primary": "#bcc2ff", "on-error": "#ffffff", "surface-dim": "#d5dae7", "surface-container": "#e9eefb", "primary-fixed": "#dfe0ff", "outline": "#757686", "on-secondary-fixed-variant": "#7c2e00", "surface-bright": "#f8f9ff", "surface-tint": "#3c4ed5", "outline-variant": "#c5c5d7", "surface-variant": "#dde3ef", "inverse-surface": "#2b313a", "surface-container-high": "#e3e8f5", "tertiary-container": "#006f28", "tertiary": "#00541d", "on-tertiary-container": "#69f581", "on-secondary-fixed": "#360f00", "secondary-fixed": "#ffdbcd", "error": "#ba1a1a", "tertiary-fixed": "#72fe88", "on-tertiary": "#ffffff", "on-primary-container": "#d4d7ff", "on-secondary": "#ffffff", "error-container": "#ffdad6", "surface-container-low": "#eff4ff", "on-tertiary-fixed": "#002107", "on-background": "#161c25", "surface-container-lowest": "#ffffff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-lg": "1.25rem", "space-sm": "0.5rem", "space-md": "1rem", "space-xl": "2rem", "gutter": "1rem", "margin": "1.25rem" }, "fontFamily": { "headline-lg-mobile": ["Plus Jakarta Sans"], "title-lg": ["Plus Jakarta Sans"], "title-md": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "numeral-display": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"] }, "fontSize": { "headline-lg-mobile": ["26px", { "lineHeight": "34px", "fontWeight": "700" }], "title-lg": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "18px", "fontWeight": "600" }], "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "numeral-display": ["28px", { "lineHeight": "36px", "fontWeight": "800" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "30px", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><h1 class="font-title-lg text-title-lg text-on-surface font-semibold tracking-tight">Home</h1></div><div class="flex items-center gap-space-xs"><button aria-label="검색" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">search</span></button><button aria-label="알림" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors relative"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-secondary-container"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Screen Sub-Header / Title Row -->
+<div class="px-margin pt-space-md pb-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">구독 목록</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-semibold">12</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button aria-label="선택 관리" class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface-variant" id="multi-select-btn">
+<span class="material-symbols-outlined text-[20px]">checklist</span>
+</button>
+<button aria-label="필터 옵션" class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Status Filter Pills (Horizontal Scroll) -->
+<div class="px-margin py-space-xs overflow-x-auto no-scrollbar flex items-center gap-space-sm">
+<button class="filter-tab active flex items-center gap-1.5 px-4 h-9 rounded-full bg-primary text-on-primary font-label-md text-label-md font-semibold shrink-0 transition-transform active:scale-95 shadow-sm" data-filter="active">
+<span>활성</span>
+<span class="px-1.5 py-0.2 rounded-full bg-primary-container text-on-primary text-[11px] font-bold">8</span>
+</button>
+<button class="filter-tab flex items-center gap-1.5 px-4 h-9 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium shrink-0 transition-transform active:scale-95" data-filter="paused">
+<span>일시정지</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-high text-on-surface-variant text-[11px]">1</span>
+</button>
+<button class="filter-tab flex items-center gap-1.5 px-4 h-9 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium shrink-0 transition-transform active:scale-95" data-filter="canceled">
+<span>해지</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-high text-on-surface-variant text-[11px]">3</span>
+</button>
+<button class="filter-tab flex items-center gap-1.5 px-4 h-9 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium shrink-0 transition-transform active:scale-95" data-filter="trial">
+<span>체험</span>
+<span class="px-1.5 py-0.2 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[11px] font-semibold">1</span>
+</button>
+</div>
+<!-- Sorting & Monthly Active Sum Strip -->
+<div class="px-margin pt-space-md pb-space-xs flex items-center justify-between">
+<div class="relative inline-block text-left">
+<button class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md font-semibold transition-colors" id="sort-selector-btn">
+<span id="current-sort-label">결제일순</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">expand_more</span>
+</button>
+<!-- Sort Dropdown Modal Card -->
+<div class="hidden absolute left-0 mt-1 w-36 rounded-xl bg-surface-container-lowest shadow-xl z-30 p-1 flex-col gap-0.5" id="sort-dropdown-menu">
+<button class="sort-option w-full text-left px-3 py-2 rounded-lg font-label-md text-label-md text-primary font-semibold bg-surface-container-low flex items-center justify-between" data-sort="billing-date">
+<span>결제일순</span>
+<span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+<button class="sort-option w-full text-left px-3 py-2 rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container-low flex items-center justify-between" data-sort="price">
+<span>금액순</span>
+</button>
+<button class="sort-option w-full text-left px-3 py-2 rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container-low flex items-center justify-between" data-sort="name">
+<span>이름순</span>
+</button>
+</div>
+</div>
+<!-- Active Spend Counter Badge -->
+<div class="flex items-baseline gap-1.5 bg-surface-container-lowest px-3 py-1 rounded-xl shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">총 지출</span>
+<span class="font-title-md text-title-md text-primary font-bold tracking-tight">월 87,400원</span>
+</div>
+</div>
+<!-- Subscription List Content Container -->
+<div class="px-margin flex flex-col gap-space-lg pt-space-xs pb-space-xl">
+<!-- Category 1: 영상 (Streaming & Video) -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">smart_display</span>
+<h3 class="font-label-lg text-label-lg text-on-surface-variant font-bold tracking-tight">영상</h3>
+<span class="font-label-sm text-label-sm text-outline font-medium">3</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">42,800원/월</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Item 1: Netflix -->
+<article class="subscription-item bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-200 rounded-xl p-3.5 flex items-center justify-between shadow-sm active:scale-[0.99] cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-11 rounded-xl bg-inverse-surface text-on-primary flex items-center justify-center font-bold text-[18px] shrink-0 tracking-tighter shadow-sm">
+<span class="text-error font-extrabold">N</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">넷플릭스 스탠다드</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-label-sm text-label-sm text-secondary font-semibold bg-secondary-fixed px-1.5 py-0.2 rounded-full">D-2</span>
+<span class="font-body-md text-body-md text-on-surface-variant truncate">매월 2일 결제</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 pl-2">
+<span class="font-title-md text-title-md text-on-surface font-extrabold tracking-tight">17,000원</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">자동결제</span>
+</div>
+</article>
+<!-- Item 2: YouTube Premium -->
+<article class="subscription-item bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-200 rounded-xl p-3.5 flex items-center justify-between shadow-sm active:scale-[0.99] cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-11 rounded-xl bg-error-container text-on-error-container flex items-center justify-center font-bold text-[15px] shrink-0 shadow-sm">
+<span class="font-extrabold tracking-tight">YT</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">유튜브 프리미엄</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-md bg-surface-container text-on-surface-variant">파티 4인</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-label-sm text-label-sm text-outline font-medium">매월 14일</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-md text-body-md text-on-surface-variant">가족 요금제</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 pl-2">
+<span class="font-title-md text-title-md text-on-surface font-extrabold tracking-tight">14,900원</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">개인 부담</span>
+</div>
+</article>
+<!-- Item 3: TVING -->
+<article class="subscription-item bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-200 rounded-xl p-3.5 flex items-center justify-between shadow-sm active:scale-[0.99] cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-11 rounded-xl bg-primary-container text-on-primary flex items-center justify-center font-bold text-[16px] shrink-0 shadow-sm">
+<span class="font-extrabold">티</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">티빙 베이직</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="font-body-md text-body-md text-on-surface-variant">매월 21일</span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-tertiary font-medium">연간 할인 적용</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 pl-2">
+<span class="font-title-md text-title-md text-on-surface font-extrabold tracking-tight">10,900원</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">네이버플러스 연동</span>
+</div>
+</article>
+</div>
+</section>
+<!-- Category 2: 음악 (Music & Audio) -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-tertiary">headphones</span>
+<h3 class="font-label-lg text-label-lg text-on-surface-variant font-bold tracking-tight">음악</h3>
+<span class="font-label-sm text-label-sm text-outline font-medium">1</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">10,900원/월</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Item 4: Melon -->
+<article class="subscription-item bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-200 rounded-xl p-3.5 flex items-center justify-between shadow-sm active:scale-[0.99] cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-11 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-[16px] shrink-0 shadow-sm">
+<span class="font-bold">멜</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">멜론 스트리밍 클럽</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-body-md text-body-md text-on-surface-variant">매월 25일</span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">SKT T멤버십</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 pl-2">
+<span class="font-title-md text-title-md text-on-surface font-extrabold tracking-tight">10,900원</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">모바일 전용</span>
+</div>
+</article>
+</div>
+</section>
+<!-- Category 3: 클라우드 및 생산성 (Cloud & Tools) -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">cloud</span>
+<h3 class="font-label-lg text-label-lg text-on-surface-variant font-bold tracking-tight">클라우드 · 생산성</h3>
+<span class="font-label-sm text-label-sm text-outline font-medium">2</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">17,700원/월</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Item 5: Google One (Annual with Monthly Breakdown) -->
+<article class="subscription-item bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-200 rounded-xl p-3.5 flex items-center justify-between shadow-sm active:scale-[0.99] cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-11 rounded-xl bg-surface-container-high text-primary flex items-center justify-center font-bold text-[18px] shrink-0 shadow-sm">
+<span class="font-black">G</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">구글원 200GB</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-primary-fixed text-on-primary-fixed font-semibold">연간</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="font-body-md text-body-md text-on-surface-variant">매년 11월 9일</span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-outline">연 44,000원 결제</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 pl-2">
+<div class="flex items-baseline gap-0.5">
+<span class="font-title-md text-title-md text-primary font-black tracking-tight">3,700</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">원/월</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">월 환산 금액</span>
+</div>
+</article>
+<!-- Item 6: iCloud+ -->
+<article class="subscription-item bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-200 rounded-xl p-3.5 flex items-center justify-between shadow-sm active:scale-[0.99] cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-11 rounded-xl bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-[16px] shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">cloud_done</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">iCloud+ 2TB</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="font-body-md text-body-md text-on-surface-variant">매월 18일</span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-outline">가족 공유 중</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 pl-2">
+<span class="font-title-md text-title-md text-on-surface font-extrabold tracking-tight">14,000원</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Apple 결제</span>
+</div>
+</article>
+</div>
+</section>
+<!-- Category 4: 라이프스타일 / 이커머스 -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-secondary">local_shipping</span>
+<h3 class="font-label-lg text-label-lg text-on-surface-variant font-bold tracking-tight">생활 · 멤버십</h3>
+<span class="font-label-sm text-label-sm text-outline font-medium">2</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">16,000원/월</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Item 7: Coupang Wow -->
+<article class="subscription-item bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-200 rounded-xl p-3.5 flex items-center justify-between shadow-sm active:scale-[0.99] cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-11 rounded-xl bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-[16px] shrink-0 shadow-sm">
+<span class="font-extrabold">쿠</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">쿠팡 로켓와우</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="font-body-md text-body-md text-on-surface-variant">매월 28일</span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">쿠팡플레이 포함</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 pl-2">
+<span class="font-title-md text-title-md text-on-surface font-extrabold tracking-tight">7,890원</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">자동 결제</span>
+</div>
+</article>
+<!-- Item 8: Naver Plus -->
+<article class="subscription-item bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-200 rounded-xl p-3.5 flex items-center justify-between shadow-sm active:scale-[0.99] cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-11 rounded-xl bg-tertiary-container text-on-tertiary flex items-center justify-center font-bold text-[16px] shrink-0 shadow-sm">
+<span class="font-bold">N+</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">네이버플러스 멤버십</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="font-body-md text-body-md text-on-surface-variant">매월 5일</span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-tertiary font-medium">포인트 4% 적립</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 pl-2">
+<span class="font-title-md text-title-md text-on-surface font-extrabold tracking-tight">4,900원</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">현대카드 청구</span>
+</div>
+</article>
+</div>
+</section>
+<!-- Delight Milestone Card (Korean Fintech Touch) -->
+<div class="w-full bg-surface-container rounded-xl p-4 flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">savings</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<p class="font-label-md text-label-md text-on-surface font-semibold truncate">해지한 3개 구독으로 이번 달 34,200원 절약 중!</p>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">불필요한 지출 방어율 100% 달성 중입니다.</p>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (FAB) -->
+<button aria-label="구독 추가" class="fixed right-5 bottom-20 z-40 w-14 h-14 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-xl active:scale-95 transition-transform duration-150" id="add-subscription-fab">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- Add Quick Drawer / Action Modal Simulation -->
+<div class="hidden fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm flex items-end" id="quick-action-sheet">
+<div class="w-full bg-surface-container-lowest rounded-t-3xl p-margin flex flex-col gap-space-md shadow-2xl animate-fade-in">
+<div class="w-12 h-1 bg-surface-variant rounded-full mx-auto"></div>
+<div class="flex items-center justify-between">
+<h4 class="font-title-lg text-title-lg text-on-surface font-bold">새 구독 등록하기</h4>
+<button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant" id="close-drawer-btn">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant -mt-2">자주 쓰는 구독 서비스를 바로 선택하거나 직접 입력하세요.</p>
+<div class="grid grid-cols-4 gap-2.5 py-1">
+<button class="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container">
+<div class="w-10 h-10 rounded-xl bg-inverse-surface text-error flex items-center justify-center font-bold">N</div>
+<span class="font-label-sm text-label-sm text-on-surface">넷플릭스</span>
+</button>
+<button class="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container">
+<div class="w-10 h-10 rounded-xl bg-error-container text-on-error-container flex items-center justify-center font-bold">YT</div>
+<span class="font-label-sm text-label-sm text-on-surface">유튜브</span>
+</button>
+<button class="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container">
+<div class="w-10 h-10 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold">멜</div>
+<span class="font-label-sm text-label-sm text-on-surface">멜론</span>
+</button>
+<button class="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high text-primary flex items-center justify-center font-bold">G</div>
+<span class="font-label-sm text-label-sm text-on-surface">구글원</span>
+</button>
+</div>
+<button class="w-full h-13 py-3 rounded-xl bg-primary text-on-primary font-title-md text-title-md font-semibold text-center mt-2 shadow-sm active:bg-primary-container">
+        직접 입력하여 추가
+      </button>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    // 1. Highlight the second bottom nav item ('목록' / Subscription List) to reflect screen state
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach((link, idx) => {
+      const icon = link.querySelector('.material-symbols-outlined');
+      const label = link.querySelector('span:last-child');
+      if (idx === 1) { // '목록' (List Tab)
+        link.classList.remove('text-on-surface-variant');
+        link.classList.add('text-primary');
+        if (icon) {
+          icon.style.fontVariationSettings = "'FILL' 1";
+        }
+        if (label) {
+          label.classList.add('font-bold');
+        }
+      } else {
+        link.classList.remove('text-primary');
+        link.classList.add('text-on-surface-variant');
+        if (icon) {
+          icon.style.fontVariationSettings = "'FILL' 0";
+        }
+        if (label) {
+          label.classList.remove('font-bold');
+        }
+      }
+    });
+
+    // 2. Filter Tab Interactive State
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => {
+          t.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+          t.classList.add('bg-surface-container', 'text-on-surface-variant');
+          const count = t.querySelector('span:last-child');
+          if (count) {
+            count.className = 'px-1.5 py-0.2 rounded-full bg-surface-container-high text-on-surface-variant text-[11px]';
+          }
+        });
+        tab.classList.remove('bg-surface-container', 'text-on-surface-variant');
+        tab.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+        const activeCount = tab.querySelector('span:last-child');
+        if (activeCount) {
+          activeCount.className = 'px-1.5 py-0.2 rounded-full bg-primary-container text-on-primary text-[11px] font-bold';
+        }
+      });
+    });
+
+    // 3. Sort Selector Dropdown Toggle
+    const sortBtn = document.getElementById('sort-selector-btn');
+    const sortMenu = document.getElementById('sort-dropdown-menu');
+    const currentSortLabel = document.getElementById('current-sort-label');
+    const sortOptions = document.querySelectorAll('.sort-option');
+
+    if (sortBtn && sortMenu) {
+      sortBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sortMenu.classList.toggle('hidden');
+        sortMenu.classList.toggle('flex');
+      });
+
+      sortOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const sortText = opt.querySelector('span:first-child').textContent;
+          currentSortLabel.textContent = sortText;
+          sortMenu.classList.add('hidden');
+          sortMenu.classList.remove('flex');
+          
+          sortOptions.forEach(o => {
+            o.classList.remove('text-primary', 'bg-surface-container-low', 'font-semibold');
+            o.classList.add('text-on-surface');
+            const checkIcon = o.querySelector('.material-symbols-outlined');
+            if (checkIcon) checkIcon.remove();
+          });
+
+          opt.classList.add('text-primary', 'bg-surface-container-low', 'font-semibold');
+          if (!opt.querySelector('.material-symbols-outlined')) {
+            const check = document.createElement('span');
+            check.className = 'material-symbols-outlined text-[16px]';
+            check.textContent = 'check';
+            opt.appendChild(check);
+          }
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!sortMenu.contains(e.target) && !sortBtn.contains(e.target)) {
+          sortMenu.classList.add('hidden');
+          sortMenu.classList.remove('flex');
+        }
+      });
+    }
+
+    // 4. FAB & Quick Drawer Interaction
+    const fab = document.getElementById('add-subscription-fab');
+    const drawer = document.getElementById('quick-action-sheet');
+    const closeDrawerBtn = document.getElementById('close-drawer-btn');
+
+    if (fab && drawer) {
+      fab.addEventListener('click', () => {
+        drawer.classList.remove('hidden');
+      });
+    }
+
+    if (closeDrawerBtn && drawer) {
+      closeDrawerBtn.addEventListener('click', () => {
+        drawer.classList.add('hidden');
+      });
+      drawer.addEventListener('click', (e) => {
+        if (e.target === drawer) {
+          drawer.classList.add('hidden');
+        }
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-2px_12px_rgba(22,28,37,0.04)]" data-active-classes="text-primary-container font-semibold"><div class="flex items-center justify-around h-16 px-space-xs"><a class="flex flex-col items-center justify-center flex-1 h-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="home" href="#"><span class="material-symbols-outlined text-[24px]">home</span><span class="font-label-sm text-label-sm mt-0.5">홈</span></a><a class="flex flex-col items-center justify-center flex-1 h-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscription-list" href="#"><span class="material-symbols-outlined text-[24px]">format_list_bulleted</span><span class="font-label-sm text-label-sm mt-0.5">목록</span></a><a class="flex flex-col items-center justify-center flex-1 h-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="billing-calendar" href="#"><span class="material-symbols-outlined text-[24px]">calendar_month</span><span class="font-label-sm text-label-sm mt-0.5">캘린더</span></a><a class="flex flex-col items-center justify-center flex-1 h-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="spending-analytics" href="#"><span class="material-symbols-outlined text-[24px]">bar_chart</span><span class="font-label-sm text-label-sm mt-0.5">통계</span></a><a class="flex flex-col items-center justify-center flex-1 h-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="more-settings" href="#"><span class="material-symbols-outlined text-[24px]">more_horiz</span><span class="font-label-sm text-label-sm mt-0.5">더보기</span></a></div></nav></body></html>

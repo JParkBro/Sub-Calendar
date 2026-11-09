@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>홈 화면 위젯 - 구독노트 Glance Widgets</title>
+<!-- Load Tailwind CSS v3 with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Load Korean Web Font Pretendard -->
+<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              dark: '#141824',
+              card: '#1e2433',
+              cardBorder: 'rgba(255, 255, 255, 0.07)',
+              slot: 'rgba(38, 46, 62, 0.7)',
+            }
+          }
+        }
+      }
+    };
+  </script>
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="custom-layout">
+    body {
+      background-color: #0b0e14;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Subtle smooth reflection & border shadows */
+    .widget-panel {
+      background-color: #1e2432;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.45);
+    }
+
+    .app-icon-slot {
+      background-color: #273042;
+      border-radius: 18px;
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="flex flex-col items-center justify-start min-h-screen p-4 sm:p-8 text-white select-none">
+<!-- BEGIN: Phone Mockup Container -->
+<main class="w-full max-w-[340px] flex flex-col items-center" data-purpose="mobile-preview">
+<!-- Phone Frame Outer -->
+<div class="relative w-full aspect-[1/2.08] bg-[#141822] rounded-[44px] p-3 shadow-2xl border-[3px] border-[#363e52] flex flex-col justify-between overflow-hidden">
+<!-- Top Status Bar Area -->
+<!-- BEGIN: StatusBar -->
+<header class="w-full pt-2 px-4 flex items-center justify-between z-20 text-xs text-gray-300 font-medium">
+<span class="tracking-tight text-[13px] font-semibold">9:41</span>
+<div aria-label="System status icons" class="flex items-center space-x-1.5 opacity-90">
+<!-- Signal Icon -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z" opacity="0"></path>
+<rect height="6" rx="1" width="3" x="2" y="16"></rect>
+<rect height="10" rx="1" width="3" x="7" y="12"></rect>
+<rect height="14" rx="1" width="3" x="12" y="8"></rect>
+<rect height="18" rx="1" width="3" x="17" y="4"></rect>
+</svg>
+<!-- Wifi Bar Icon -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0012 4z"></path>
+</svg>
+<!-- Battery Icon -->
+<div class="w-5 h-2.5 border border-gray-300 rounded-sm p-0.5 flex items-center">
+<div class="w-full h-full bg-gray-200 rounded-[1px]"></div>
+</div>
+</div>
+</header>
+<!-- END: StatusBar -->
+<!-- Main Homescreen Grid Content -->
+<section class="flex-1 w-full px-2.5 pt-3 flex flex-col justify-between" data-purpose="home-grid">
+<div class="flex flex-col space-y-3">
+<!-- BEGIN: Widget1 (4x2 Large Widget) -->
+<article class="widget-panel rounded-[26px] p-4.5 p-4 text-white relative transition hover:brightness-105" data-purpose="monthly-total-glance-widget">
+<!-- Header: Title and Amount -->
+<div class="mb-3">
+<span class="text-[12px] font-medium text-gray-400 block tracking-tight">11월 구독료</span>
+<div class="text-[26px] font-extrabold tracking-tight mt-0.5 leading-none">
+                87,400<span class="text-[20px] font-bold ml-0.5">원</span>
+</div>
+</div>
+<!-- List of upcoming subscriptions (2 items) -->
+<div class="space-y-2 pt-1 border-t border-white/5">
+<!-- Item 1: Netflix -->
+<div class="flex items-center justify-between text-sm py-0.5">
+<div class="flex items-center space-x-2.5">
+<div class="w-6 h-6 rounded-md bg-[#252b3b] border border-white/10 flex items-center justify-center text-[10.5px] font-black text-red-500 shadow-sm">
+                    N
+                  </div>
+<span class="text-[13px] font-medium text-gray-200">넷플릭스</span>
+</div>
+<span class="text-[13px] font-bold text-gray-300 tracking-tight">D-3</span>
+</div>
+<!-- Item 2: Coupang Wow -->
+<div class="flex items-center justify-between text-sm py-0.5">
+<div class="flex items-center space-x-2.5">
+<div class="w-6 h-6 rounded-md bg-[#252b3b] border border-white/10 flex items-center justify-center text-[10px] font-bold text-gray-300 shadow-sm">
+                    쿠
+                  </div>
+<span class="text-[13px] font-medium text-gray-200">쿠팡 와우</span>
+</div>
+<span class="text-[13px] font-bold text-gray-300 tracking-tight">D-6</span>
+</div>
+</div>
+</article>
+<!-- END: Widget1 -->
+<!-- BEGIN: Middle Section (2x2 Widget + App Grid) -->
+<div class="grid grid-cols-2 gap-3 items-stretch">
+<!-- Left Side: 2x2 Widget (D-Day Focused) -->
+<article class="widget-panel rounded-[26px] p-3.5 flex flex-col items-center justify-center aspect-square text-center shadow-md hover:brightness-105 transition" data-purpose="dday-single-widget">
+<!-- Service Logo Badge -->
+<div class="w-8 h-8 rounded-lg bg-[#272f42] border border-white/10 flex items-center justify-center text-xs font-black text-red-500 mb-2 shadow-inner">
+                N
+              </div>
+<!-- Primary D-Day Display -->
+<div class="text-[25px] font-black tracking-tight leading-none text-white my-0.5">
+                D-3
+              </div>
+<!-- Price Display -->
+<div class="text-[11.5px] font-medium text-gray-400 mt-1">
+                17,000원
+              </div>
+</article>
+<!-- Right Side: 2x2 App Launcher Slots -->
+<div class="grid grid-cols-2 grid-rows-2 gap-2.5 aspect-square" data-purpose="launcher-grid-icons">
+<div class="app-icon-slot aspect-square"></div>
+<div class="app-icon-slot aspect-square"></div>
+<div class="app-icon-slot aspect-square"></div>
+<div class="app-icon-slot aspect-square"></div>
+</div>
+</div>
+<!-- END: Middle Section -->
+</div>
+<!-- BEGIN: Dock Area -->
+<footer class="w-full pb-4 pt-6" data-purpose="launcher-dock">
+<div class="grid grid-cols-4 gap-2.5 w-full">
+<div class="app-icon-slot aspect-square"></div>
+<div class="app-icon-slot aspect-square"></div>
+<div class="app-icon-slot aspect-square"></div>
+<div class="app-icon-slot aspect-square"></div>
+</div>
+</footer>
+<!-- END: Dock Area -->
+</section>
+<!-- Home Gesture Indicator Bar -->
+<div class="w-full flex justify-center pb-1">
+<div class="w-28 h-1 bg-white/20 rounded-full"></div>
+</div>
+</div>
+<!-- END: Phone Mockup Container -->
+<!-- BEGIN: Feature Description Notes -->
+<section class="mt-6 w-full text-left px-2" data-purpose="spec-description">
+<h2 class="text-base font-bold text-white flex items-center gap-1.5">
+<span class="text-[#3b82f6]">12</span> 홈 화면 위젯
+      </h2>
+<p class="text-xs text-gray-400 mt-0.5 mb-3 font-medium">Jetpack Glance로 구현</p>
+<ul class="space-y-2 text-xs text-gray-300">
+<li class="flex items-start gap-2">
+<span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-600/30 text-blue-400 font-bold text-[10px] shrink-0 mt-0.5">1</span>
+<span><strong class="text-white font-semibold">4×2 위젯:</strong> 이번 달 총액과 다음 결제 2건</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-600/30 text-blue-400 font-bold text-[10px] shrink-0 mt-0.5">2</span>
+<span><strong class="text-white font-semibold">2×2 위젯:</strong> 가장 가까운 결제 하나만 D-Day로 크게</span>
+</li>
+</ul>
+</section>
+<!-- END: Feature Description Notes -->
+</main>
+</body></html>
