@@ -36,11 +36,11 @@ subcalendar/
 │  ├─ ui/             MviViewModel, ObserveEvents, MoneyText · formatMoney, 카테고리 · 결제 주기 표시, PaymentRow, DatePicker
 │  ├─ database/       Room (subscription, price_change, pause, usage_log, party_member, party_settlement, widget_config)
 │  ├─ datastore/      설정(화면 모드 · 알림 · 월 시작일 · 환율 · 정렬), 온보딩 완료, 광고 노출 기록, 광고 제거 캐시
-│  ├─ firebase/       Crashlytics · Analytics 래퍼, Remote Config(광고 빈도 · 차단 스위치)
+│  ├─ firebase/       Crashlytics · Analytics 래퍼, Remote Config(광고 빈도 · 차단 스위치)  ※ 출시 단계
 │  ├─ data/           Repository: Subscription, Party, Usage, Settings, Preset, Backup / 프리셋 JSON 읽기
 │  ├─ notification/   결제 · 체험 · 정산 · 월초 요약 로컬 알림 (WorkManager)
-│  ├─ ads/            AdMob 배너 · 전면광고, 맞춤 광고 동의(UMP), 빈도 규칙
-│  ├─ billing/        Play Billing 광고 제거 (비소모성)
+│  ├─ ads/            AdMob 배너 · 전면광고, 맞춤 광고 동의(UMP), 빈도 규칙  ※ 출시 단계
+│  ├─ billing/        Play Billing 광고 제거 (비소모성)  ※ 출시 단계
 │  └─ testing/        Fake, MainDispatcherRule, 샘플 데이터(product-spec 9장)
 ├─ feature/
 │  ├─ onboarding/    api/ impl/
@@ -56,7 +56,7 @@ subcalendar/
 
 데이즈에서 가져오지 않는 모듈: `core:network`(외부 HTTP 없음), `core:sync`(서버 없음), `feature:couple` · `feature:notifications`(알림 목록 없음). 데이즈의 `core:firebase`는 Auth · Firestore · App Check였지만 여기서는 Crashlytics · Analytics · Remote Config만 담는다.
 
-`core:ads` · `core:billing`은 Activity가 필요한 광고 · 결제 창이라 feature impl이 직접 참조한다 (창은 Root가 Event로 띄우고 결과를 Action으로 넘김. 데이터 접근은 그대로 `core:data`).
+`core:firebase` · `core:ads` · `core:billing`은 출시 단계(9장 10단계)에 추가한다. `core:ads` · `core:billing`은 Activity가 필요한 광고 · 결제 창이라 feature impl이 직접 참조한다 (창은 Root가 Event로 띄우고 결과를 Action으로 넘김. 데이터 접근은 그대로 `core:data`).
 
 ## 4. 내비게이션 키
 
@@ -146,13 +146,16 @@ subcalendar/
 |---|---|
 | `appModule` | app — Navigator, 결과 핸들러, 전체 `includes` |
 | `databaseModule`, `datastoreModule` | core |
-| `firebaseModule` | core:firebase — `CrashReporter`, `AnalyticsLogger`, `RemoteFlags` |
+| `firebaseModule` | core:firebase — `CrashReporter`, `AnalyticsLogger`, `RemoteFlags` (출시 단계) |
 | `dataModule` | core:data (`core:domain`은 순수 함수만 있어 Koin 모듈이 없다) |
-| `notificationModule`, `adsModule`, `billingModule` | core |
+| `notificationModule` | core |
+| `adsModule`, `billingModule` | core (출시 단계) |
 | `{feature}Module` × 8 | 각 impl |
 | `widgetModule` | widget |
 
 ## 8. 빌드 변형
+
+Firebase · AdMob 열은 출시 단계(9장 10단계)부터 적용한다. 그 전에는 flavor가 앱 ID만 나눈다.
 
 | flavor | Firebase | AdMob | 앱 ID |
 |---|---|---|---|
@@ -169,8 +172,23 @@ subcalendar/
 4. **데이터**: `core:database` v1(subscription · price_change · pause · widget_config) + DAO 테스트, `core:datastore`, `core:data`(Subscription · Settings · Preset Repository), 프리셋 JSON
 5. **1차 화면**: `feature:subscription`(목록 · 선택 · 입력 · 상세) → `feature:home` → `feature:calendar` → `feature:onboarding`
 6. **알림**: `core:notification`(ReminderScheduler · ReminderWorker · 채널 `payment`), 알림 설정 화면
-7. **더보기**: `feature:settings`(설정 · 백업 내보내기/불러오기 · 정책 웹뷰 · 모든 데이터 삭제), Android 자동 백업 규칙
-8. **수익화**: `core:firebase`(Crashlytics · Remote Config), `core:ads`(배너 · 전면 · UMP), `core:billing`(광고 제거)
-9. **1차 출시**: `policy-site/`, 출시 체크리스트 (`infra.md` 4장)
-10. **2차**: `feature:insight`(통계 · 아낀 돈), `feature:trial`, 체험 알림, `widget`, 월초 요약
-11. **3차**: `usage_log` · `party_member` · `party_settlement` 테이블(출시 후라 Migration), `feature:party`, 가성비 분석, 연말 리포트
+7. **더보기 (로컬 메뉴)**: `feature:settings`(알림 · 월 시작 기준일 · 달러 환율 · 기본 결제 수단 · 화면 모드 · 백업 내보내기/불러오기 · 문의하기 · 오픈소스 라이선스 · 앱 버전 · 모든 데이터 삭제), Android 자동 백업 규칙
+8. **2차 기능**: `feature:insight`(통계 · 아낀 돈), `feature:trial`, 체험 알림, `widget`, 월초 요약
+9. **3차 기능**: `usage_log` · `party_member` · `party_settlement` 테이블, `feature:party`, 가성비 분석, 연말 리포트
+10. **출시 단계 (최후순위)**: 아래 "출시 단계 작업" 전부
+
+### 개인용 단계와 출시 단계
+
+1 ~ 9단계는 **개인용 단계**다. 저장소는 Room · DataStore(Preferences)만 쓰고, 사용자가 외부 콘솔 · 계정에서 설정할 일이 없어야 한다. 외부 설정이 필요한 작업은 모두 10단계로 미룬다.
+
+| 출시 단계 작업 | 사용자가 외부에서 할 일 |
+|---|---|
+| `core:firebase`(Crashlytics · Analytics · Remote Config) | Firebase 프로젝트 생성, 앱 2개 등록, `google-services.json` 받기 |
+| `core:ads`(배너 · 전면 · UMP), 구독 저장 후 전면광고, 통계 배너 | AdMob 앱 · 광고 단위 등록, `local.properties`에 prod 값, GDPR 메시지 |
+| `core:billing`, 광고 제거 화면 | Play Console 인앱 상품 `remove_ads` 등록 |
+| `policy-site/`, 개인정보 처리방침 웹뷰 | Firebase Hosting 배포 |
+| 더보기의 광고 제거 · 앱 평가하기 · 다른 앱 둘러보기 · 개인정보 처리방침 메뉴 | Play 스토어 등록 |
+| 출시 체크리스트 (`infra.md` 4장) | Play Console 앱 콘텐츠 · 스토어 정보 |
+
+- 개인용 단계 빌드에는 출시 단계 메뉴 · 광고 자리를 넣지 않는다 (비활성 표시도 하지 않음).
+- 출시 단계 모듈이 없어도 앱이 빌드 · 실행되어야 한다. 화면 · ViewModel이 광고 · 결제 · Firebase를 미리 참조하지 않는다.

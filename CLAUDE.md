@@ -10,7 +10,7 @@
 |---|---|---|
 | 루트 (`app/`, `build-logic/`, 이후 `core/`, `feature/`, `widget/`) | Android 앱 (Kotlin, Compose, 멀티 모듈) | 이 파일의 "Android 앱" 섹션 |
 | `widget/` | Glance 홈 화면 위젯 (2차, 아직 Gradle 모듈 아님) | `widget/CLAUDE.md` |
-| `policy-site/` | Firebase Hosting(`public/`): 개인정보 처리방침 · app-ads.txt (1차 출시 전 생성) | `docs/subcal/infra.md` 3장 |
+| `policy-site/` | Firebase Hosting(`public/`): 개인정보 처리방침 · app-ads.txt (출시 단계에서 생성) | `docs/subcal/infra.md` 3장 |
 | `docs/common/` | 범용 규칙 (아키텍처, 컨벤션, 테스트, Git). 데이즈와 같은 문서 | – |
 | `docs/subcal/` | 이 프로젝트의 기획 · 데이터 · 인프라 결정 | – |
 
@@ -27,8 +27,8 @@
 | 테스트 작성 | `docs/common/TESTING.md` |
 | UI · 색상 | `docs/subcal/theme-guide.md`, 값 원본 `docs/subcal/assets/theme-tokens.json`, 레이아웃 참고 `docs/subcal/design/` |
 | DB · 데이터 모델 · 백업 | `docs/subcal/data-model-erd.md` |
-| Firebase · 정책 페이지 · 출시 | `docs/subcal/infra.md` |
-| 광고 · 광고 제거 구매 | `docs/subcal/ads-strategy.md` |
+| Firebase · 정책 페이지 · 출시 (출시 단계) | `docs/subcal/infra.md` |
+| 광고 · 광고 제거 구매 (출시 단계) | `docs/subcal/ads-strategy.md` |
 | 위젯 | `widget/CLAUDE.md`, `docs/subcal/product-spec.md` 7장 |
 | 브랜치 · 커밋 · PR | `docs/common/GIT_CONVENTIONS.md` |
 
@@ -45,6 +45,7 @@
 
 ## 작업 방식
 
+- **개인용 앱으로 먼저 만든다.** 저장소는 Room · DataStore(Preferences)만 쓴다. Firebase · AdMob · Play Billing · 정책 페이지처럼 사용자가 외부 콘솔에서 설정해야 하는 작업은 모든 기능을 만든 뒤 마지막 "출시 단계"에서 한다 (`docs/subcal/module-map.md` 9장). 그 전에 이런 작업이 필요해 보이면 먼저 사용자에게 확인한다.
 - 여러 모듈에 걸친 변경, DB 스키마 변경, 계산 규칙 변경은 **먼저 계획을 보여주고** 진행한다.
 - 기획이 문서에 없거나 모호하면 추측해서 구현하지 말고 질문한다.
 - 결정이 바뀌면 관련 `docs/` 문서도 같은 PR에서 고친다. 공통 규칙에서 벗어나는 결정은 `docs/subcal/README.md`의 "공통 문서와 다르게 가는 부분"에 기록한다.

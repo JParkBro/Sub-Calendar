@@ -198,7 +198,7 @@ data class PriceChangeEntity(
 )
 ```
 
-- 1차 v1 스키마는 `subscription`, `price_change`, `pause`, `widget_config`. 3차 컬럼(`track_usage`, `party_split_mode`)은 v1에 미리 넣어 두고, 3차 테이블(`usage_log`, `party_member`, `party_settlement`)은 출시 후 Migration으로 추가한다.
+- 1차 v1 스키마는 `subscription`, `price_change`, `pause`, `widget_config`. 3차 컬럼(`track_usage`, `party_split_mode`)은 v1에 미리 넣어 두고, 3차 테이블(`usage_log`, `party_member`, `party_settlement`)은 3차 작업 때 추가한다. 스토어 출시 전이면 v1을 고쳐 쓰고(`README.md` 예외), 출시 후면 Migration으로 추가한다.
 - 도메인 모델(`core:model`)에서는 `LocalDate`, `Money(amountMinor, currency)`, enum을 쓰고 매퍼에서 바꾼다.
 
 ## 6. 백업 JSON 형식
