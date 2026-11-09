@@ -18,7 +18,7 @@ internal class SubscriptionListViewModel(
     subscriptionRepository: SubscriptionRepository,
     private val settingsRepository: SettingsRepository,
     private val clock: Clock,
-) : MviViewModel<SubscriptionListState, SubscriptionListAction, Nothing>(
+) : MviViewModel<SubscriptionListState, SubscriptionListAction, SubscriptionListEvent>(
         SubscriptionListState(filter = ListFilter(category = key.category)),
     ) {
     /** 화면에서 바꾸는 필터. 저장한 정렬은 DataStore에서 온다 */
@@ -72,6 +72,10 @@ internal class SubscriptionListViewModel(
 
             SubscriptionListAction.SortSheetDismissed -> {
                 setState { copy(isSortSheetOpen = false) }
+            }
+
+            SubscriptionListAction.AddClicked -> {
+                sendEvent(SubscriptionListEvent.OpenServicePicker)
             }
         }
     }
