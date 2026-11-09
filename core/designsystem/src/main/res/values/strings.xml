@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 공통 버튼 (CODING_CONVENTIONS: 공통 문자열은 common_*) -->
+    <string name="common_cancel">취소</string>
+    <string name="common_confirm">확인</string>
+
+    <!-- D-day (SubCalDdayText, product-spec 2-12) -->
+    <string name="common_dday_today">오늘</string>
+    <string name="common_dday_tomorrow">내일</string>
+    <string name="common_dday_remaining">D-%1$d</string>
+    <string name="common_dday_elapsed">D+%1$d</string>
+
+    <!-- 통화 선택 (SubCalAmountField) -->
+    <string name="common_currency_krw">원</string>
+    <string name="common_currency_usd">달러</string>
+</resources>

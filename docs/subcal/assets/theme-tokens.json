@@ -58,5 +58,17 @@
       "cal-saturday": "#93ABFF",
       "shadow": "#00000066"
     }
+  },
+  "service": {
+    "RED": "#D93025",
+    "ORANGE": "#C2570C",
+    "AMBER": "#A86200",
+    "GREEN": "#188038",
+    "TEAL": "#00796B",
+    "BLUE": "#1A73E8",
+    "PURPLE": "#8430CE",
+    "PINK": "#C2185B",
+    "BROWN": "#795548",
+    "BLACK": "#202124"
   }
 }

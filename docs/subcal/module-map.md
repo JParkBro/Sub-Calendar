@@ -33,7 +33,7 @@ subcalendar/
 │  ├─ domain/         [JVM] 결제일 생성, 기간 집계, 누적 · 아낀 돈, 중복, 가성비, 파티 몫, 알림 대상
 │  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 목록 / 캘린더 / 통계 / 더보기), AppIntents
 │  ├─ designsystem/   AppColors(27 토큰) · 2 팔레트, 서비스 색, 공통 컴포넌트 SubCal*
-│  ├─ ui/             MviViewModel, ObserveEvents, MoneyText · formatMoney, SubCalServiceIcon, PaymentRow, DatePicker
+│  ├─ ui/             MviViewModel, ObserveEvents, MoneyText · formatMoney, PaymentRow, DatePicker
 │  ├─ database/       Room (subscription, price_change, pause, usage_log, party_member, party_settlement, widget_config)
 │  ├─ datastore/      설정(화면 모드 · 알림 · 월 시작일 · 환율 · 정렬), 온보딩 완료, 광고 노출 기록, 광고 제거 캐시
 │  ├─ firebase/       Crashlytics · Analytics 래퍼, Remote Config(광고 빈도 · 차단 스위치)
@@ -165,7 +165,7 @@ subcalendar/
 
 1. **기반**: `core:model`, `core:common` (프로젝트 골격 build-logic · flavor · ktlint · detekt는 완료)
 2. **계산**: `core:domain` 결제일 · 기간 집계 · 누적 + 경계값 테스트 (product-spec 2장, 9장 기대 값을 테스트로)
-3. **디자인 시스템**: `core:designsystem` 인디고 2 팔레트, `SubCal*` 컴포넌트, 서비스 색, `core:ui` `MoneyText` · `SubCalServiceIcon`
+3. **디자인 시스템**: `core:designsystem` 인디고 2 팔레트, `SubCal*` 컴포넌트, 서비스 색, `SubCalServiceIcon`, `core:ui` `MoneyText`
 4. **데이터**: `core:database` v1(subscription · price_change · pause) + DAO 테스트, `core:datastore`, `core:data`(Subscription · Settings · Preset Repository), 프리셋 JSON
 5. **1차 화면**: `feature:subscription`(목록 · 선택 · 입력 · 상세) → `feature:home` → `feature:calendar` → `feature:onboarding`
 6. **알림**: `core:notification`(ReminderScheduler · ReminderWorker · 채널 `payment`), 알림 설정 화면
