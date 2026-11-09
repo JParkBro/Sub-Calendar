@@ -19,24 +19,23 @@ class FakeSettingsRepository : SettingsRepository {
 
     override fun observeAppSettings(): Flow<AppSettings> = appSettings
 
-    override suspend fun setAppSettings(settings: AppSettings): Result<Unit> {
-        appSettings.value = settings
-        return Result.success(Unit)
-    }
+    override suspend fun setAppSettings(settings: AppSettings): Result<Unit> =
+        fakeWrite(failure) {
+            appSettings.value =
+                settings
+        }
 
     override fun observeNotificationSettings(): Flow<NotificationSettings> = notificationSettings
 
-    override suspend fun setNotificationSettings(settings: NotificationSettings): Result<Unit> {
-        notificationSettings.value = settings
-        return Result.success(Unit)
-    }
+    override suspend fun setNotificationSettings(settings: NotificationSettings): Result<Unit> =
+        fakeWrite(failure) {
+            notificationSettings.value =
+                settings
+        }
 
     override fun observeListSort(): Flow<ListSort> = listSort
 
-    override suspend fun setListSort(sort: ListSort): Result<Unit> {
-        listSort.value = sort
-        return Result.success(Unit)
-    }
+    override suspend fun setListSort(sort: ListSort): Result<Unit> = fakeWrite(failure) { listSort.value = sort }
 
     override fun observeOnboardingDone(): Flow<Boolean> = onboardingDone
 

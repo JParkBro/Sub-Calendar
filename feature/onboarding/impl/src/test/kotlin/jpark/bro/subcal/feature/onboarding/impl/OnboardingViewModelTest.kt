@@ -1,6 +1,7 @@
 package jpark.bro.subcal.feature.onboarding.impl
 
 import app.cash.turbine.test
+import jpark.bro.subcal.core.data.repository.SubscriptionRepository
 import jpark.bro.subcal.core.model.BillingCycle
 import jpark.bro.subcal.core.model.Category
 import jpark.bro.subcal.core.model.Currency
@@ -8,6 +9,7 @@ import jpark.bro.subcal.core.model.CycleUnit
 import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.model.Preset
 import jpark.bro.subcal.core.model.PresetPlan
+import jpark.bro.subcal.core.model.SubscriptionInput
 import jpark.bro.subcal.core.testing.FakePresetRepository
 import jpark.bro.subcal.core.testing.FakeSettingsRepository
 import jpark.bro.subcal.core.testing.FakeSubscriptionRepository
@@ -157,5 +159,54 @@ class OnboardingViewModelTest {
         assertTrue(state.loadFailed)
         assertTrue(state.services.isEmpty())
         assertFalse(state.isLoading)
+    }
+
+    @Test
+    fun `저장한 서비스는 실패 뒤에도 선택을 풀 수 없다`() =
+        runTest {
+            // 넷플릭스는 저장되고 스포티파이에서 실패한다
+            val viewModel = OnboardingViewModel(presets, FailAfterFirst(subscriptions), settings, SampleData.clock)
+            viewModel.onAction(OnboardingAction.ServiceToggled("netflix"))
+            viewModel.onAction(OnboardingAction.ServiceToggled("spotify"))
+
+            viewModel.event.test {
+                viewModel.onAction(OnboardingAction.RegisterClicked)
+                assertEquals(OnboardingEvent.SaveFailed, awaitItem())
+            }
+            viewModel.onAction(OnboardingAction.ServiceToggled("netflix"))
+
+            assertTrue(
+                viewModel.state.value.services
+                    .first { it.id == "netflix" }
+                    .isSelected,
+            )
+        }
+
+    @Test
+    fun `일부를 저장한 뒤 건너뛰면 결제일 확인 안내를 켠다`() =
+        runTest {
+            val viewModel = OnboardingViewModel(presets, FailAfterFirst(subscriptions), settings, SampleData.clock)
+            viewModel.onAction(OnboardingAction.ServiceToggled("netflix"))
+            viewModel.onAction(OnboardingAction.ServiceToggled("spotify"))
+
+            viewModel.event.test {
+                viewModel.onAction(OnboardingAction.RegisterClicked)
+                assertEquals(OnboardingEvent.SaveFailed, awaitItem())
+
+                viewModel.onAction(OnboardingAction.SkipClicked)
+                assertEquals(OnboardingEvent.Finished, awaitItem())
+            }
+            assertEquals(1, subscriptions.records.value.size)
+            assertTrue(settings.billingDateHintPending.value)
+        }
+
+    /** 첫 저장은 성공하고 그 뒤 저장은 실패한다 */
+    private class FailAfterFirst(
+        private val delegate: FakeSubscriptionRepository,
+    ) : SubscriptionRepository by delegate {
+        private var count = 0
+
+        override suspend fun add(input: SubscriptionInput): Result<String> =
+            if (count++ == 0) delegate.add(input) else Result.failure(IllegalStateException("db"))
     }
 }

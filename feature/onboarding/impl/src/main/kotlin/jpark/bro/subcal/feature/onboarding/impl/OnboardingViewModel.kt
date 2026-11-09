@@ -1,15 +1,14 @@
 package jpark.bro.subcal.feature.onboarding.impl
 
 import androidx.lifecycle.viewModelScope
+import jpark.bro.subcal.core.data.preset.matches
 import jpark.bro.subcal.core.data.repository.PresetRepository
 import jpark.bro.subcal.core.data.repository.SettingsRepository
 import jpark.bro.subcal.core.data.repository.SubscriptionRepository
 import jpark.bro.subcal.core.domain.billing.monthlyEquivalentKrw
 import jpark.bro.subcal.core.model.Category
 import jpark.bro.subcal.core.model.Preset
-import jpark.bro.subcal.core.model.Subscription
 import jpark.bro.subcal.core.model.SubscriptionInput
-import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.ui.MviViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -55,13 +54,10 @@ internal class OnboardingViewModel(
                     categories = presets.map { it.category }.distinct().sorted(),
                     services =
                         presets
-                            .filter {
-                                ui.matches(
-                                    it,
-                                )
-                            }.map { it.toService(isSelected = it.id in ui.selected) },
+                            .filter { it.matches(ui.query, ui.category) }
+                            .map { it.toService(isSelected = it.id in ui.selected) },
                     selectedCount = selected.size,
-                    monthlyTotalKrw = selected.sumOf { it.monthlyKrw(today, settings.usdKrwRate) },
+                    monthlyTotalKrw = selected.sumOf { it.monthlyKrw(settings.usdKrwRate) },
                 )
             }
         }.launchIn(viewModelScope)
@@ -69,11 +65,31 @@ internal class OnboardingViewModel(
 
     override fun onAction(action: OnboardingAction) {
         when (action) {
-            is OnboardingAction.QueryChanged -> ui.update { it.copy(query = action.query) }
-            is OnboardingAction.CategorySelected -> ui.update { it.copy(category = action.category) }
-            is OnboardingAction.ServiceToggled -> ui.update { it.toggle(action.presetId) }
-            OnboardingAction.RegisterClicked -> register()
-            OnboardingAction.SkipClicked -> finish(showBillingDateHint = false)
+            is OnboardingAction.QueryChanged -> {
+                ui.update { it.copy(query = action.query) }
+            }
+
+            is OnboardingAction.CategorySelected -> {
+                ui.update { it.copy(category = action.category) }
+            }
+
+            // 이미 저장한 서비스는 선택을 풀어도 지워지지 않으니 풀 수 없게 한다
+            is OnboardingAction.ServiceToggled -> {
+                if (action.presetId !in
+                    registered
+                ) {
+                    ui.update { it.toggle(action.presetId) }
+                }
+            }
+
+            OnboardingAction.RegisterClicked -> {
+                register()
+            }
+
+            // 저장 중 실패한 뒤 건너뛰어도 이미 저장한 구독은 결제일 확인이 필요하다
+            OnboardingAction.SkipClicked -> {
+                finish(showBillingDateHint = registered.isNotEmpty())
+            }
         }
     }
 
@@ -120,15 +136,8 @@ internal class OnboardingViewModel(
         val selected: List<String> = emptyList(),
     ) {
         fun toggle(id: String): Ui = copy(selected = if (id in selected) selected - id else selected + id)
-
-        /** 대소문자 · 공백을 무시하고 이름에 검색어가 들어 있으면 */
-        fun matches(preset: Preset): Boolean =
-            (category == null || preset.category == category) &&
-                preset.name.normalized().contains(query.normalized())
     }
 }
-
-private fun String.normalized(): String = filterNot(Char::isWhitespace).lowercase()
 
 private fun Preset.toService(isSelected: Boolean): OnboardingService =
     OnboardingService(id = id, name = name, colorKey = colorKey, amount = plans.first().amount, isSelected = isSelected)
@@ -149,21 +158,5 @@ private fun Preset.toInput(today: LocalDate): SubscriptionInput {
 }
 
 /** 첫 요금제의 한 달 환산액. 계산은 core:domain 규칙을 쓴다 */
-private fun Preset.monthlyKrw(
-    today: LocalDate,
-    usdKrwRate: Long,
-): Long {
-    val plan = plans.first()
-    val draft =
-        Subscription(
-            id = id,
-            name = name,
-            amount = plan.amount,
-            cycle = plan.cycle,
-            firstBillingDate = today,
-            colorKey = colorKey,
-            createdAt = 0,
-            updatedAt = 0,
-        )
-    return SubscriptionRecord(draft).monthlyEquivalentKrw(today, usdKrwRate)
-}
+private fun Preset.monthlyKrw(usdKrwRate: Long): Long =
+    plans.first().let { monthlyEquivalentKrw(it.amount, it.cycle, usdKrwRate) }

@@ -1,6 +1,8 @@
 package jpark.bro.subcal.core.domain.billing
 
+import jpark.bro.subcal.core.model.BillingCycle
 import jpark.bro.subcal.core.model.CycleUnit
+import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.model.Payment
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.SubscriptionStatus
@@ -42,10 +44,17 @@ fun periodChangeKrw(
 fun SubscriptionRecord.monthlyEquivalentKrw(
     today: LocalDate,
     usdKrwRate: Long,
+): Long = monthlyEquivalentKrw(priceOn(today), subscription.cycle, usdKrwRate)
+
+/** [amount]를 [cycle]마다 낼 때의 한 달 환산액, 원 단위 반올림 (product-spec 2-8). 저장 전 요금제에도 쓴다 */
+fun monthlyEquivalentKrw(
+    amount: Money,
+    cycle: BillingCycle,
+    usdKrwRate: Long,
 ): Long {
-    val krw = priceOn(today).toKrw(usdKrwRate)
-    val interval = subscription.cycle.interval.toLong()
-    return when (subscription.cycle.unit) {
+    val krw = amount.toKrw(usdKrwRate)
+    val interval = cycle.interval.toLong()
+    return when (cycle.unit) {
         CycleUnit.DAY -> roundedDiv(krw * DAYS_PER_YEAR, interval * MONTHS_PER_YEAR)
         CycleUnit.WEEK -> roundedDiv(krw * WEEKS_PER_YEAR, interval * MONTHS_PER_YEAR)
         CycleUnit.MONTH -> roundedDiv(krw, interval)

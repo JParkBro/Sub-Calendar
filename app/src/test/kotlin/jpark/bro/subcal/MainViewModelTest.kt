@@ -5,6 +5,8 @@ import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.AppThemeMode
 import jpark.bro.subcal.core.testing.FakeSettingsRepository
 import jpark.bro.subcal.core.testing.MainDispatcherRule
+import jpark.bro.subcal.feature.home.api.HomeKey
+import jpark.bro.subcal.feature.onboarding.api.OnboardingKey
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -29,4 +31,16 @@ class MainViewModelTest {
                 assertEquals(AppThemeMode.DARK, awaitItem())
             }
         }
+
+    @Test
+    fun `온보딩을 마치지 않았으면 첫 화면은 온보딩`() {
+        assertEquals(OnboardingKey, MainViewModel(settings).startKey.value)
+    }
+
+    @Test
+    fun `온보딩을 마쳤으면 첫 화면은 홈`() {
+        settings.onboardingDone.value = true
+
+        assertEquals(HomeKey, MainViewModel(settings).startKey.value)
+    }
 }
