@@ -100,7 +100,7 @@ subcalendar/
 | 알림 · 위젯 탭 | `AppIntents.EXTRA_OPEN_SUBSCRIPTION_ID` | `[HomeKey, SubscriptionDetailKey]` 백스택 |
 | 체험 알림 탭 | `AppIntents.EXTRA_OPEN_TRIAL` | `[HomeKey, TrialKey]` |
 
-탭 전환(홈의 "전체보기" → 캘린더 탭, 카테고리 칩 → 목록 탭)은 `Navigator.switchTab(key)`로 하고, 대상 탭의 백스택 맨 아래 키를 인자와 함께 교체한다. 데이즈 `Navigator`에는 `switchTab`이 없으므로 복사한 뒤 추가한다. `SubscriptionListKey`는 인자가 있어 탭 판별을 키 값이 아니라 키 클래스로 해야 한다.
+탭 전환(홈의 "전체보기" → 캘린더 탭, 카테고리 칩 → 목록 탭)은 `Navigator.switchTab(key)`로 하고, 대상 탭의 백스택 맨 아래 키를 인자와 함께 교체한다. `SubscriptionListKey`는 인자가 있어 `Navigator`는 탭을 키 값이 아니라 키 클래스로 구분한다.
 
 ## 5. 기능 간 의존 관계
 

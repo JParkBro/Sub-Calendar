@@ -152,7 +152,7 @@ di/{Feature}Module.kt  viewModelOf + navigation<{Feature}Key>
 
 ### Navigation 3 · Koin
 
-- 이동은 `Navigator`(`core:navigation`)의 `goTo` / `goBack` / `replaceAll` / `switchTab`. `switchTab`은 데이즈에 없어 `core:navigation`을 만들 때 추가한다 (`module-map.md` 4-3).
+- 이동은 `Navigator`(`core:navigation`)의 `goTo` / `goBack` / `replaceAll` / `switchTab`.
 - `NavDisplay`의 `entryDecorators`에 `rememberViewModelStoreNavEntryDecorator()`를 빼지 않는다.
 - Koin은 생성자 주입만. 일반 클래스에서 `KoinComponent` · `get()` 사용 금지 (위젯 리시버 · Worker 등 Android 진입점만 예외).
 - `@KoinExperimentalAPI` 사용 시 `@OptIn`은 모듈 정의 파일에만.
