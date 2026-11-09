@@ -69,9 +69,12 @@ internal fun SectionHeader(
 }
 
 @Composable
-internal fun SubscriptionRowCard(row: SubscriptionRow) {
+internal fun SubscriptionRowCard(
+    row: SubscriptionRow,
+    onClick: () -> Unit,
+) {
     val cycle = billingCycleLabel(row.cycle, row.firstBillingDate)
-    SubCalCard(modifier = Modifier.testTag("subscription_row")) {
+    SubCalCard(onClick = onClick, modifier = Modifier.testTag("subscription_row")) {
         SubCalListItem(
             title = row.name,
             subtitle =

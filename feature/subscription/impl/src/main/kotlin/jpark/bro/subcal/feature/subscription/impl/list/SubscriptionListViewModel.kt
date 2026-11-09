@@ -77,6 +77,10 @@ internal class SubscriptionListViewModel(
             SubscriptionListAction.AddClicked -> {
                 sendEvent(SubscriptionListEvent.OpenServicePicker)
             }
+
+            is SubscriptionListAction.RowClicked -> {
+                sendEvent(SubscriptionListEvent.OpenDetail(action.id))
+            }
         }
     }
 }

@@ -30,7 +30,7 @@ subcalendar/
 ├─ core/
 │  ├─ model/          [JVM] Subscription, SubscriptionInput, PriceChange, Pause, SubscriptionRecord, Payment, Preset, AppSettings, NotificationSettings, PartyMember, UsageLog, Category, Money, BillingCycle
 │  ├─ common/         [JVM] suspendRunCatching, IdGenerator (Result는 kotlin.Result, Clock은 java.time.Clock을 주입)
-│  ├─ domain/         [JVM] 결제일 생성, 기간 집계, 누적 · 아낀 돈, 중복, 가성비, 파티 몫, 알림 대상
+│  ├─ domain/         [JVM] 결제일 생성, 결제 이력, 기간 집계, 누적 · 아낀 돈, 중복, 가성비, 파티 몫, 알림 대상
 │  ├─ navigation/     Navigator, 탭별 백스택 (홈 / 목록 / 캘린더 / 통계 / 더보기), AppIntents
 │  ├─ designsystem/   AppColors(27 토큰) · 2 팔레트, 서비스 색, 공통 컴포넌트 SubCal*
 │  ├─ ui/             MviViewModel, ObserveEvents, MoneyText · formatMoney, 카테고리 · 결제 주기 표시, PaymentRow, DatePicker

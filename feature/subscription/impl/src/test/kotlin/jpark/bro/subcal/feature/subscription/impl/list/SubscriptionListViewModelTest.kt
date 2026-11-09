@@ -211,4 +211,15 @@ class SubscriptionListViewModelTest {
                 assertEquals(SubscriptionListEvent.OpenServicePicker, awaitItem())
             }
         }
+
+    @Test
+    fun `행을 누르면 상세를 연다`() =
+        runTest {
+            val viewModel = viewModel()
+
+            viewModel.event.test {
+                viewModel.onAction(SubscriptionListAction.RowClicked("netflix"))
+                assertEquals(SubscriptionListEvent.OpenDetail("netflix"), awaitItem())
+            }
+        }
 }
