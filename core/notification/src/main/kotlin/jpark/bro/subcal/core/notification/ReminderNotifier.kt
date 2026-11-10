@@ -12,15 +12,18 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import jpark.bro.subcal.core.domain.reminder.MonthlySummary
 import jpark.bro.subcal.core.domain.reminder.PaymentReminder
 import jpark.bro.subcal.core.domain.reminder.TrialReminder
+import jpark.bro.subcal.core.model.Currency
+import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.navigation.AppIntents
 import jpark.bro.subcal.core.ui.formatMoney
 import java.time.LocalDate
 
 /**
  * 결제 · 체험 알림을 띄운다. 구독마다 하나씩 보내고, 종류별로 두 건 이상이면 묶음 요약을 함께 보낸다.
- * 결제 알림을 누르면 그 구독 상세, 체험 알림을 누르면 무료체험 화면, 결제 요약을 누르면 앱이 열린다.
+ * 결제 알림을 누르면 그 구독 상세, 체험 알림을 누르면 무료체험 화면, 결제 요약 · 월초 요약을 누르면 앱이 열린다.
  */
 internal class ReminderNotifier(
     private val context: Context,
@@ -49,6 +52,15 @@ internal class ReminderNotifier(
             "jpark.bro.subcal.TRIAL",
             R.string.notification_trial_summary_title,
         ),
+
+        /** 월초 요약: 한 달에 한 건이라 묶음 요약이 없다 */
+        MONTHLY(
+            CHANNEL_MONTHLY,
+            R.string.notification_channel_monthly,
+            R.string.notification_channel_monthly_description,
+            "jpark.bro.subcal.MONTHLY",
+            R.string.notification_monthly_title,
+        ),
     }
 
     /** 알림 한 건 */
@@ -74,8 +86,10 @@ internal class ReminderNotifier(
     fun notify(
         payments: List<PaymentReminder>,
         trials: List<TrialReminder>,
+        monthly: MonthlySummary? = null,
     ) {
-        if ((payments.isEmpty() && trials.isEmpty()) || !canNotify()) return
+        val nothingToSend = payments.isEmpty() && trials.isEmpty() && monthly == null
+        if (nothingToSend || !canNotify()) return
         createChannels()
         post(
             Kind.PAYMENT,
@@ -98,6 +112,16 @@ internal class ReminderNotifier(
                 )
             },
         )
+        monthly?.let { summary ->
+            val title = context.getString(R.string.notification_monthly_title, summary.period.month.monthValue)
+            val text =
+                context.getString(
+                    R.string.notification_monthly_text,
+                    context.formatMoney(Money(summary.totalKrw, Currency.KRW)),
+                    summary.paymentCount,
+                )
+            post(Kind.MONTHLY, listOf(Item(MONTHLY_TAG, title, text, text)))
+        }
     }
 
     // 권한은 canNotify()로 확인했다
@@ -216,6 +240,7 @@ internal class ReminderNotifier(
                 when (kind) {
                     Kind.PAYMENT -> subscriptionId?.let { putExtra(AppIntents.EXTRA_OPEN_SUBSCRIPTION_ID, it) }
                     Kind.TRIAL -> putExtra(AppIntents.EXTRA_OPEN_TRIAL, true)
+                    Kind.MONTHLY -> Unit
                 }
             } ?: return null
         return PendingIntent.getActivity(
@@ -229,6 +254,8 @@ internal class ReminderNotifier(
     companion object {
         const val CHANNEL_PAYMENT = "payment"
         const val CHANNEL_TRIAL = "trial"
+        const val CHANNEL_MONTHLY = "monthly"
+        private const val MONTHLY_TAG = "this_month"
         private const val NOTIFICATION_ID = 1
     }
 }

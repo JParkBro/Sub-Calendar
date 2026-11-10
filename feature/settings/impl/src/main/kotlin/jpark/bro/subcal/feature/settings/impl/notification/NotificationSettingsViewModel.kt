@@ -58,12 +58,8 @@ internal class NotificationSettingsViewModel(
                 sendEvent(NotificationSettingsEvent.OpenSystemSettings)
             }
 
-            is NotificationSettingsAction.PaymentEnabledChanged -> {
-                saveSettings { copy(paymentEnabled = action.enabled) }
-            }
-
-            is NotificationSettingsAction.TrialEnabledChanged -> {
-                saveSettings { copy(trialEnabled = action.enabled) }
+            is NotificationSettingsAction.Toggle -> {
+                saveSettings { toggled(action) }
             }
 
             is NotificationSettingsAction.DefaultDaysBeforeSelected -> {
@@ -134,3 +130,11 @@ private fun List<SubscriptionRecord>.toReminderItems(settings: NotificationSetti
                 leadDays = subscription.reminderLeadDays(settings),
             )
         }
+
+/** 알림 종류 스위치를 설정 값에 반영한다 */
+private fun NotificationSettings.toggled(action: NotificationSettingsAction.Toggle): NotificationSettings =
+    when (action) {
+        is NotificationSettingsAction.PaymentEnabledChanged -> copy(paymentEnabled = action.enabled)
+        is NotificationSettingsAction.TrialEnabledChanged -> copy(trialEnabled = action.enabled)
+        is NotificationSettingsAction.MonthlySummaryChanged -> copy(monthlySummaryEnabled = action.enabled)
+    }

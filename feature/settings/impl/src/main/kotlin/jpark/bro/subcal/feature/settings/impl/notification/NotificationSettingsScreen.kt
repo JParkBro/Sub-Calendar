@@ -48,6 +48,7 @@ import jpark.bro.subcal.core.designsystem.component.SubCalTopBar
 import jpark.bro.subcal.core.designsystem.preview.ScreenPreviews
 import jpark.bro.subcal.core.model.BillingCycle
 import jpark.bro.subcal.core.model.CycleUnit
+import jpark.bro.subcal.core.model.NotificationSettings
 import jpark.bro.subcal.core.ui.ObserveEvents
 import jpark.bro.subcal.core.ui.billingCycleLabel
 import jpark.bro.subcal.feature.settings.impl.R
@@ -130,7 +131,7 @@ private fun NotificationSettingsScreen(
                 DeviceOffCard(onAction = onAction)
             }
             PaymentCard(state = state, onAction = onAction)
-            TrialCard(enabled = state.settings.trialEnabled, onAction = onAction)
+            ExtraCard(settings = state.settings, onAction = onAction)
             if (state.settings.paymentEnabled) {
                 DefaultDaysSection(selected = state.settings.defaultDaysBefore, onAction = onAction)
                 SubscriptionSection(items = state.subscriptions, onAction = onAction)
@@ -203,10 +204,10 @@ private fun PaymentCard(
     }
 }
 
-/** 무료체험 종료 알림: 결제 알림과 따로 켜고 끈다 (product-spec 2-7) */
+/** 무료체험 종료 알림 · 월초 요약: 결제 알림과 따로 켜고 끈다 (product-spec 2-7, 6장) */
 @Composable
-private fun TrialCard(
-    enabled: Boolean,
+private fun ExtraCard(
+    settings: NotificationSettings,
     onAction: (NotificationSettingsAction) -> Unit,
 ) {
     SubCalCard {
@@ -215,9 +216,21 @@ private fun TrialCard(
             subtitle = stringResource(R.string.settings_notification_trial_hint),
             trailing = {
                 SubCalSwitch(
-                    checked = enabled,
+                    checked = settings.trialEnabled,
                     onCheckedChange = { onAction(NotificationSettingsAction.TrialEnabledChanged(it)) },
                     modifier = Modifier.testTag("trial_switch"),
+                )
+            },
+        )
+        SubCalDivider()
+        SubCalListItem(
+            title = stringResource(R.string.settings_notification_monthly),
+            subtitle = stringResource(R.string.settings_notification_monthly_hint),
+            trailing = {
+                SubCalSwitch(
+                    checked = settings.monthlySummaryEnabled,
+                    onCheckedChange = { onAction(NotificationSettingsAction.MonthlySummaryChanged(it)) },
+                    modifier = Modifier.testTag("monthly_switch"),
                 )
             },
         )

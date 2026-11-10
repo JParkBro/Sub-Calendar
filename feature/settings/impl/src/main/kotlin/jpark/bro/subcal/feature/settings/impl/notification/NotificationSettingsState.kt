@@ -6,8 +6,8 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 /**
- * 알림 설정 (product-spec 6장): 결제 알림 · 기본 시점 · 시각 · 구독별 설정 · 무료체험 알림.
- * 월초 요약(2차 다음 PR), 파티 정산(3차) 토글은 아직 숨긴다.
+ * 알림 설정 (product-spec 6장): 결제 알림 · 기본 시점 · 시각 · 구독별 설정 · 무료체험 알림 · 월초 요약.
+ * 파티 정산(3차) 토글은 아직 숨긴다.
  */
 internal data class NotificationSettingsState(
     val isLoading: Boolean = true,

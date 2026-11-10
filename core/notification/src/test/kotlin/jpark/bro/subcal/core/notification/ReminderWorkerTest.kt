@@ -12,6 +12,7 @@ import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import androidx.work.testing.TestListenableWorkerBuilder
 import jpark.bro.subcal.core.datastore.SettingsDataStore
+import jpark.bro.subcal.core.model.NotificationSettings
 import jpark.bro.subcal.core.testing.FakeSubscriptionRepository
 import jpark.bro.subcal.core.testing.SampleData
 import kotlinx.coroutines.flow.first
@@ -23,6 +24,8 @@ import org.junit.runner.RunWith
 import org.robolectric.Shadows.shadowOf
 import java.io.File
 import java.nio.file.Files
+import java.time.Clock
+import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 class ReminderWorkerTest {
@@ -42,7 +45,7 @@ class ReminderWorkerTest {
         shadowOf(context as Application).grantPermissions(Manifest.permission.POST_NOTIFICATIONS)
     }
 
-    private suspend fun runWorker(): ListenableWorker.Result =
+    private suspend fun runWorker(clock: Clock = SampleData.clock): ListenableWorker.Result =
         TestListenableWorkerBuilder<ReminderWorker>(context)
             .setWorkerFactory(
                 object : WorkerFactory() {
@@ -57,7 +60,7 @@ class ReminderWorkerTest {
                             subscriptions,
                             settingsDataStore,
                             ReminderNotifier(appContext),
-                            SampleData.clock,
+                            clock,
                         )
                 },
             ).build()
@@ -103,6 +106,23 @@ class ReminderWorkerTest {
                     .map { it.channelId }
                     .toSet()
             assertEquals(setOf(ReminderNotifier.CHANNEL_PAYMENT, ReminderNotifier.CHANNEL_TRIAL), channels)
+        }
+
+    @Test
+    fun `월초 요약을 켜 두면 이번 달 기간 첫날에 이번 달 구독료를 알린다`() =
+        runTest {
+            settingsDataStore.setNotificationSettings(NotificationSettings(monthlySummaryEnabled = true))
+            subscriptions.records.value = listOf(monthly("넷플릭스", first = LocalDate.of(2026, 1, 15)))
+            val firstDay = LocalDate.of(2026, 11, 1)
+            val clock =
+                Clock.fixed(
+                    firstDay.atTime(9, 0).atZone(SampleData.clock.zone).toInstant(),
+                    SampleData.clock.zone,
+                )
+
+            runWorker(clock)
+
+            assertEquals(listOf("11월 구독료"), postedTitles())
         }
 
     @Test

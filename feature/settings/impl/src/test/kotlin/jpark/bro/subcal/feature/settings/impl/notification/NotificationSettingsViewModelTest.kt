@@ -55,6 +55,8 @@ class NotificationSettingsViewModelTest {
 
         viewModel.onAction(NotificationSettingsAction.TrialEnabledChanged(false))
         assertFalse(settings.notificationSettings.value.trialEnabled)
+        viewModel.onAction(NotificationSettingsAction.MonthlySummaryChanged(true))
+        assertTrue(settings.notificationSettings.value.monthlySummaryEnabled)
 
         viewModel.onAction(NotificationSettingsAction.TimeClicked)
         assertTrue(viewModel.state.value.isTimeSheetVisible)
