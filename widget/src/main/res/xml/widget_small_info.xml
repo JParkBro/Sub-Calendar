@@ -2,6 +2,7 @@
 <!-- 작게 2×2 (product-spec 7장). 갱신은 WidgetUpdater가 하므로 updatePeriodMillis는 0 -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:configure="jpark.bro.subcal.widget.config.WidgetConfigActivity"
     android:description="@string/widget_small_description"
     android:initialLayout="@layout/glance_default_loading_layout"
     android:minWidth="110dp"
@@ -11,4 +12,5 @@
     android:targetCellHeight="2"
     android:updatePeriodMillis="0"
     android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable|configuration_optional"
     tools:ignore="UnusedAttribute" />

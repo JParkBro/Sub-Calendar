@@ -5,6 +5,8 @@ internal sealed interface MoreEvent {
 
     data object OpenTrial : MoreEvent
 
+    data object OpenWidgetSettings : MoreEvent
+
     data object SaveFailed : MoreEvent
 
     /** 시스템 파일 저장 창을 열어 [json]을 [fileName]으로 저장한다 */

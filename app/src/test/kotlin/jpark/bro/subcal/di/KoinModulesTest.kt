@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation3.runtime.NavKey
 import androidx.work.WorkerParameters
+import jpark.bro.subcal.core.model.WidgetSize
 import jpark.bro.subcal.feature.insight.api.SavingsKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionEditKey
@@ -29,8 +30,11 @@ class KoinModulesTest {
             )
         // Worker는 WorkManager가 WorkerParameters를 넘겨 만든다
         val workerArgs = listOf(WorkerParameters::class)
+        // 위젯 설정 ViewModel은 런처가 준 위젯 id와 크기를 받는다
+        val widgetArgs = listOf(Int::class, WidgetSize::class)
         appModule.verify(
-            extraTypes = listOf(Context::class, SavedStateHandle::class) + navigatorArgs + screenKeys + workerArgs,
+            extraTypes =
+                listOf(Context::class, SavedStateHandle::class) + navigatorArgs + screenKeys + workerArgs + widgetArgs,
         )
     }
 }
