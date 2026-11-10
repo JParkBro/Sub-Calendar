@@ -34,6 +34,8 @@ dependencies {
     implementation(projects.feature.subscription.impl)
     implementation(projects.feature.calendar.api)
     implementation(projects.feature.calendar.impl)
+    implementation(projects.feature.insight.api)
+    implementation(projects.feature.insight.impl)
     implementation(projects.feature.settings.api)
     implementation(projects.feature.settings.impl)
 

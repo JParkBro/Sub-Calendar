@@ -8,6 +8,7 @@ import jpark.bro.subcal.core.navigation.Navigator
 import jpark.bro.subcal.core.notification.di.notificationModule
 import jpark.bro.subcal.feature.calendar.impl.di.calendarModule
 import jpark.bro.subcal.feature.home.impl.di.homeModule
+import jpark.bro.subcal.feature.insight.impl.di.insightModule
 import jpark.bro.subcal.feature.onboarding.api.OnboardingResultHandler
 import jpark.bro.subcal.feature.onboarding.impl.di.onboardingModule
 import jpark.bro.subcal.feature.settings.api.DataResetHandler
@@ -38,6 +39,7 @@ val appModule =
             homeModule,
             subscriptionModule,
             calendarModule,
+            insightModule,
             settingsModule,
         )
     }
