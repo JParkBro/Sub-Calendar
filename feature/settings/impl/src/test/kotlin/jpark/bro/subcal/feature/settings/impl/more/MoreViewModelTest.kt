@@ -4,8 +4,10 @@ import app.cash.turbine.test
 import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.AppThemeMode
 import jpark.bro.subcal.core.model.NotificationSettings
+import jpark.bro.subcal.core.testing.FakeBackupRepository
 import jpark.bro.subcal.core.testing.FakeSettingsRepository
 import jpark.bro.subcal.core.testing.MainDispatcherRule
+import jpark.bro.subcal.core.testing.SampleData
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -20,7 +22,8 @@ class MoreViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private val settings = FakeSettingsRepository()
-    private val viewModel by lazy { MoreViewModel(settings) }
+    private val backup = FakeBackupRepository()
+    private val viewModel by lazy { MoreViewModel(settings, backup, SampleData.clock) }
 
     private val state: MoreState get() = viewModel.state.value
 
@@ -123,5 +126,90 @@ class MoreViewModelTest {
                 assertEquals(MoreEvent.SaveFailed, awaitItem())
             }
             assertEquals(1, state.appSettings.monthStartDay)
+        }
+
+    @Test
+    fun `내보내기는 오늘 날짜 파일 이름으로 저장 창을 열고 저장 결과를 알린다`() =
+        runTest {
+            viewModel.event.test {
+                viewModel.onAction(MoreAction.ExportClicked)
+                assertEquals(MoreEvent.SaveBackupFile("subcal-backup-20261030.json", backup.validJson), awaitItem())
+                assertFalse(state.isBackupBusy)
+
+                viewModel.onAction(MoreAction.ExportFileWritten(success = true))
+                assertEquals(MoreEvent.ShowBackupMessage(BackupMessage.EXPORTED), awaitItem())
+
+                viewModel.onAction(MoreAction.ExportFileWritten(success = false))
+                assertEquals(MoreEvent.ShowBackupMessage(BackupMessage.EXPORT_FAILED), awaitItem())
+            }
+        }
+
+    @Test
+    fun `내보낼 내용을 만들지 못하면 실패를 알린다`() =
+        runTest {
+            backup.failure = IOException("db")
+
+            viewModel.event.test {
+                viewModel.onAction(MoreAction.ExportClicked)
+
+                assertEquals(MoreEvent.ShowBackupMessage(BackupMessage.EXPORT_FAILED), awaitItem())
+            }
+        }
+
+    @Test
+    fun `불러오기는 파일을 검사해 확인 시트를 열고 확인하면 바꾼 뒤 알린다`() =
+        runTest {
+            viewModel.event.test {
+                viewModel.onAction(MoreAction.ImportClicked)
+                assertEquals(MoreEvent.OpenBackupFile, awaitItem())
+
+                viewModel.onAction(MoreAction.BackupFileRead(backup.validJson))
+                assertEquals(MoreSheet.RESTORE_CONFIRM, state.sheet)
+                assertEquals(backup.summary, state.restorePreview)
+                assertNull(backup.restored)
+
+                viewModel.onAction(MoreAction.RestoreConfirmed)
+                assertEquals(MoreEvent.DataRestored, awaitItem())
+                assertEquals(backup.validJson, backup.restored)
+                assertNull(state.sheet)
+            }
+        }
+
+    @Test
+    fun `백업 파일이 아니거나 읽지 못하면 알리고 시트를 열지 않는다`() =
+        runTest {
+            viewModel.event.test {
+                viewModel.onAction(MoreAction.BackupFileRead("{}"))
+                assertEquals(MoreEvent.ShowBackupMessage(BackupMessage.INVALID_FILE), awaitItem())
+
+                viewModel.onAction(MoreAction.BackupFileRead(null))
+                assertEquals(MoreEvent.ShowBackupMessage(BackupMessage.INVALID_FILE), awaitItem())
+            }
+            assertNull(state.sheet)
+        }
+
+    @Test
+    fun `확인 시트를 닫으면 불러오지 않는다`() {
+        viewModel.onAction(MoreAction.BackupFileRead(backup.validJson))
+
+        viewModel.onAction(MoreAction.SheetDismissed)
+        viewModel.onAction(MoreAction.RestoreConfirmed)
+
+        assertNull(backup.restored)
+        assertNull(state.restorePreview)
+    }
+
+    @Test
+    fun `불러오기에 실패하면 알리고 그대로 있는다`() =
+        runTest {
+            viewModel.onAction(MoreAction.BackupFileRead(backup.validJson))
+            backup.failure = IOException("db")
+
+            viewModel.event.test {
+                viewModel.onAction(MoreAction.RestoreConfirmed)
+
+                assertEquals(MoreEvent.ShowBackupMessage(BackupMessage.RESTORE_FAILED), awaitItem())
+            }
+            assertFalse(state.isBackupBusy)
         }
 }

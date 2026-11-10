@@ -6,6 +6,8 @@ import jpark.bro.subcal.feature.home.api.HomeKey
 import jpark.bro.subcal.feature.onboarding.api.OnboardingKey
 import jpark.bro.subcal.feature.onboarding.api.OnboardingResult
 import jpark.bro.subcal.feature.onboarding.api.OnboardingResultHandler
+import jpark.bro.subcal.feature.settings.api.DataReset
+import jpark.bro.subcal.feature.settings.api.DataResetHandler
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
 
 /** 앱 시작 화면: 온보딩을 마치지 않았으면 온보딩 (module-map 4-3) */
@@ -19,6 +21,17 @@ internal fun Navigator.openSubscriptionDetail(id: String) {
     if (backStack.firstOrNull() == OnboardingKey) return
     replaceAll(HomeKey)
     goTo(SubscriptionDetailKey(id))
+}
+
+/** 백업을 불러오면 이전 화면 없이 홈으로 (module-map 4-3) */
+internal class AppDataResetHandler(
+    private val navigator: Navigator,
+) : DataResetHandler {
+    override fun handle(result: DataReset) {
+        when (result) {
+            DataReset.Restored -> navigator.replaceAll(HomeKey)
+        }
+    }
 }
 
 /** 온보딩이 끝나면 이전 화면 없이 홈으로 */

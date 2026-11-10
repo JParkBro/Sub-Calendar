@@ -45,4 +45,23 @@ internal sealed interface MoreAction {
     ) : MoreAction
 
     data object SheetDismissed : MoreAction
+
+    /** 백업 내보내기 · 불러오기 (product-spec 6장) */
+    sealed interface Backup : MoreAction
+
+    data object ExportClicked : Backup
+
+    /** Root가 고른 위치에 파일을 썼는지. 고르지 않고 닫으면 보내지 않는다 */
+    data class ExportFileWritten(
+        val success: Boolean,
+    ) : Backup
+
+    data object ImportClicked : Backup
+
+    /** Root가 고른 파일에서 읽은 내용. 읽지 못했으면 null */
+    data class BackupFileRead(
+        val json: String?,
+    ) : Backup
+
+    data object RestoreConfirmed : Backup
 }

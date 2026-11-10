@@ -1,6 +1,7 @@
 package jpark.bro.subcal.feature.settings.impl.more
 
 import jpark.bro.subcal.core.model.AppSettings
+import jpark.bro.subcal.core.model.BackupSummary
 import jpark.bro.subcal.core.model.NotificationSettings
 
 /**
@@ -18,6 +19,10 @@ internal data class MoreState(
     val usdKrwRateInput: String = "",
     /** 기본 결제 수단 시트 입력. 비우고 저장하면 지운다 */
     val paymentMethodInput: String = "",
+    /** 백업을 만들거나 불러오는 중: 데이터 메뉴를 막는다 */
+    val isBackupBusy: Boolean = false,
+    /** 불러오기 확인 시트에 보여줄 백업 요약 */
+    val restorePreview: BackupSummary? = null,
 ) {
     /** 0보다 큰 원 단위 숫자여야 저장할 수 있다 (product-spec 2-4) */
     val canSaveUsdKrwRate: Boolean get() = (usdKrwRateInput.toLongOrNull() ?: 0) > 0
@@ -28,6 +33,7 @@ internal enum class MoreSheet {
     USD_KRW_RATE,
     PAYMENT_METHOD,
     THEME_MODE,
+    RESTORE_CONFIRM,
 }
 
 /** 환율 입력 최대 자릿수 (999,999원) */

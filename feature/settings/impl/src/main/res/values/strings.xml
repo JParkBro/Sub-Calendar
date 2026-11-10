@@ -23,6 +23,20 @@
     <string name="settings_more_app_version">앱 버전</string>
     <string name="settings_more_save">저장</string>
     <string name="settings_more_save_failed">저장하지 못했어요. 다시 시도해 주세요</string>
+    <string name="settings_more_section_data">데이터</string>
+    <string name="settings_more_backup_export">백업 내보내기</string>
+    <string name="settings_more_backup_export_hint">기기를 바꾸기 전에 백업 파일을 저장해 두세요. 결제 수단 · 메모도 들어 있어요</string>
+    <string name="settings_more_backup_import">백업 불러오기</string>
+    <string name="settings_more_backup_import_hint">지금 데이터를 백업 파일 내용으로 바꿔요</string>
+    <string name="settings_more_backup_exported">백업 파일을 저장했어요</string>
+    <string name="settings_more_backup_export_failed">백업 파일을 저장하지 못했어요</string>
+    <string name="settings_more_backup_invalid">백업 파일을 읽지 못했어요</string>
+    <string name="settings_more_backup_restore_failed">백업을 불러오지 못했어요. 데이터는 바뀌지 않았어요</string>
+    <string name="settings_more_restore_title">백업을 불러올까요?</string>
+    <string name="settings_more_restore_summary">%1$s에 만든 백업 · 구독 %2$d개</string>
+    <string name="settings_more_restore_warning">지금 있는 구독과 설정은 모두 지워지고 백업 내용으로 바뀌어요</string>
+    <string name="settings_more_restore_confirm">데이터 바꾸기</string>
+    <string name="settings_more_cancel">취소</string>
 
     <string name="settings_notification_title">알림 설정</string>
     <string name="settings_notification_back">뒤로</string>

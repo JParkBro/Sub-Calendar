@@ -5,6 +5,8 @@ import jpark.bro.subcal.feature.calendar.api.CalendarKey
 import jpark.bro.subcal.feature.home.api.HomeKey
 import jpark.bro.subcal.feature.onboarding.api.OnboardingKey
 import jpark.bro.subcal.feature.onboarding.api.OnboardingResult
+import jpark.bro.subcal.feature.settings.api.DataReset
+import jpark.bro.subcal.feature.settings.api.MoreKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -21,6 +23,17 @@ class AppResultHandlersTest {
         val navigator = Navigator(startKey = OnboardingKey, topLevelKeys = TopLevelDestination.keys)
 
         AppOnboardingResultHandler(navigator).handle(OnboardingResult.Done)
+
+        assertEquals(listOf(HomeKey), navigator.backStack.toList())
+        assertEquals(HomeKey, navigator.currentTab)
+    }
+
+    @Test
+    fun `백업을 불러오면 다른 탭에 있어도 홈만 남긴다`() {
+        val navigator = Navigator(startKey = HomeKey, topLevelKeys = TopLevelDestination.keys)
+        navigator.goTo(MoreKey)
+
+        AppDataResetHandler(navigator).handle(DataReset.Restored)
 
         assertEquals(listOf(HomeKey), navigator.backStack.toList())
         assertEquals(HomeKey, navigator.currentTab)
