@@ -166,6 +166,16 @@ internal class DefaultSubscriptionRepository(
             )
         }
 
+    override suspend fun setConsiderCancel(
+        id: String,
+        considerCancel: Boolean,
+    ): Result<Unit> =
+        dao.edit(writeMutex, id) { record ->
+            dao.upsertSubscription(
+                record.subscription.copy(considerCancel = considerCancel, updatedAt = clock.millis()).toEntity(),
+            )
+        }
+
     override suspend fun delete(id: String): Result<Unit> =
         dao.edit(writeMutex, id) { dao.softDelete(id, clock.millis()) }
 }

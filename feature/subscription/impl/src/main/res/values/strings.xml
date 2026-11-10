@@ -89,6 +89,9 @@
     <string name="subscription_detail_title">구독 상세</string>
     <string name="subscription_detail_back">뒤로</string>
     <string name="subscription_detail_edit">수정</string>
+    <string name="subscription_detail_menu">더보기 메뉴</string>
+    <string name="subscription_detail_consider_add">해지 고민함에 담기</string>
+    <string name="subscription_detail_consider_remove">해지 고민함에서 빼기</string>
     <string name="subscription_detail_separator">" · "</string>
     <string name="subscription_detail_status_active">이용 중</string>
     <string name="subscription_detail_status_trial">체험 중</string>

@@ -289,6 +289,19 @@ class DefaultSubscriptionRepositoryTest {
         }
 
     @Test
+    fun `해지 고민함에 담고 뺄 수 있다`() =
+        runTest {
+            val id = add()
+
+            repository.setConsiderCancel(id, true).getOrThrow()
+            assertTrue(record(id).subscription.considerCancel)
+
+            repository.setConsiderCancel(id, false).getOrThrow()
+            assertTrue(!record(id).subscription.considerCancel)
+            assertFailure(repository.setConsiderCancel("없음", true))
+        }
+
+    @Test
     fun `삭제하면 목록과 단건에서 사라진다`() =
         runTest {
             val id = add()

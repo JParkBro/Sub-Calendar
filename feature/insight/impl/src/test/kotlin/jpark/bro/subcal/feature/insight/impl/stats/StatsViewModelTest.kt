@@ -7,6 +7,7 @@ import jpark.bro.subcal.core.testing.FakeSettingsRepository
 import jpark.bro.subcal.core.testing.FakeSubscriptionRepository
 import jpark.bro.subcal.core.testing.MainDispatcherRule
 import jpark.bro.subcal.core.testing.SampleData
+import jpark.bro.subcal.feature.insight.api.SavingsTab
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -85,6 +86,12 @@ class StatsViewModelTest {
                 viewModel.onAction(StatsAction.CategoryClicked(Category.MUSIC))
 
                 assertEquals(StatsEvent.OpenList(Category.MUSIC), awaitItem())
+
+                viewModel.onAction(StatsAction.ConsiderCardClicked)
+                assertEquals(StatsEvent.OpenSavings(SavingsTab.CONSIDER), awaitItem())
+
+                viewModel.onAction(StatsAction.SavedCardClicked)
+                assertEquals(StatsEvent.OpenSavings(SavingsTab.SAVED), awaitItem())
             }
         }
 }

@@ -100,6 +100,28 @@ internal class SubscriptionDetailViewModel(
             SubscriptionDetailAction.ShowAllHistoryClicked -> {
                 sendEvent(SubscriptionDetailEvent.OpenHistory(id))
             }
+
+            is SubscriptionDetailAction.Menu -> {
+                onMenuAction(action)
+            }
+        }
+    }
+
+    private fun onMenuAction(action: SubscriptionDetailAction.Menu) {
+        when (action) {
+            SubscriptionDetailAction.MenuClicked -> {
+                setState { copy(isMenuOpen = true) }
+            }
+
+            SubscriptionDetailAction.MenuDismissed -> {
+                setState { copy(isMenuOpen = false) }
+            }
+
+            SubscriptionDetailAction.ConsiderCancelToggled -> {
+                setState { copy(isMenuOpen = false) }
+                val considerCancel = currentState.content?.considerCancel ?: return
+                write { subscriptionRepository.setConsiderCancel(id, !considerCancel) }
+            }
         }
     }
 

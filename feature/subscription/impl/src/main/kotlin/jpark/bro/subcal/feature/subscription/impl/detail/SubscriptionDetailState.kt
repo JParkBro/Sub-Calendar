@@ -20,6 +20,8 @@ internal data class SubscriptionDetailState(
     val today: LocalDate = LocalDate.ofEpochDay(0),
     /** 일시정지 · 해지 등 저장 중 */
     val isWorking: Boolean = false,
+    /** 헤더 메뉴(해지 고민함에 담기 · 빼기) */
+    val isMenuOpen: Boolean = false,
 )
 
 internal data class DetailContent(
@@ -43,6 +45,8 @@ internal data class DetailContent(
     val hasMoreHistory: Boolean,
     val memo: String?,
     val hasCancelUrl: Boolean,
+    /** 해지 고민함에 담았는지 */
+    val considerCancel: Boolean = false,
 )
 
 internal data class NextPayment(

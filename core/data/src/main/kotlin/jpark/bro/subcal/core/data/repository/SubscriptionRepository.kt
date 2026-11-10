@@ -47,6 +47,12 @@ interface SubscriptionRepository {
         daysBefore: Int? = null,
     ): Result<Unit>
 
+    /** 해지 고민함에 담기 · 빼기 (product-spec 2-9, 4-4) */
+    suspend fun setConsiderCancel(
+        id: String,
+        considerCancel: Boolean,
+    ): Result<Unit>
+
     /** soft delete. 잘못 등록한 구독을 지우는 용도 (product-spec 2-6) */
     suspend fun delete(id: String): Result<Unit>
 }
