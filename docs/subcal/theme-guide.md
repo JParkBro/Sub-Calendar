@@ -131,6 +131,19 @@ WCAG: 일반 텍스트 4.5:1, 큰 텍스트 · UI 그래픽 3:1.
 
 `core:ui`: `MoneyText(money, style, tone)` · `formatMoney` · `formatKrwInManwon`(만 원 단위), `PaymentRow`(아이콘 · 이름 · 날짜 · D-day · 금액 한 줄), `SubCalDatePickerDialog`, `SubCalWebView`(정책 문서 · 다른 앱 둘러보기).
 
+### 앱 아이콘
+
+`primary`(#3D4FD6) 배경에 흰 달력 + `primary` ₩. 원본은 `docs/subcal/assets/app-icon.svg`(108×108 적응형 아이콘 좌표, 그림은 안전 영역 지름 66 안).
+
+| 파일 | 내용 |
+|---|---|
+| `app/.../drawable/ic_launcher_background.xml` · `ic_launcher_foreground.xml` | 적응형 아이콘 배경 · 전경 (원본과 같은 좌표) |
+| `app/.../drawable/ic_launcher_monochrome.xml` | 테마 아이콘(Android 13+): 달력 윤곽선 + ₩ 선 |
+| `app/.../mipmap-anydpi/ic_launcher(_round).xml` | 위 셋을 묶는다. minSdk 30이라 밀도별 PNG는 두지 않는다 |
+| `docs/subcal/assets/store-icon-512.png` | Play 스토어 아이콘 (원본의 18~90 영역을 512px로) |
+
+아이콘을 바꾸면 SVG 원본과 벡터 세 개, 스토어 PNG를 함께 고친다.
+
 ## 8. Android(Compose) 적용
 
 데이즈와 같은 구조입니다. `AppColors`(27 토큰), 팔레트 값 `ThemeTokens.kt`(인디고 라이트 · 다크), `AppFixedColors.service(colorKey)`, `AppThemeTokens.colors`. `AppTheme(mode)`가 `MaterialTheme`의 colorScheme도 토큰에서 채워 시스템 컴포넌트(날짜 선택기 등) 색을 맞춥니다. 데이즈의 `AppThemeType`(테마 선택)은 팔레트가 하나라 옮기지 않습니다.
