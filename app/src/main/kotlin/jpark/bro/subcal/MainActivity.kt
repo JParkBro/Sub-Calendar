@@ -22,8 +22,9 @@ import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.isDarkTheme
 import jpark.bro.subcal.core.navigation.AppIntents
 import jpark.bro.subcal.core.navigation.Navigator
+import jpark.bro.subcal.navigation.AppOpenRequest
 import jpark.bro.subcal.navigation.SubCalApp
-import jpark.bro.subcal.navigation.openSubscriptionDetail
+import jpark.bro.subcal.navigation.open
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
@@ -32,12 +33,12 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModel()
 
     /** 알림에서 연 구독 id. 화면에 반영하면 비운다 */
-    private var openSubscriptionId by mutableStateOf<String?>(null)
+    private var openRequest by mutableStateOf<AppOpenRequest?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 화면 회전 뒤에는 처음 받은 Intent를 다시 처리하지 않는다
-        if (savedInstanceState == null) openSubscriptionId = intent.subscriptionIdExtra()
+        if (savedInstanceState == null) openRequest = intent.openRequest()
         enableEdgeToEdge()
         setContent {
             val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
@@ -61,9 +62,9 @@ class MainActivity : ComponentActivity() {
                 } else {
                     // Navigator는 첫 화면을 받아 한 번만 만들어진다. 화면 회전 뒤에는 같은 Navigator를 돌려준다
                     val navigator: Navigator = koinInject { parametersOf(key) }
-                    LaunchedEffect(navigator, openSubscriptionId) {
-                        openSubscriptionId?.let(navigator::openSubscriptionDetail)
-                        openSubscriptionId = null
+                    LaunchedEffect(navigator, openRequest) {
+                        openRequest?.let(navigator::open)
+                        openRequest = null
                     }
                     SubCalApp(navigator = navigator)
                 }
@@ -75,8 +76,12 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        intent.subscriptionIdExtra()?.let { openSubscriptionId = it }
+        intent.openRequest()?.let { openRequest = it }
     }
 
-    private fun Intent.subscriptionIdExtra(): String? = getStringExtra(AppIntents.EXTRA_OPEN_SUBSCRIPTION_ID)
+    private fun Intent.openRequest(): AppOpenRequest? =
+        when {
+            getBooleanExtra(AppIntents.EXTRA_OPEN_TRIAL, false) -> AppOpenRequest.Trial
+            else -> getStringExtra(AppIntents.EXTRA_OPEN_SUBSCRIPTION_ID)?.let(AppOpenRequest::Subscription)
+        }
 }

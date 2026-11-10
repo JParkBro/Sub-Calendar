@@ -56,7 +56,7 @@ class ReminderWorkerTest {
                             workerParameters,
                             subscriptions,
                             settingsDataStore,
-                            PaymentNotifier(appContext),
+                            ReminderNotifier(appContext),
                             SampleData.clock,
                         )
                 },
@@ -83,6 +83,26 @@ class ReminderWorkerTest {
 
             assertEquals(listOf("넷플릭스", "다가오는 결제 2건", "멜론"), postedTitles())
             assertEquals(today, settingsDataStore.lastPaymentReminderDate.first())
+        }
+
+    @Test
+    fun `체험 종료 전날에는 결제 알림 대신 체험 알림 하나만 보낸다`() =
+        runTest {
+            subscriptions.records.value =
+                listOf(
+                    monthly("디즈니+", first = today.plusDays(1), trialStartedOn = today.minusDays(29)),
+                    monthly("넷플릭스", first = today.plusDays(1)),
+                )
+
+            runWorker()
+
+            assertEquals(listOf("넷플릭스", "디즈니+ 무료체험"), postedTitles())
+            val channels =
+                shadowOf(notificationManager)
+                    .allNotifications
+                    .map { it.channelId }
+                    .toSet()
+            assertEquals(setOf(ReminderNotifier.CHANNEL_PAYMENT, ReminderNotifier.CHANNEL_TRIAL), channels)
         }
 
     @Test

@@ -27,7 +27,8 @@ class ReminderSchedulerTest {
     fun setUp() {
         WorkManagerTestInitHelper.initializeTestWorkManager(context)
         workManager = WorkManager.getInstance(context)
-        scheduler = ReminderScheduler(workManager, FakeSettingsRepository(), PaymentNotifier(context), SampleData.clock)
+        scheduler =
+            ReminderScheduler(workManager, FakeSettingsRepository(), ReminderNotifier(context), SampleData.clock)
     }
 
     private fun scheduled(): List<WorkInfo> =

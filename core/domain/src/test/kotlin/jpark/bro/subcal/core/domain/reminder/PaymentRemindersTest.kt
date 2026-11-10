@@ -122,14 +122,54 @@ class PaymentRemindersTest {
     }
 
     @Test
-    fun `체험 중인 구독은 첫 결제일을 일반 결제처럼 알리고 체험 기간에는 알리지 않는다`() {
+    fun `체험 알림은 첫 결제일 2일 전 · 1일 전 · 당일에 보내고 같은 날 결제 알림은 뺀다`() {
         val record =
+            subscription(name = "디즈니+", first = "2026-11-14", amount = 13_900)
+                .trial(startedOn = "2026-10-15", outcome = TrialOutcome.PENDING)
+                .record()
+
+        listOf("2026-11-12" to 2, "2026-11-13" to 1, "2026-11-14" to 0).forEach { (today, days) ->
+            val trial = trialReminders(listOf(record), settings, date(today)).single()
+            assertEquals(days, trial.daysBefore)
+            assertEquals(13_900L, trial.firstPayment.amount.amountMinor)
+            // 1일 전 결제 알림과 겹치는 날도 체험 알림 하나만
+            assertTrue(reminders(today, record).isEmpty())
+        }
+        assertTrue(trialReminders(listOf(record), settings, date("2026-11-11")).isEmpty())
+    }
+
+    @Test
+    fun `체험 알림 날이 아니면 결제 알림 시점대로 알리고 체험 알림을 끄면 결제 알림으로 알린다`() {
+        val record =
+            subscription(name = "디즈니+", first = "2026-11-14")
+                .trial(startedOn = "2026-10-15", outcome = TrialOutcome.PENDING)
+                .custom(days = 7)
+                .record()
+        val trialOff = settings.copy(trialEnabled = false)
+        val oneDay =
             subscription(name = "디즈니+", first = "2026-11-14")
                 .trial(startedOn = "2026-10-15", outcome = TrialOutcome.PENDING)
                 .record()
 
-        assertEquals(listOf("디즈니+ 2026-11-14 1"), reminders("2026-11-13", record))
-        assertTrue(reminders("2026-10-30", record).isEmpty())
+        assertEquals(listOf("디즈니+ 2026-11-14 7"), reminders("2026-11-07", record))
+        assertTrue(trialReminders(listOf(oneDay), trialOff, date("2026-11-13")).isEmpty())
+        assertEquals(listOf("디즈니+ 2026-11-14 1"), reminders("2026-11-13", oneDay, settings = trialOff))
+    }
+
+    @Test
+    fun `결과를 고른 체험과 체험 기간 중에는 체험 알림이 없다`() {
+        val kept =
+            subscription(name = "스포티파이", first = "2026-11-14")
+                .trial(startedOn = "2026-10-15", outcome = TrialOutcome.KEPT)
+                .record()
+        val pending =
+            subscription(name = "디즈니+", first = "2026-11-14")
+                .trial(startedOn = "2026-10-15", outcome = TrialOutcome.PENDING)
+                .record()
+
+        assertTrue(trialReminders(listOf(kept), settings, date("2026-11-13")).isEmpty())
+        assertEquals(listOf("스포티파이 2026-11-14 1"), reminders("2026-11-13", kept))
+        assertTrue(trialReminders(listOf(pending), settings, date("2026-10-30")).isEmpty())
     }
 
     @Test

@@ -130,6 +130,7 @@ private fun NotificationSettingsScreen(
                 DeviceOffCard(onAction = onAction)
             }
             PaymentCard(state = state, onAction = onAction)
+            TrialCard(enabled = state.settings.trialEnabled, onAction = onAction)
             if (state.settings.paymentEnabled) {
                 DefaultDaysSection(selected = state.settings.defaultDaysBefore, onAction = onAction)
                 SubscriptionSection(items = state.subscriptions, onAction = onAction)
@@ -199,6 +200,27 @@ private fun PaymentCard(
                 modifier = Modifier.testTag("time_row"),
             )
         }
+    }
+}
+
+/** 무료체험 종료 알림: 결제 알림과 따로 켜고 끈다 (product-spec 2-7) */
+@Composable
+private fun TrialCard(
+    enabled: Boolean,
+    onAction: (NotificationSettingsAction) -> Unit,
+) {
+    SubCalCard {
+        SubCalListItem(
+            title = stringResource(R.string.settings_notification_trial),
+            subtitle = stringResource(R.string.settings_notification_trial_hint),
+            trailing = {
+                SubCalSwitch(
+                    checked = enabled,
+                    onCheckedChange = { onAction(NotificationSettingsAction.TrialEnabledChanged(it)) },
+                    modifier = Modifier.testTag("trial_switch"),
+                )
+            },
+        )
     }
 }
 
