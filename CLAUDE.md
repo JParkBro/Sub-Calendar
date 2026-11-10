@@ -1,6 +1,6 @@
 # 구독캘린더 (SubCalendar)
 
-구독료 관리 앱. 넷플릭스 · 유튜브 프리미엄 같은 구독을 등록하면 결제일을 알려주고, 지출을 분석해 해지 · 절약을 돕는다. **서버 없이 기기 안에서만 동작**하고 로그인이 없다. Android 전용.
+구독료 관리 앱. 넷플릭스 · 유튜브 프리미엄 같은 구독을 등록하면 결제일을 알려주고, 지출을 분석해 해지 · 절약을 돕는다. **기기 안에서 동작**하고 로그인 없이 바로 쓴다. 1.x(개인용)는 서버가 없고, 2.0.0부터 선택 로그인(Google · 카카오 · 익명)과 클라우드 백업이 붙는다. Android 전용.
 
 > 앱 표시 이름 "구독캘린더"는 가칭이다. 패키지 · 코드 약칭은 `subcal`로 고정한다.
 
@@ -10,7 +10,8 @@
 |---|---|---|
 | 루트 (`app/`, `build-logic/`, 이후 `core/`, `feature/`, `widget/`) | Android 앱 (Kotlin, Compose, 멀티 모듈) | 이 파일의 "Android 앱" 섹션 |
 | `widget/` | Glance 홈 화면 위젯 (2차, Gradle 모듈 `:widget`) | `widget/CLAUDE.md` |
-| `policy-site/` | Firebase Hosting(`public/`): 개인정보 처리방침 · app-ads.txt (출시 단계에서 생성) | `docs/subcal/infra.md` 3장 |
+| `policy-site/` | Firebase Hosting(`public/`): 개인정보 처리방침 · app-ads.txt · 계정 삭제 안내 (출시 단계에서 생성) | `docs/subcal/infra.md` 3장 |
+| `firebase/` | Firestore 보안 규칙 · Cloud Functions(카카오 커스텀 토큰) · 에뮬레이터 설정 (2.0.0에서 생성) | `docs/subcal/account-backup.md` |
 | `docs/common/` | 범용 규칙 (아키텍처, 컨벤션, 테스트, Git). 데이즈와 같은 문서 | – |
 | `docs/subcal/` | 이 프로젝트의 기획 · 데이터 · 인프라 결정 | – |
 
@@ -29,19 +30,20 @@
 | DB · 데이터 모델 · 백업 | `docs/subcal/data-model-erd.md` |
 | Firebase · 정책 페이지 · 출시 (출시 단계) | `docs/subcal/infra.md` |
 | 광고 · 광고 제거 구매 (출시 단계) | `docs/subcal/ads-strategy.md` |
+| 로그인 · 클라우드 백업 (2.0.0) | `docs/subcal/account-backup.md` |
 | 위젯 | `widget/CLAUDE.md`, `docs/subcal/product-spec.md` 7장 |
 | 브랜치 · 커밋 · PR | `docs/common/GIT_CONVENTIONS.md` |
 
 ## 절대 어기면 안 되는 결정
 
-- **서버를 만들지 않는다.** 사용자 데이터를 받는 백엔드 · Firestore · Cloud Functions · Cloud Storage를 쓰지 않는다. Firebase는 **Spark(무료) 요금제**로 Crashlytics · Analytics · Remote Config · Hosting만 쓴다. Blaze로 올리지 않는다 (`docs/subcal/infra.md`).
-- **Room이 유일한 원본.** 화면은 Room만 구독한다. 기기 밖으로 나가는 사용자 데이터는 사용자가 직접 내보낸 백업 파일과 Android 자동 백업뿐이다.
+- **서버는 2.0.0 클라우드 백업만.** 1.x(개인용 단계)는 서버를 쓰지 않는다. 2.0.0에서 Firebase를 **Blaze(예산 알림 필수)**로 올려 Auth(Google · 익명 · 카카오 커스텀 토큰) · Firestore(사용자당 백업 문서 1개) · Cloud Functions(카카오 커스텀 토큰 발급만)를 쓴다. 그 밖의 서버 기능(Cloud Storage, 실시간 동기화, 서버에서 데이터 가공)은 쓰지 않는다 (`docs/subcal/account-backup.md`, `infra.md`).
+- **Room이 유일한 원본.** 화면은 Room만 구독한다. 서버(Firestore)에는 백업 JSON 사본만 두고 화면이 서버를 직접 읽지 않는다. 기기 밖으로 나가는 사용자 데이터는 내보낸 백업 파일, Android 자동 백업, 로그인한 사용자가 올린 클라우드 백업뿐이다.
 - **결제 내역 · 누적 지출 · 절약액은 저장하지 않고 계산한다.** 저장하는 것은 구독의 결제 규칙, 가격 변경, 일시정지 기간, 해지일뿐이다. 계산 규칙은 `core:domain`에만 둔다.
 - **금액은 `Long` 최소 단위**(원, 센트)와 통화 코드로 저장한다. `Double` · `Float`으로 금액을 저장하거나 더하지 않는다.
 - **ID는 클라이언트 생성 UUID 문자열**, 날짜는 `yyyy-MM-dd`(LocalDate), 시각은 epoch millis. 자동 증가 ID 금지 (위젯 id만 예외).
 - **서비스 브랜드 로고 이미지를 앱에 넣지 않는다.** 서비스는 이니셜 + 지정 색 아이콘으로 표시한다 (상표 문제). Stitch 시안에 로고가 있어도 따르지 않는다.
 - **색은 테마 토큰으로만.** `Color(0xFF…)` 하드코딩 금지.
-- 문서의 "범위 밖" 기능(은행 · 카드 연동 자동 등록, 로그인 · 클라우드 동기화, 가족 공유 계정 동기화, 결제 대행)을 임의로 추가하지 않는다.
+- 문서의 "범위 밖" 기능(은행 · 카드 연동 자동 등록, 실시간 클라우드 동기화, 가족 공유 계정 동기화, 결제 대행)을 임의로 추가하지 않는다. 로그인은 2.0.0 클라우드 백업용으로만 넣는다.
 
 ## 작업 방식
 
@@ -67,6 +69,7 @@
 
 - 키스토어(`*.jks`, `*.keystore`)와 비밀번호 (`keystore.properties`)
 - `google-services.json`, AdMob 앱 ID · 광고 단위 ID(prod)
+- 카카오 네이티브 앱 키(`local.properties`), 카카오 REST API 키(Functions 비밀값, Secret Manager)
 - `local.properties`, `keystore.properties`, `.env`
 
 구독 이름 · 금액 · 메모 · 파티 멤버 이름 같은 사용자 입력을 로그 · Analytics 이벤트 · Crashlytics 키에 남기지 않는다. Analytics 이벤트에는 화면 이름과 동작 종류만 넣는다.
@@ -85,8 +88,9 @@
 ### 스택
 
 Kotlin · Jetpack Compose · Navigation 3 · Koin(`koin-compose-navigation3`) · Room · DataStore · WorkManager · Glance · kotlinx.serialization(백업 JSON) · Firebase(Crashlytics, Analytics, Remote Config) · AdMob · Play Billing
+2.0.0 추가: Firebase Auth · Firestore · Cloud Functions(카카오 커스텀 토큰) · Credential Manager(Google 로그인) · Kakao SDK(로그인)
 
-Ktor · Firebase Auth · Firestore는 쓰지 않는다. 외부 HTTP가 필요해지면 먼저 사용자에게 확인한다.
+Ktor는 쓰지 않는다. 그 밖의 외부 HTTP가 필요해지면 먼저 사용자에게 확인한다.
 
 ### 빌드 설정
 

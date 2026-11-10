@@ -11,7 +11,8 @@
 | [module-map.md](module-map.md) | 모듈 목록, 내비게이션 키, 기능 간 의존, 화면별 Event, 개발 순서 | 개발 시작 · 기능 추가 |
 | [data-model-erd.md](data-model-erd.md) | ERD, Room 테이블, 계산하는 값과 저장하는 값, 백업 JSON 형식 | 데이터 작업 |
 | [ads-strategy.md](ads-strategy.md) | 광고 배치 · 빈도, 광고 제거 구매, AdMob 정책 | 출시 단계 |
-| [infra.md](infra.md) | Firebase Spark 구성, 정책 페이지, 자동 백업, 출시 체크리스트 | 출시 단계 (자동 백업은 7단계) |
+| [infra.md](infra.md) | Firebase 구성(2.0.0 Blaze), 정책 페이지, 자동 백업, 출시 체크리스트 | 출시 단계 (자동 백업은 7단계) |
+| [account-backup.md](account-backup.md) | 2.0.0 로그인(Google · 카카오 · 익명) · 클라우드 백업 · 계정 삭제 · 외부 콘솔 작업 | 출시 단계 (2.0.0) |
 | `assets/theme-tokens.json` | 테마 색상 값 원본 (2 팔레트 × 27 토큰) | 디자인 시스템 코드 생성 |
 | `design/{화면}/` | Stitch 시안 16개: `screen.png` + `code.html`. 화면별 폴더는 product-spec 3-2, 따르지 않을 부분은 11장. 색 · 글꼴 · 기능 범위는 이 폴더 문서가 기준이고 시안은 레이아웃 참고용 | 화면 구현 |
 | `design/_stitch-design-system/DESIGN.md` | Stitch 디자인 시스템(Calm Ledger) 원본. 색 값은 `theme-tokens.json`이 기준 | 화면 구현 |
@@ -23,14 +24,14 @@
 | `CLAUDE.md` | 프로젝트 전체: 문서 지도, 절대 규칙, Git, 비밀 정보, 언어 + Android 앱 규칙 · 명령 · 테스트 |
 | `widget/CLAUDE.md` | Glance 위젯 모듈: 표시 규칙, 갱신, 설정 |
 
-데이즈에 있던 `firebase/CLAUDE.md` · `firebase/functions/CLAUDE.md`는 없습니다. 이 앱은 보안 규칙 · 함수 · 에뮬레이터가 필요한 Firebase 서버 기능을 쓰지 않기 때문입니다 (`infra.md` 1장).
+1.x에는 데이즈의 `firebase/CLAUDE.md` · `firebase/functions/CLAUDE.md`가 없습니다. 2.0.0에서 클라우드 백업용 Firestore 보안 규칙 · 카카오 커스텀 토큰 함수가 생길 때 `firebase/`와 함께 만듭니다 (`account-backup.md`).
 
 > 처음 읽을 때는 product-spec → theme-guide → module-map → data-model-erd 순서를 추천합니다.
 
 ## 핵심 결정 요약
 
 **제품**
-- 로그인 없음, 서버 없음. 설치하자마자 쓰는 로컬 앱.
+- 설치하자마자 쓰는 로컬 앱. 1.x(개인용)는 로그인 · 서버가 없고, 2.0.0에서 선택 로그인(Google · 카카오 · 익명) + 클라우드 백업 · 복원을 붙인다 (`account-backup.md`). 실시간 동기화는 하지 않는다.
 - 결제 내역 · 누적 지출 · 절약액은 저장하지 않고 결제 규칙에서 계산 (데이즈의 "자동 기념일은 계산" 원칙과 같음).
 - 해지는 삭제가 아니라 상태. 해지한 구독이 "아낀 돈"의 근거가 된다.
 - 하단 탭은 홈 / 목록 / 캘린더 / 통계 / 더보기.
@@ -38,9 +39,9 @@
 - **개인용 앱으로 먼저 만든다.** 1 ~ 3차는 Room · DataStore만 쓰고, 외부 설정이 필요한 Firebase · 광고 · 결제 · 정책 페이지 · 스토어 등록은 마지막 "출시 단계"에서 한다 (`module-map.md` 9장).
 
 **기술**
-- Room이 유일한 원본. 기기 변경은 Android 자동 백업 + 직접 내보내는 JSON 백업으로 해결.
-- Firebase는 Spark(무료)에서 Crashlytics · Analytics · Remote Config · Hosting만. **넘어도 과금되지 않는 구성**이라 데이즈의 과금 방어(예산 알림 · 결제 자동 해제)가 필요 없다.
-- 데이즈의 모듈 구조 · MVI · 디자인 시스템 패턴을 그대로 쓰고, 커플 · 동기화 · 로그인 관련 모듈은 뺀다.
+- Room이 유일한 원본. 기기 변경은 Android 자동 백업 + 직접 내보내는 JSON 백업, 2.0.0부터는 같은 JSON을 Firestore에 올리는 클라우드 백업으로 해결.
+- Firebase: Crashlytics · Analytics · Remote Config · Hosting, 2.0.0부터 Auth · Firestore · Cloud Functions. 카카오 로그인 때문에 **Blaze**로 올리므로 예산 알림을 반드시 건다 (`infra.md` 1장).
+- 데이즈의 모듈 구조 · MVI · 디자인 시스템 패턴을 그대로 쓰고, 커플 · 동기화 모듈은 뺀다. 로그인 모듈은 2.0.0에서 클라우드 백업용으로 새로 만든다.
 - 모든 ID는 UUID, 날짜는 `yyyy-MM-dd`, 시각은 epoch millis, 금액은 Long 최소 단위.
 
 **디자인**
@@ -56,7 +57,7 @@
 |---|---|---|---|
 | Room 스키마 버전 | 스키마를 바꾸면 version을 올리고 Migration · 마이그레이션 테스트 추가 | **출시 전까지 version 1을 고쳐 쓰고** `schemas/…/1.json`을 덮어씀 | 출시 전에는 보존할 사용자 데이터가 없음. **첫 출시 빌드부터는 공통 규칙을 따름** |
 | `core:network` (Ktor) | 공통 구조에 포함 | **만들지 않음** | 외부 HTTP가 없음. 환율 자동 갱신 같은 기능이 생기면 그때 추가 |
-| 오프라인 우선 동기화 (ARCHITECTURE 8-3) | 서버 동기화 패턴 | **적용 안 함** | 서버가 없음 |
+| 오프라인 우선 동기화 (ARCHITECTURE 8-3) | 서버 동기화 패턴 | **적용 안 함** | 실시간 동기화가 없음. 2.0.0 클라우드 백업은 백업 JSON 한 덩어리를 올리고 내려받기만 한다 |
 | detekt `TooManyFunctions` | 기본값(클래스 · 인터페이스 11개) | **override는 세지 않고 인터페이스는 15개까지** | Repository 인터페이스가 데이터 연산 목록이라 기능마다 늘어난다. 구현 · Fake는 인터페이스를 그대로 따른다 |
 
 > 요금 · 정책 수치는 출시 전 공식 문서에서 다시 확인하세요.

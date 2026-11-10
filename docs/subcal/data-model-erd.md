@@ -4,7 +4,7 @@
 
 | 원칙 | 내용 | 이유 |
 |---|---|---|
-| ID | 기기에서 생성한 **UUID 문자열**. 자동 증가 숫자 금지 (위젯 id만 예외) | 백업 · 복원 · 나중의 서버 이전에서 같은 ID를 그대로 씀 |
+| ID | 기기에서 생성한 **UUID 문자열**. 자동 증가 숫자 금지 (위젯 id만 예외) | 백업 · 복원 · 클라우드 백업(2.0.0)에서 같은 ID를 그대로 씀 |
 | 날짜 | `yyyy-MM-dd` 문자열 (LocalDate) | 결제일은 날짜 문제. 시간대에 흔들리지 않게 |
 | 시각 | epoch millis (Long) | `created_at`, `updated_at`, `deleted_at` |
 | 금액 | `amount_minor` Long + `currency` | 부동소수 오차 방지. KRW는 원, USD는 센트 |
@@ -242,3 +242,15 @@ data class PriceChangeEntity(
 | 3차 배열 | `usageLogs` · `partyMembers` · `partySettlements`는 v1 그대로 채운다 (출시 전이라 버전을 올리지 않음). 3차 전에 만든 v1 파일은 배열이 없거나 비어 있어 그대로 읽힌다. 지운 사용 기록 · 멤버와 지운 구독의 하위 행은 넣지 않는다. 정산은 넣은 멤버를 가리켜야 한다 |
 | 버전 올리기 | 스키마가 바뀌면 `version`을 올리고 `BackupV{n}` 클래스를 추가. 옛 버전은 `BackupV{n-1} → V{n}` 변환으로 읽는다. 왕복 테스트(내보내기 → 불러오기 → 같은 데이터) 필수 |
 | 개인정보 | 백업 파일에는 결제 수단 · 메모 · 파티 멤버 이름이 들어 있다고 내보내기 화면에 안내 |
+
+## 7. 클라우드 백업 (2.0.0, Firestore)
+
+Room이 원본이고 Firestore에는 백업 사본만 둔다 (`account-backup.md`).
+
+| 경로 | 필드 |
+|---|---|
+| `users/{uid}/backups/latest` | `json`(6장 백업 JSON 문자열), `exportedAt`(epoch millis), `appVersion`, `subscriptionCount` |
+
+- 문서 하나에 덮어쓴다 (이력 없음). Firestore 문서 한도 1MiB를 넘으면 올리지 않고 파일 내보내기를 안내한다.
+- 보안 규칙: `request.auth.uid == uid`일 때만 읽기 · 쓰기.
+- 불러오기는 파일 불러오기와 같은 검사 · 덮어쓰기(`BackupRepository.restore`)를 쓴다. 백업 JSON 버전 규칙(6장)을 그대로 따른다.
