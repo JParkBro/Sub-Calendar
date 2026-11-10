@@ -1,5 +1,7 @@
 package jpark.bro.subcal.core.ui
 
+import android.content.Context
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
@@ -58,14 +60,17 @@ fun MoneyText(
 
 /** 표시용 금액: 13,900원 · $9.99 (product-spec 2-4) */
 @Composable
-fun formatMoney(money: Money): String =
-    stringResource(
-        when (money.currency) {
-            Currency.KRW -> R.string.common_money_krw
-            Currency.USD -> R.string.common_money_usd
-        },
-        formatMoneyNumber(money),
-    )
+fun formatMoney(money: Money): String = stringResource(moneyFormatRes(money.currency), formatMoneyNumber(money))
+
+/** 화면 밖(알림)에서 쓰는 표시용 금액. 모양은 [formatMoney]와 같다 */
+fun Context.formatMoney(money: Money): String = getString(moneyFormatRes(money.currency), formatMoneyNumber(money))
+
+@StringRes
+private fun moneyFormatRes(currency: Currency): Int =
+    when (currency) {
+        Currency.KRW -> R.string.common_money_krw
+        Currency.USD -> R.string.common_money_usd
+    }
 
 /** 큰 원화 금액을 만 원 단위로: 914,280 → 91만 원 (반올림). 1만 원 미만은 [formatMoney]와 같다 */
 @Composable

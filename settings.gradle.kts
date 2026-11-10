@@ -38,6 +38,7 @@ include(":core:datastore")
 include(":core:data")
 include(":core:navigation")
 include(":core:testing")
+include(":core:notification")
 
 include(":feature:onboarding:api")
 include(":feature:onboarding:impl")

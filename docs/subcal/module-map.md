@@ -38,7 +38,7 @@ subcalendar/
 │  ├─ datastore/      설정(화면 모드 · 알림 · 월 시작일 · 환율 · 정렬), 온보딩 완료, 광고 노출 기록, 광고 제거 캐시
 │  ├─ firebase/       Crashlytics · Analytics 래퍼, Remote Config(광고 빈도 · 차단 스위치)  ※ 출시 단계
 │  ├─ data/           Repository: Subscription, Party, Usage, Settings, Preset, Backup / 프리셋 JSON 읽기
-│  ├─ notification/   결제 · 체험 · 정산 · 월초 요약 로컬 알림 (WorkManager)
+│  ├─ notification/   결제 · 체험 · 정산 · 월초 요약 로컬 알림 (WorkManager, `ReminderScheduler` · `ReminderWorker` · `PaymentNotifier`)
 │  ├─ ads/            AdMob 배너 · 전면광고, 맞춤 광고 동의(UMP), 빈도 규칙  ※ 출시 단계
 │  ├─ billing/        Play Billing 광고 제거 (비소모성)  ※ 출시 단계
 │  └─ testing/        Fake, MainDispatcherRule, 샘플 데이터(product-spec 9장)
@@ -55,6 +55,8 @@ subcalendar/
 ```
 
 데이즈에서 가져오지 않는 모듈: `core:network`(외부 HTTP 없음), `core:sync`(서버 없음), `feature:couple` · `feature:notifications`(알림 목록 없음). 데이즈의 `core:firebase`는 Auth · Firestore · App Check였지만 여기서는 Crashlytics · Analytics · Remote Config만 담는다.
+
+`core:notification`의 Worker는 알림 설정과 마지막 발송일을 `core:datastore`에서 직접 읽는다 (화면이 아닌 백그라운드 작업이고, 마지막 발송일은 알림만 쓰는 내부 상태). 구독은 `core:data`로 읽는다.
 
 `core:firebase` · `core:ads` · `core:billing`은 출시 단계(9장 10단계)에 추가한다. `core:ads` · `core:billing`은 Activity가 필요한 광고 · 결제 창이라 feature impl이 직접 참조한다 (창은 Root가 Event로 띄우고 결과를 Action으로 넘김. 데이터 접근은 그대로 `core:data`).
 

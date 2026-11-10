@@ -14,6 +14,7 @@ dependencies {
     implementation(libs.bundles.navigation3)
     implementation(libs.bundles.koin.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.koin.androidx.workmanager)
 
     // core
     implementation(projects.core.navigation)
@@ -22,6 +23,7 @@ dependencies {
     implementation(projects.core.database)
     implementation(projects.core.datastore)
     implementation(projects.core.data)
+    implementation(projects.core.notification)
 
     // feature
     implementation(projects.feature.onboarding.api)

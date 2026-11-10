@@ -1,5 +1,6 @@
 package jpark.bro.subcal
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,13 +11,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import jpark.bro.subcal.core.designsystem.AppTheme
 import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.isDarkTheme
+import jpark.bro.subcal.core.navigation.AppIntents
+import jpark.bro.subcal.core.navigation.Navigator
 import jpark.bro.subcal.navigation.SubCalApp
+import jpark.bro.subcal.navigation.openSubscriptionDetail
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
@@ -24,8 +31,13 @@ import org.koin.core.parameter.parametersOf
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModel()
 
+    /** 알림에서 연 구독 id. 화면에 반영하면 비운다 */
+    private var openSubscriptionId by mutableStateOf<String?>(null)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 화면 회전 뒤에는 처음 받은 Intent를 다시 처리하지 않는다
+        if (savedInstanceState == null) openSubscriptionId = intent.subscriptionIdExtra()
         enableEdgeToEdge()
         setContent {
             val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
@@ -48,9 +60,23 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.fillMaxSize().background(AppThemeTokens.colors.bg))
                 } else {
                     // Navigator는 첫 화면을 받아 한 번만 만들어진다. 화면 회전 뒤에는 같은 Navigator를 돌려준다
-                    SubCalApp(navigator = koinInject { parametersOf(key) })
+                    val navigator: Navigator = koinInject { parametersOf(key) }
+                    LaunchedEffect(navigator, openSubscriptionId) {
+                        openSubscriptionId?.let(navigator::openSubscriptionDetail)
+                        openSubscriptionId = null
+                    }
+                    SubCalApp(navigator = navigator)
                 }
             }
         }
     }
+
+    /** 앱이 떠 있을 때 알림을 누르면 (singleTop) */
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        intent.subscriptionIdExtra()?.let { openSubscriptionId = it }
+    }
+
+    private fun Intent.subscriptionIdExtra(): String? = getStringExtra(AppIntents.EXTRA_OPEN_SUBSCRIPTION_ID)
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_channel_payment">결제 알림</string>
+    <string name="notification_channel_payment_description">구독 결제일 전에 알려 드려요</string>
+    <string name="notification_payment_today">오늘 %1$s 결제돼요</string>
+    <string name="notification_payment_tomorrow">내일 %1$s 결제돼요</string>
+    <string name="notification_payment_days_later">%1$d일 뒤 %2$d월 %3$d일에 %4$s 결제돼요</string>
+    <string name="notification_payment_summary_title">다가오는 결제 %1$d건</string>
+    <string name="notification_payment_summary_line">%1$s · %2$s</string>
+</resources>
