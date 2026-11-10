@@ -112,5 +112,5 @@ fun considerCancelAnnualKrw(
 ): Long = considerCancelRecords(records, today).sumOf { it.monthlyEquivalentKrw(today, usdKrwRate) } * MONTHS_PER_YEAR
 
 /** 월 평균 · 비중에 넣는 구독: 이용 중이고 체험 결과를 기다리지 않는 것 */
-private fun SubscriptionRecord.isActiveSpending(today: LocalDate): Boolean =
+internal fun SubscriptionRecord.isActiveSpending(today: LocalDate): Boolean =
     subscription.status == SubscriptionStatus.ACTIVE && !subscription.isPendingTrial(today)

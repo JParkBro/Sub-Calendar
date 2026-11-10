@@ -48,9 +48,10 @@ internal fun SummaryCard(
     value: String,
     caption: String,
     valueColor: Color,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    SubCalCard(modifier = modifier) {
+    SubCalCard(modifier = modifier, onClick = onClick) {
         CardBody(spacing = AppSpacing.xs) {
             Text(text = title, style = AppThemeTokens.typography.labelMd, color = AppThemeTokens.colors.textSecondary)
             Text(

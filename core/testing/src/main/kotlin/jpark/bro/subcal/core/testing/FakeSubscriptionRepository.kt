@@ -84,6 +84,11 @@ class FakeSubscriptionRepository(
             records.update { it.edit(id) { copy(reminderMode = mode, reminderDaysBefore = days) } }
         }
 
+    override suspend fun setConsiderCancel(
+        id: String,
+        considerCancel: Boolean,
+    ): Result<Unit> = fakeResult(failure) { records.update { it.edit(id) { copy(considerCancel = considerCancel) } } }
+
     override suspend fun delete(id: String): Result<Unit> =
         fakeResult(failure) { records.update { list -> list.filterNot { it.subscription.id == id } } }
 }

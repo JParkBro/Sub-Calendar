@@ -123,6 +123,12 @@ private fun SubscriptionDetailScreen(
                         size = SubCalButtonSize.SMALL,
                         modifier = Modifier.testTag("edit_button"),
                     )
+                    DetailMenu(
+                        isOpen = state.isMenuOpen,
+                        considerCancel = state.content.considerCancel,
+                        showConsiderCancel = state.content.status != DetailStatus.CANCELLED,
+                        onAction = onAction,
+                    )
                 }
             },
         )

@@ -24,4 +24,27 @@
     <string name="insight_stats_consider_annual">해지하면 연 %1$s</string>
     <string name="insight_stats_saved_title">지금까지 아낀 돈</string>
     <string name="insight_stats_saved_hint">해지한 구독 기준</string>
+    <string name="insight_savings_title">아낀 돈 · 해지 고민</string>
+    <string name="insight_savings_back">뒤로</string>
+    <string name="insight_savings_tab_consider">해지 고민함</string>
+    <string name="insight_savings_tab_saved">아낀 돈</string>
+    <string name="insight_savings_consider_summary">아래 %1$d개를 해지하면</string>
+    <string name="insight_savings_consider_annual">연 %1$s</string>
+    <string name="insight_savings_consider_list">해지 고민 중</string>
+    <string name="insight_savings_consider_monthly">월 %1$s</string>
+    <string name="insight_savings_consider_duplicate">%1$s와 겹쳐요</string>
+    <string name="insight_savings_consider_empty">해지 고민함이 비어 있어요. 구독 상세의 메뉴에서 담을 수 있어요</string>
+    <string name="insight_savings_cancel_go">해지하러 가기</string>
+    <string name="insight_savings_duplicate_badge">중복</string>
+    <string name="insight_savings_duplicate_title">겹치는 구독이 있어요</string>
+    <string name="insight_savings_duplicate_summary">%1$s %2$d개 · 월 %3$s</string>
+    <string name="insight_savings_annual_title">연간 결제로 바꾸면</string>
+    <string name="insight_savings_annual_compare">월 %1$s × 12 → 연 %2$s</string>
+    <string name="insight_savings_annual_saving">−%1$s</string>
+    <string name="insight_savings_saved_total_label">지금까지</string>
+    <string name="insight_savings_saved_total">%1$s 아꼈어요</string>
+    <string name="insight_savings_saved_list">해지한 구독</string>
+    <string name="insight_savings_saved_cancelled_on">%1$d.%2$d.%3$d 해지</string>
+    <string name="insight_savings_saved_empty">해지한 구독이 없어요</string>
+    <string name="insight_savings_open_failed">해지 페이지를 열지 못했어요</string>
 </resources>

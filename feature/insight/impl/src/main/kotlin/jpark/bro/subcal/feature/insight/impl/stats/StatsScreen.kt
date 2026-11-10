@@ -47,6 +47,7 @@ import jpark.bro.subcal.core.ui.MoneyTone
 import jpark.bro.subcal.core.ui.ObserveEvents
 import jpark.bro.subcal.core.ui.categoryLabel
 import jpark.bro.subcal.core.ui.formatMoney
+import jpark.bro.subcal.feature.insight.api.SavingsKey
 import jpark.bro.subcal.feature.insight.impl.R
 import jpark.bro.subcal.feature.subscription.api.SubscriptionListKey
 import org.koin.compose.viewmodel.koinViewModel
@@ -54,6 +55,7 @@ import kotlin.math.absoluteValue
 
 @Composable
 internal fun StatsRoot(
+    onNavigate: (NavKey) -> Unit,
     onSwitchTab: (NavKey) -> Unit,
     viewModel: StatsViewModel = koinViewModel(),
 ) {
@@ -61,6 +63,7 @@ internal fun StatsRoot(
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             is StatsEvent.OpenList -> onSwitchTab(SubscriptionListKey(event.category))
+            is StatsEvent.OpenSavings -> onNavigate(SavingsKey(event.tab))
         }
     }
     StatsScreen(state = state, onAction = viewModel::onAction)
@@ -109,6 +112,7 @@ private fun StatsScreen(
                         } else {
                             AppThemeTokens.colors.textPrimary
                         },
+                    onClick = { onAction(StatsAction.ConsiderCardClicked) },
                     modifier = Modifier.weight(1f).testTag("consider_card"),
                 )
                 SummaryCard(
@@ -116,6 +120,7 @@ private fun StatsScreen(
                     value = formatMoney(Money(state.savedKrw, Currency.KRW)),
                     caption = stringResource(R.string.insight_stats_saved_hint),
                     valueColor = AppThemeTokens.colors.success,
+                    onClick = { onAction(StatsAction.SavedCardClicked) },
                     modifier = Modifier.weight(1f).testTag("saved_card"),
                 )
             }

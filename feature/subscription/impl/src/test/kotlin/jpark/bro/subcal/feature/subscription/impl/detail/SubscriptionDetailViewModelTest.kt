@@ -220,4 +220,29 @@ class SubscriptionDetailViewModelTest {
                 expectNoEvents()
             }
         }
+
+    @Test
+    fun `메뉴에서 해지 고민함에 담고 다시 뺄 수 있다`() {
+        val viewModel = viewModel("netflix")
+        assertFalse(
+            viewModel.state.value.content!!
+                .considerCancel,
+        )
+
+        viewModel.onAction(SubscriptionDetailAction.MenuClicked)
+        assertTrue(viewModel.state.value.isMenuOpen)
+        viewModel.onAction(SubscriptionDetailAction.ConsiderCancelToggled)
+
+        assertFalse(viewModel.state.value.isMenuOpen)
+        assertTrue(
+            viewModel.state.value.content!!
+                .considerCancel,
+        )
+
+        viewModel.onAction(SubscriptionDetailAction.ConsiderCancelToggled)
+        assertFalse(
+            viewModel.state.value.content!!
+                .considerCancel,
+        )
+    }
 }

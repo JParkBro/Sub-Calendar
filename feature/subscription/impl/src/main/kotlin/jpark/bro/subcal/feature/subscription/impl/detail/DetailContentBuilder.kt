@@ -65,6 +65,7 @@ internal fun buildDetailContent(
         hasMoreHistory = paid.size > RECENT_PAYMENTS,
         memo = subscription.memo,
         hasCancelUrl = !subscription.cancelUrl.isNullOrBlank(),
+        considerCancel = subscription.considerCancel,
     )
 }
 

@@ -13,6 +13,10 @@ complexity:
   TooManyFunctions:
     # Room @Database는 DAO마다 abstract getter가 하나씩 있어야 한다
     ignoreAnnotated: ['Database']
+    # Repository 구현 · Fake는 인터페이스를 따를 뿐이라 override는 세지 않는다 (docs/subcal/README.md)
+    ignoreOverridden: true
+    # Repository 인터페이스는 데이터 연산 목록이라 클래스보다 넉넉하게 둔다
+    thresholdInInterfaces: 15
 
 coroutines:
   GlobalCoroutineUsage:

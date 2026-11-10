@@ -7,4 +7,10 @@ internal sealed interface StatsAction {
     data class CategoryClicked(
         val category: Category,
     ) : StatsAction
+
+    /** 해지 고민함 카드 → 아낀 돈 화면(해지 고민 탭) */
+    data object ConsiderCardClicked : StatsAction
+
+    /** 지금까지 아낀 돈 카드 → 아낀 돈 화면(아낀 돈 탭) */
+    data object SavedCardClicked : StatsAction
 }

@@ -30,4 +30,14 @@ internal sealed interface SubscriptionDetailAction {
     data object UndoCancelClicked : SubscriptionDetailAction
 
     data object ShowAllHistoryClicked : SubscriptionDetailAction
+
+    /** 헤더 메뉴 */
+    sealed interface Menu : SubscriptionDetailAction
+
+    data object MenuClicked : Menu
+
+    data object MenuDismissed : Menu
+
+    /** 해지 고민함에 담기 · 빼기 (product-spec 4-4) */
+    data object ConsiderCancelToggled : Menu
 }
