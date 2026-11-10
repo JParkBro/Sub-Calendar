@@ -4,6 +4,25 @@
     <string name="settings_more_notification">알림 설정</string>
     <string name="settings_more_notification_summary">결제 %1$s · %2$s</string>
     <string name="settings_more_notification_off">결제 알림 꺼짐</string>
+    <string name="settings_more_section_settings">설정</string>
+    <string name="settings_more_section_info">정보</string>
+    <string name="settings_more_month_start_day">월 시작 기준일</string>
+    <string name="settings_more_month_start_day_hint">월급일에 맞추면 이번 달 구독료를 그 날부터 셉니다</string>
+    <string name="settings_more_day">%1$d일</string>
+    <string name="settings_more_usd_krw_rate">달러 환율</string>
+    <string name="settings_more_usd_krw_rate_hint">달러 구독을 원화 합계로 바꿀 때 써요. 1달러에 몇 원인지 넣어 주세요</string>
+    <string name="settings_more_usd_krw_rate_value">1달러 = %1$s</string>
+    <string name="settings_more_payment_method">기본 결제 수단</string>
+    <string name="settings_more_payment_method_hint">새 구독을 등록할 때 미리 채워요. 비우고 저장하면 지워요</string>
+    <string name="settings_more_payment_method_placeholder">예: 신한카드</string>
+    <string name="settings_more_payment_method_none">없음</string>
+    <string name="settings_more_theme_mode">화면 모드</string>
+    <string name="settings_more_theme_light">라이트</string>
+    <string name="settings_more_theme_dark">다크</string>
+    <string name="settings_more_theme_system">시스템 설정</string>
+    <string name="settings_more_app_version">앱 버전</string>
+    <string name="settings_more_save">저장</string>
+    <string name="settings_more_save_failed">저장하지 못했어요. 다시 시도해 주세요</string>
 
     <string name="settings_notification_title">알림 설정</string>
     <string name="settings_notification_back">뒤로</string>

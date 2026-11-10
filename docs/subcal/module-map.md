@@ -174,7 +174,7 @@ Firebase · AdMob 열은 출시 단계(9장 10단계)부터 적용한다. 그 �
 4. **데이터**: `core:database` v1(subscription · price_change · pause · widget_config) + DAO 테스트, `core:datastore`, `core:data`(Subscription · Settings · Preset Repository), 프리셋 JSON
 5. **1차 화면**: `feature:subscription`(목록 · 선택 · 입력 · 상세) → `feature:home` → `feature:calendar` → `feature:onboarding`
 6. **알림**: `core:notification`(ReminderScheduler · ReminderWorker · 채널 `payment`), `feature:settings` 골격(더보기 탭은 알림 메뉴만) + 알림 설정 화면, 첫 저장 때 알림 권한 요청
-7. **더보기 (로컬 메뉴)**: `feature:settings`(알림 · 월 시작 기준일 · 달러 환율 · 기본 결제 수단 · 화면 모드 · 백업 내보내기/불러오기 · 문의하기 · 오픈소스 라이선스 · 앱 버전 · 모든 데이터 삭제), Android 자동 백업 규칙
+7. **더보기 (로컬 메뉴)**: `feature:settings`(월 시작 기준일 · 달러 환율 · 기본 결제 수단 · 화면 모드 · 앱 버전 → 백업 내보내기/불러오기 → 모든 데이터 삭제), Android 자동 백업 규칙, 30일 지난 soft delete 정리 Worker
 8. **2차 기능**: `feature:insight`(통계 · 아낀 돈), `feature:trial`, 체험 알림, `widget`, 월초 요약
 9. **3차 기능**: `usage_log` · `party_member` · `party_settlement` 테이블, `feature:party`, 가성비 분석, 연말 리포트
 10. **출시 단계 (최후순위)**: 아래 "출시 단계 작업" 전부
@@ -190,6 +190,7 @@ Firebase · AdMob 열은 출시 단계(9장 10단계)부터 적용한다. 그 �
 | `core:billing`, 광고 제거 화면 | Play Console 인앱 상품 `remove_ads` 등록 |
 | `policy-site/`, 개인정보 처리방침 웹뷰 | Firebase Hosting 배포 |
 | 더보기의 광고 제거 · 앱 평가하기 · 다른 앱 둘러보기 · 개인정보 처리방침 메뉴 | Play 스토어 등록 |
+| 더보기의 문의하기 · 오픈소스 라이선스 (배포할 때 필요) | 문의 메일 주소 정하기 |
 | 출시 체크리스트 (`infra.md` 4장) | Play Console 앱 콘텐츠 · 스토어 정보 |
 
 - 개인용 단계 빌드에는 출시 단계 메뉴 · 광고 자리를 넣지 않는다 (비활성 표시도 하지 않음).
