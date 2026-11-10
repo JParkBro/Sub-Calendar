@@ -4,7 +4,7 @@ import jpark.bro.subcal.core.common.suspendRunCatching
 import jpark.bro.subcal.core.data.mapper.toEntity
 import jpark.bro.subcal.core.data.mapper.toModel
 import jpark.bro.subcal.core.data.repository.BackupRepository
-import jpark.bro.subcal.core.database.dao.BackupDao
+import jpark.bro.subcal.core.database.dao.DataDao
 import jpark.bro.subcal.core.database.dao.SubscriptionDao
 import jpark.bro.subcal.core.database.entity.SubscriptionWithRules
 import jpark.bro.subcal.core.datastore.SettingsDataStore
@@ -21,7 +21,7 @@ import java.time.Clock
 
 internal class DefaultBackupRepository(
     private val subscriptionDao: SubscriptionDao,
-    private val backupDao: BackupDao,
+    private val dataDao: DataDao,
     private val settingsDataStore: SettingsDataStore,
     private val clock: Clock,
 ) : BackupRepository {
@@ -54,13 +54,19 @@ internal class DefaultBackupRepository(
         suspendRunCatching {
             val backup = parseBackup(json)
             // DB는 한 트랜잭션이라 실패하면 그대로다. 설정은 검사를 마친 값이라 쓰기만 남는다
-            backupDao.replaceAll(
+            dataDao.replaceAll(
                 subscriptions = backup.subscriptions.map(Subscription::toEntity),
                 priceChanges = backup.priceChanges.map(PriceChange::toEntity),
                 pauses = backup.pauses.map(Pause::toEntity),
             )
             settingsDataStore.setAppSettings(backup.appSettings)
             settingsDataStore.setNotificationSettings(backup.notificationSettings)
+        }
+
+    override suspend fun deleteAll(): Result<Unit> =
+        suspendRunCatching {
+            dataDao.deleteAll()
+            settingsDataStore.clear()
         }
 }
 

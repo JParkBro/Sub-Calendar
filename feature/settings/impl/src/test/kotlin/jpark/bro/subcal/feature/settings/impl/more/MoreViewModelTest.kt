@@ -212,4 +212,36 @@ class MoreViewModelTest {
             }
             assertFalse(state.isBackupBusy)
         }
+
+    @Test
+    fun `모든 데이터 삭제는 빈 확인 문구로 시트를 열고 확인하면 지운 뒤 알린다`() =
+        runTest {
+            viewModel.onAction(MoreAction.DeleteAllClicked)
+            assertEquals(MoreSheet.DELETE_ALL_CONFIRM, state.sheet)
+            assertEquals("", state.deleteAllInput)
+
+            viewModel.onAction(MoreAction.DeleteAllInputChanged("삭제"))
+            assertEquals("삭제", state.deleteAllInput)
+
+            viewModel.event.test {
+                viewModel.onAction(MoreAction.DeleteAllConfirmed)
+
+                assertEquals(MoreEvent.DataDeleted, awaitItem())
+            }
+            assertTrue(backup.deleted)
+            assertNull(state.sheet)
+        }
+
+    @Test
+    fun `모든 데이터를 지우지 못하면 알린다`() =
+        runTest {
+            backup.failure = IOException("db")
+
+            viewModel.event.test {
+                viewModel.onAction(MoreAction.DeleteAllConfirmed)
+
+                assertEquals(MoreEvent.ShowBackupMessage(BackupMessage.DELETE_FAILED), awaitItem())
+            }
+            assertFalse(state.isBackupBusy)
+        }
 }

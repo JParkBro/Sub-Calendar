@@ -37,6 +37,14 @@
     <string name="settings_more_restore_warning">지금 있는 구독과 설정은 모두 지워지고 백업 내용으로 바뀌어요</string>
     <string name="settings_more_restore_confirm">데이터 바꾸기</string>
     <string name="settings_more_cancel">취소</string>
+    <string name="settings_more_delete_all">모든 데이터 삭제</string>
+    <string name="settings_more_delete_all_hint">구독과 설정을 모두 지우고 처음부터 시작해요</string>
+    <string name="settings_more_delete_all_title">모든 데이터를 지울까요?</string>
+    <string name="settings_more_delete_all_warning">구독 · 결제 기록 · 설정이 모두 지워지고 되돌릴 수 없어요. 필요하면 먼저 백업을 내보내 주세요</string>
+    <string name="settings_more_delete_all_keyword">삭제</string>
+    <string name="settings_more_delete_all_input_hint">확인하려면 "%1$s"를 입력해 주세요</string>
+    <string name="settings_more_delete_all_confirm">모두 지우기</string>
+    <string name="settings_more_delete_failed">데이터를 지우지 못했어요. 다시 시도해 주세요</string>
 
     <string name="settings_notification_title">알림 설정</string>
     <string name="settings_notification_back">뒤로</string>

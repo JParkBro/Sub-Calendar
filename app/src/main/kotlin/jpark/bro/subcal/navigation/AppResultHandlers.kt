@@ -23,13 +23,14 @@ internal fun Navigator.openSubscriptionDetail(id: String) {
     goTo(SubscriptionDetailKey(id))
 }
 
-/** 백업을 불러오면 이전 화면 없이 홈으로 (module-map 4-3) */
+/** 백업을 불러오면 홈, 모든 데이터를 지우면 온보딩으로. 이전 화면은 남기지 않는다 (module-map 4-3) */
 internal class AppDataResetHandler(
     private val navigator: Navigator,
 ) : DataResetHandler {
     override fun handle(result: DataReset) {
         when (result) {
             DataReset.Restored -> navigator.replaceAll(HomeKey)
+            DataReset.Deleted -> navigator.replaceAll(OnboardingKey)
         }
     }
 }

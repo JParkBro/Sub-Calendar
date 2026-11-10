@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-/** 시스템 파일 저장 · 선택 창 (SAF). 결과는 [MoreAction.Backup]으로 돌려준다 */
+/** 시스템 파일 저장 · 선택 창 (SAF). 결과는 [MoreAction.Data]으로 돌려준다 */
 internal class BackupFileLaunchers(
     val save: (fileName: String, json: String) -> Unit,
     val open: () -> Unit,

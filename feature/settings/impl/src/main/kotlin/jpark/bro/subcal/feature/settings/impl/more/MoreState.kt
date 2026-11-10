@@ -23,6 +23,8 @@ internal data class MoreState(
     val isBackupBusy: Boolean = false,
     /** 불러오기 확인 시트에 보여줄 백업 요약 */
     val restorePreview: BackupSummary? = null,
+    /** 모든 데이터 삭제 확인 문구 입력 */
+    val deleteAllInput: String = "",
 ) {
     /** 0보다 큰 원 단위 숫자여야 저장할 수 있다 (product-spec 2-4) */
     val canSaveUsdKrwRate: Boolean get() = (usdKrwRateInput.toLongOrNull() ?: 0) > 0
@@ -34,10 +36,14 @@ internal enum class MoreSheet {
     PAYMENT_METHOD,
     THEME_MODE,
     RESTORE_CONFIRM,
+    DELETE_ALL_CONFIRM,
 }
 
 /** 환율 입력 최대 자릿수 (999,999원) */
 internal const val MAX_RATE_DIGITS = 6
+
+/** 모든 데이터 삭제 확인 문구 입력 최대 길이 */
+internal const val MAX_CONFIRM_LENGTH = 10
 
 /** 결제 수단 이름 최대 길이 (구독 입력과 같게 짧은 이름) */
 internal const val MAX_PAYMENT_METHOD_LENGTH = 20

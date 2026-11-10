@@ -40,6 +40,16 @@ class AppResultHandlersTest {
     }
 
     @Test
+    fun `모든 데이터를 지우면 온보딩만 남긴다`() {
+        val navigator = Navigator(startKey = HomeKey, topLevelKeys = TopLevelDestination.keys)
+        navigator.goTo(MoreKey)
+
+        AppDataResetHandler(navigator).handle(DataReset.Deleted)
+
+        assertEquals(listOf(OnboardingKey), navigator.backStack.toList())
+    }
+
+    @Test
     fun `알림에서 구독을 열면 다른 탭에 있어도 홈 위에 상세를 쌓는다`() {
         val navigator = Navigator(startKey = HomeKey, topLevelKeys = TopLevelDestination.keys)
         navigator.goTo(CalendarKey)

@@ -46,22 +46,32 @@ internal sealed interface MoreAction {
 
     data object SheetDismissed : MoreAction
 
-    /** 백업 내보내기 · 불러오기 (product-spec 6장) */
-    sealed interface Backup : MoreAction
+    /** 백업 내보내기 · 불러오기 · 모든 데이터 삭제 (product-spec 6장) */
+    sealed interface Data : MoreAction
 
-    data object ExportClicked : Backup
+    data object ExportClicked : Data
 
     /** Root가 고른 위치에 파일을 썼는지. 고르지 않고 닫으면 보내지 않는다 */
     data class ExportFileWritten(
         val success: Boolean,
-    ) : Backup
+    ) : Data
 
-    data object ImportClicked : Backup
+    data object ImportClicked : Data
 
     /** Root가 고른 파일에서 읽은 내용. 읽지 못했으면 null */
     data class BackupFileRead(
         val json: String?,
-    ) : Backup
+    ) : Data
 
-    data object RestoreConfirmed : Backup
+    data object RestoreConfirmed : Data
+
+    data object DeleteAllClicked : OpenSheet
+
+    /** 확인 문구 입력 */
+    data class DeleteAllInputChanged(
+        val input: String,
+    ) : SheetInput
+
+    /** 확인 문구를 맞게 넣어야 화면이 보낸다 */
+    data object DeleteAllConfirmed : Data
 }

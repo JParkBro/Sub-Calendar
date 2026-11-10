@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
 import jpark.bro.subcal.core.designsystem.AppSpacing
@@ -53,6 +54,7 @@ import jpark.bro.subcal.core.designsystem.R as DesignR
 internal fun MoreRoot(
     onNavigate: (NavKey) -> Unit,
     onDataRestored: () -> Unit,
+    onDataDeleted: () -> Unit,
     viewModel: MoreViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -65,12 +67,35 @@ internal fun MoreRoot(
     LaunchedEffect(Unit) { viewModel.onAction(MoreAction.AppVersionLoaded(context.versionName())) }
     ObserveEvents(viewModel.event) { event ->
         when (event) {
-            MoreEvent.OpenNotificationSettings -> onNavigate(NotificationSettingsKey)
-            MoreEvent.SaveFailed -> toastHostState.showSnackbar(saveFailed)
-            is MoreEvent.SaveBackupFile -> backupFiles.save(event.fileName, event.json)
-            MoreEvent.OpenBackupFile -> backupFiles.open()
-            is MoreEvent.ShowBackupMessage -> toastHostState.showSnackbar(backupMessages.getValue(event.message))
-            MoreEvent.DataRestored -> onDataRestored()
+            MoreEvent.OpenNotificationSettings -> {
+                onNavigate(NotificationSettingsKey)
+            }
+
+            MoreEvent.SaveFailed -> {
+                toastHostState.showSnackbar(saveFailed)
+            }
+
+            is MoreEvent.SaveBackupFile -> {
+                backupFiles.save(event.fileName, event.json)
+            }
+
+            MoreEvent.OpenBackupFile -> {
+                backupFiles.open()
+            }
+
+            is MoreEvent.ShowBackupMessage -> {
+                toastHostState.showSnackbar(backupMessages.getValue(event.message))
+            }
+
+            MoreEvent.DataRestored -> {
+                onDataRestored()
+            }
+
+            MoreEvent.DataDeleted -> {
+                // 지운 구독을 가리키는 알림이 남지 않게 한다
+                NotificationManagerCompat.from(context).cancelAll()
+                onDataDeleted()
+            }
         }
     }
     Box(modifier = Modifier.fillMaxSize()) {
@@ -211,6 +236,13 @@ private fun DataSection(
             onClick = { if (!isBusy) onAction(MoreAction.ImportClicked) },
             modifier = Modifier.testTag("more_backup_import"),
         )
+        SubCalDivider()
+        SubCalListItem(
+            title = stringResource(R.string.settings_more_delete_all),
+            subtitle = stringResource(R.string.settings_more_delete_all_hint),
+            onClick = { if (!isBusy) onAction(MoreAction.DeleteAllClicked) },
+            modifier = Modifier.testTag("more_delete_all"),
+        )
     }
 }
 
@@ -222,6 +254,7 @@ private val BackupMessage.textRes: Int
             BackupMessage.EXPORT_FAILED -> R.string.settings_more_backup_export_failed
             BackupMessage.INVALID_FILE -> R.string.settings_more_backup_invalid
             BackupMessage.RESTORE_FAILED -> R.string.settings_more_backup_restore_failed
+            BackupMessage.DELETE_FAILED -> R.string.settings_more_delete_failed
         }
 
 @Composable

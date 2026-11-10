@@ -20,6 +20,9 @@ internal sealed interface MoreEvent {
 
     /** 백업을 불러왔다: app이 홈으로 보낸다 */
     data object DataRestored : MoreEvent
+
+    /** 모든 데이터를 지웠다: 떠 있는 알림을 지우고 app이 온보딩으로 보낸다 */
+    data object DataDeleted : MoreEvent
 }
 
 internal enum class BackupMessage {
@@ -27,4 +30,5 @@ internal enum class BackupMessage {
     EXPORT_FAILED,
     INVALID_FILE,
     RESTORE_FAILED,
+    DELETE_FAILED,
 }

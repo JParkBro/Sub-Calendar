@@ -25,6 +25,7 @@ val settingsModule =
             MoreRoot(
                 onNavigate = navigator::goTo,
                 onDataRestored = { get<DataResetHandler>().handle(DataReset.Restored) },
+                onDataDeleted = { get<DataResetHandler>().handle(DataReset.Deleted) },
             )
         }
         navigation<NotificationSettingsKey> {

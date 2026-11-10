@@ -31,5 +31,11 @@ class FakeBackupRepository(
             restored = json
         }
 
+    /** [deleteAll]을 불렀는지 */
+    var deleted: Boolean = false
+        private set
+
+    override suspend fun deleteAll(): Result<Unit> = result { deleted = true }
+
     private fun <T> result(block: () -> T): Result<T> = failure?.let { Result.failure(it) } ?: runCatching(block)
 }

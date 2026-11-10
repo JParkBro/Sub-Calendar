@@ -27,7 +27,7 @@
 ## 2. Android 자동 백업
 
 - `android:allowBackup="true"`, `android:dataExtractionRules="@xml/data_extraction_rules"`(Android 12+), `android:fullBackupContent="@xml/backup_rules"`(11 이하).
-- 포함: Room DB 파일, 설정 DataStore 파일. 제외: 광고 기록 DataStore, `widget_config`가 든 파일이 따로라면 그 파일, 캐시.
+- 포함: Room DB 파일(`subcal.db` · `-wal` · `-shm`), 설정 DataStore 파일(`datastore/settings.preferences_pb`). include 목록에 없는 파일(WorkManager DB, 캐시, 이후 생길 광고 기록 DataStore 등)은 백업하지 않는다. `widget_config`는 같은 DB 안이라 함께 백업되지만 복원 뒤 위젯 id가 달라 쓰이지 않는다(2차 위젯에서 정리).
 - 복원된 DB는 다음 실행에서 알림을 다시 예약한다 (`ReminderScheduler.start`가 앱 시작마다 확인하고, 같은 시각으로 예약된 작업이 있으면 그대로 둔다).
 - 사용자가 기기 백업을 꺼 두면 동작하지 않으므로, 더보기 → 백업 내보내기 안내 문구에 "기기 변경 전 백업 파일을 저장해 두세요"를 둔다.
 

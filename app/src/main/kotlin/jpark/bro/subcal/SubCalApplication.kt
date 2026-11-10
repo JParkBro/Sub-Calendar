@@ -1,6 +1,7 @@
 package jpark.bro.subcal
 
 import android.app.Application
+import jpark.bro.subcal.core.data.cleanup.DeletedSubscriptionCleanupScheduler
 import jpark.bro.subcal.core.notification.ReminderScheduler
 import jpark.bro.subcal.di.appModule
 import kotlinx.coroutines.CoroutineScope
@@ -27,5 +28,6 @@ class SubCalApplication : Application() {
         }
         // 설치 · 업데이트 · 자동 백업 복원 뒤 첫 실행에도 결제 알림이 예약되도록 시작마다 확인한다 (infra.md 2장)
         get<ReminderScheduler>().start(applicationScope)
+        get<DeletedSubscriptionCleanupScheduler>().start()
     }
 }

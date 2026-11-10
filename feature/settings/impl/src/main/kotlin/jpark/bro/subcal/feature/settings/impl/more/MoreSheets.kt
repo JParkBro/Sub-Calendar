@@ -63,6 +63,10 @@ internal fun MoreSheetContent(
             MoreSheet.RESTORE_CONFIRM -> {
                 state.restorePreview?.let { RestoreConfirmSheet(summary = it, onAction = onAction) }
             }
+
+            MoreSheet.DELETE_ALL_CONFIRM -> {
+                DeleteAllSheet(input = state.deleteAllInput, onAction = onAction)
+            }
         }
     }
 }
@@ -181,6 +185,38 @@ private fun RestoreConfirmSheet(
             text = stringResource(R.string.settings_more_cancel),
             onClick = { onAction(MoreAction.SheetDismissed) },
             modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+/** 되돌릴 수 없으므로 확인 문구("삭제")를 직접 입력해야 지운다 (product-spec 6장) */
+@Composable
+private fun DeleteAllSheet(
+    input: String,
+    onAction: (MoreAction) -> Unit,
+) {
+    val keyword = stringResource(R.string.settings_more_delete_all_keyword)
+    SheetBody(
+        title = stringResource(R.string.settings_more_delete_all_title),
+        hint = stringResource(R.string.settings_more_delete_all_input_hint, keyword),
+    ) {
+        SubCalInfoBox(
+            text = stringResource(R.string.settings_more_delete_all_warning),
+            tone = SubCalInfoBoxTone.WARNING,
+        )
+        SubCalTextField(
+            value = input,
+            onValueChange = { onAction(MoreAction.DeleteAllInputChanged(it)) },
+            placeholder = keyword,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            modifier = Modifier.fillMaxWidth().testTag("delete_all_field"),
+        )
+        SubCalDangerButton(
+            text = stringResource(R.string.settings_more_delete_all_confirm),
+            onClick = { onAction(MoreAction.DeleteAllConfirmed) },
+            enabled = input.trim() == keyword,
+            filled = true,
+            modifier = Modifier.fillMaxWidth().testTag("delete_all_confirm"),
         )
     }
 }

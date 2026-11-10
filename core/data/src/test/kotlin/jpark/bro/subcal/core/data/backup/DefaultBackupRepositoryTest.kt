@@ -64,7 +64,7 @@ class DefaultBackupRepositoryTest {
             )
         private var nextId = 0
         val subscriptions = DefaultSubscriptionRepository(db.subscriptionDao(), IdGenerator { "id-${++nextId}" }, clock)
-        val backup = DefaultBackupRepository(db.subscriptionDao(), db.backupDao(), settings, clock)
+        val backup = DefaultBackupRepository(db.subscriptionDao(), db.dataDao(), settings, clock)
 
         suspend fun records(): List<SubscriptionRecord> = subscriptions.observeRecords().first()
     }
@@ -152,6 +152,21 @@ class DefaultBackupRepositoryTest {
 
             assertEquals(before, target.records())
             assertEquals(AppSettings(), target.settings.appSettings.first())
+        }
+
+    @Test
+    fun `모든 데이터를 지우면 삭제한 구독까지 사라지고 설정 · 온보딩이 처음 상태로 돌아간다`() =
+        runTest {
+            val device = filledDevice()
+            device.settings.setOnboardingDone(true)
+
+            device.backup.deleteAll().getOrThrow()
+
+            assertTrue(device.records().isEmpty())
+            assertEquals(0, device.db.dataDao().purgeDeletedBefore(Long.MAX_VALUE))
+            assertEquals(AppSettings(), device.settings.appSettings.first())
+            assertEquals(NotificationSettings(), device.settings.notificationSettings.first())
+            assertTrue(!device.settings.onboardingDone.first())
         }
 
     @Test

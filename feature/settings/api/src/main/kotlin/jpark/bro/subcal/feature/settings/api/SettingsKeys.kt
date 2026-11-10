@@ -15,6 +15,9 @@ data object NotificationSettingsKey : NavKey
 sealed interface DataReset {
     /** 백업을 불러왔다 → 홈 */
     data object Restored : DataReset
+
+    /** 모든 데이터를 지웠다 → 온보딩 */
+    data object Deleted : DataReset
 }
 
 /** 구현은 app에 둔다 */

@@ -18,6 +18,10 @@ internal fun MoreState.openSheet(action: MoreAction.OpenSheet): MoreState =
         MoreAction.ThemeModeClicked -> {
             copy(sheet = MoreSheet.THEME_MODE)
         }
+
+        MoreAction.DeleteAllClicked -> {
+            copy(sheet = MoreSheet.DELETE_ALL_CONFIRM, deleteAllInput = "")
+        }
     }
 
 /** 환율은 숫자만(앞의 0 제외, 6자리까지), 결제 수단은 길이만 자른다 */
@@ -35,5 +39,9 @@ internal fun MoreState.reduce(action: MoreAction.SheetInput): MoreState =
 
         is MoreAction.PaymentMethodInputChanged -> {
             copy(paymentMethodInput = action.input.take(MAX_PAYMENT_METHOD_LENGTH))
+        }
+
+        is MoreAction.DeleteAllInputChanged -> {
+            copy(deleteAllInput = action.input.take(MAX_CONFIRM_LENGTH))
         }
     }

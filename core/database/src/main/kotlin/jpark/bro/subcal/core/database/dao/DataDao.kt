@@ -8,9 +8,9 @@ import jpark.bro.subcal.core.database.entity.PauseEntity
 import jpark.bro.subcal.core.database.entity.PriceChangeEntity
 import jpark.bro.subcal.core.database.entity.SubscriptionEntity
 
-/** 백업 불러오기 전용: 구독 데이터를 통째로 바꾼다 (data-model-erd 6장) */
+/** 구독 데이터 전체를 다루는 작업: 백업 불러오기 · 모든 데이터 삭제 · 지운 행 정리 (data-model-erd 6장) */
 @Dao
-interface BackupDao {
+interface DataDao {
     @Query("DELETE FROM subscription")
     suspend fun deleteAllSubscriptions()
 
@@ -39,4 +39,18 @@ interface BackupDao {
         insertPriceChanges(priceChanges)
         insertPauses(pauses)
     }
+
+    @Query("DELETE FROM widget_config")
+    suspend fun deleteAllWidgetConfigs()
+
+    /** 모든 데이터 삭제 (product-spec 6장): 구독(하위 행 CASCADE)과 위젯 설정까지 지운다 */
+    @Transaction
+    suspend fun deleteAll() {
+        deleteAllSubscriptions()
+        deleteAllWidgetConfigs()
+    }
+
+    /** soft delete한 지 [cutoff] 이전인 구독을 지운다 (하위 행 CASCADE). 지운 행 수 */
+    @Query("DELETE FROM subscription WHERE deleted_at IS NOT NULL AND deleted_at < :cutoff")
+    suspend fun purgeDeletedBefore(cutoff: Long): Int
 }
