@@ -20,6 +20,9 @@ internal sealed interface MoreAction {
     /** 관리 → 파티 관리 */
     data object PartyClicked : Navigate
 
+    /** 관리 → 연말 리포트 (올해) */
+    data object YearReportClicked : Navigate
+
     /** 위젯 설정 */
     data object WidgetClicked : Navigate
 

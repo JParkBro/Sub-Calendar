@@ -54,6 +54,10 @@ internal class HomeViewModel(
                 sendEvent(HomeEvent.OpenEdit(action.quickAdd.presetId))
             }
 
+            HomeAction.YearReportBannerClicked -> {
+                currentState.yearReportBanner?.let { sendEvent(HomeEvent.OpenYearReport(it.year)) }
+            }
+
             HomeAction.BillingDateHintClicked -> {
                 dismissBillingDateHint()
                 sendEvent(HomeEvent.OpenList(category = null))

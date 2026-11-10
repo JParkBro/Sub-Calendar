@@ -50,6 +50,7 @@ import jpark.bro.subcal.core.ui.categoryLabel
 import jpark.bro.subcal.core.ui.formatKrwInManwon
 import jpark.bro.subcal.core.ui.formatMoney
 import jpark.bro.subcal.feature.calendar.api.CalendarKey
+import jpark.bro.subcal.feature.insight.api.YearReportKey
 import jpark.bro.subcal.feature.subscription.api.ServicePickerKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionEditKey
@@ -80,6 +81,7 @@ internal fun HomeRoot(
             HomeEvent.OpenServicePicker -> onNavigate(ServicePickerKey)
             is HomeEvent.OpenEdit -> onNavigate(SubscriptionEditKey(presetId = event.presetId))
             HomeEvent.OpenTrial -> onNavigate(TrialKey)
+            is HomeEvent.OpenYearReport -> onNavigate(YearReportKey(event.year))
             HomeEvent.ActionFailed -> toastHostState.showSnackbar(actionFailed)
         }
     }
@@ -128,6 +130,7 @@ private fun HomeScreen(
                     state.unresolvedTrials.forEach {
                         UnresolvedTrialCard(trial = it, isWorking = state.isWorking, onAction = onAction)
                     }
+                    state.yearReportBanner?.let { YearReportBannerCard(banner = it, onAction = onAction) }
                     if (state.isEmpty) {
                         EmptyCard(onAction = onAction)
                     } else {
@@ -295,7 +298,14 @@ private fun HomePreview() {
 @Composable
 private fun HomeMonthStartPreview() {
     AppTheme {
-        HomeScreen(state = previewHomeState(monthStartDay = 25).copy(showBillingDateHint = true), onAction = {})
+        HomeScreen(
+            state =
+                previewHomeState(monthStartDay = 25).copy(
+                    showBillingDateHint = true,
+                    yearReportBanner = YearReportBanner(year = 2026, totalKrw = 635_780),
+                ),
+            onAction = {},
+        )
     }
 }
 

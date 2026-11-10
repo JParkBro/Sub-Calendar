@@ -21,3 +21,9 @@ enum class SavingsTab {
     /** 아낀 돈 */
     SAVED,
 }
+
+/** 연말 리포트 (product-spec 4-11): [year]의 1월 1일 ~ 12월 31일 */
+@Serializable
+data class YearReportKey(
+    val year: Int,
+) : NavKey

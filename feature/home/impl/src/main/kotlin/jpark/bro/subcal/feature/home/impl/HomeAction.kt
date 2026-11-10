@@ -22,6 +22,9 @@ internal sealed interface HomeAction {
 
     data object BillingDateHintDismissed : HomeAction
 
+    /** 연말 리포트 배너 */
+    data object YearReportBannerClicked : HomeAction
+
     data class QuickAddClicked(
         val quickAdd: QuickAdd,
     ) : HomeAction

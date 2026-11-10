@@ -11,4 +11,5 @@ dependencies {
     implementation(projects.feature.subscription.api)
     implementation(projects.feature.calendar.api)
     implementation(projects.feature.trial.api)
+    implementation(projects.feature.insight.api)
 }

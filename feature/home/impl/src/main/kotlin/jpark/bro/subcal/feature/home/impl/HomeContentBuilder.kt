@@ -8,6 +8,8 @@ import jpark.bro.subcal.core.domain.billing.periodChangeKrw
 import jpark.bro.subcal.core.domain.billing.periodTotalKrw
 import jpark.bro.subcal.core.domain.billing.priceOn
 import jpark.bro.subcal.core.domain.billing.upcomingPayments
+import jpark.bro.subcal.core.domain.insight.yearReport
+import jpark.bro.subcal.core.domain.insight.yearReportBannerYear
 import jpark.bro.subcal.core.domain.trial.trialsEndingSoon
 import jpark.bro.subcal.core.domain.trial.unresolvedTrials
 import jpark.bro.subcal.core.model.AppSettings
@@ -65,5 +67,10 @@ internal fun buildHomeState(
                     amount = record.priceOn(subscription.firstBillingDate),
                 )
             },
+        yearReportBanner =
+            yearReportBannerYear(today)
+                ?.let { yearReport(records, it, today, rate) }
+                ?.takeUnless { it.isEmpty }
+                ?.let { YearReportBanner(it.year, it.totalKrw) },
     )
 }
