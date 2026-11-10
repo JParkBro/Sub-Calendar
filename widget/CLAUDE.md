@@ -19,7 +19,7 @@
 ## 규칙
 
 - **표시 데이터는 `core:data` Repository + `core:domain` 계산만 쓴다.** 위젯 안에서 결제일 · 합계를 따로 계산하지 않는다 (홈과 숫자가 달라지면 안 됨).
-- feature 모듈은 widget을 모른다. 데이터가 바뀌면 `WidgetUpdater`가 Room · DataStore 흐름으로 알아채므로 feature에서 갱신을 부르지 않는다. 놓인 위젯 목록 · 위젯 추가 요청이 필요한 더보기 위젯 설정은 `core:data`의 `HomeWidgets` 인터페이스로 하고 구현을 이 모듈에 둔다(위젯 2/2 PR).
+- feature 모듈은 widget을 모른다. 데이터가 바뀌면 `WidgetUpdater`가 Room · DataStore 흐름으로 알아채므로 feature에서 갱신을 부르지 않는다. 놓인 위젯 목록 · 위젯 추가 요청이 필요한 더보기 위젯 설정은 `core:data`의 `HomeWidgets` 인터페이스로 하고 구현(`DefaultHomeWidgets`)을 이 모듈에 둔다.
 - 금액은 `formatMoney`, 서비스 아이콘은 Glance용 `ServiceIconGlance`(원 + 이니셜, `AppFixedColors.service`)로 그린다. 브랜드 로고 이미지 금지.
 - 색은 `AppColors` 토큰 값을 Glance `ColorProvider`(라이트 · 다크 쌍)로 바꿔 쓴다. 하드코딩 금지.
 - 문자열은 이 모듈 `strings.xml` (`widget_{size}_{purpose}`).

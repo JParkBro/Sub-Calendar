@@ -50,6 +50,9 @@ class MoreViewModelTest {
 
                 viewModel.onAction(MoreAction.TrialClicked)
                 assertEquals(MoreEvent.OpenTrial, awaitItem())
+
+                viewModel.onAction(MoreAction.WidgetClicked)
+                assertEquals(MoreEvent.OpenWidgetSettings, awaitItem())
             }
         }
 

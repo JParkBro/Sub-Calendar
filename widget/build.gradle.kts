@@ -21,6 +21,9 @@ dependencies {
     implementation(libs.glance.preview)
     implementation(libs.glance.appwidget.preview)
     implementation(libs.androidx.work.runtime)
+    // 위젯 설정 Activity (Compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     testImplementation(projects.core.testing)
 }

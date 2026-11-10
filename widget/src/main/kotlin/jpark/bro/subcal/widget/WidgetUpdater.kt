@@ -1,5 +1,6 @@
 package jpark.bro.subcal.widget
 
+import android.appwidget.AppWidgetManager
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.updateAll
@@ -9,10 +10,13 @@ import androidx.work.WorkManager
 import jpark.bro.subcal.core.data.repository.SettingsRepository
 import jpark.bro.subcal.core.data.repository.SubscriptionRepository
 import jpark.bro.subcal.core.data.repository.WidgetConfigRepository
+import jpark.bro.subcal.core.model.WidgetSize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.time.Clock
 import java.time.Duration
 import java.time.ZonedDateTime
@@ -36,6 +40,7 @@ class WidgetUpdater(
 ) {
     /** 앱 시작 시 한 번 (Application) */
     fun start() {
+        scope.launch { removeStaleConfigs() }
         combine(
             subscriptionRepository.observeRecords(),
             settingsRepository.observeAppSettings(),
@@ -45,6 +50,22 @@ class WidgetUpdater(
                 updateAll()
                 scheduleNextMidnight()
             }.launchIn(scope)
+    }
+
+    /**
+     * 홈 화면에 놓여 있지 않은 위젯의 설정을 지운다. 자동 백업 복원 · 런처 교체 뒤에는 id가 달라져
+     * 예전 행이 남는다 (infra.md 2장)
+     */
+    private suspend fun removeStaleConfigs() {
+        val manager = AppWidgetManager.getInstance(context)
+        val placed = WidgetSize.entries.flatMap { manager.getAppWidgetIds(context.providerOf(it)).toList() }.toSet()
+        val stale =
+            widgetConfigRepository
+                .observeConfigs()
+                .first()
+                .map { it.widgetId }
+                .filterNot { it in placed }
+        if (stale.isNotEmpty()) widgetConfigRepository.deleteConfigs(stale)
     }
 
     suspend fun updateAll() {

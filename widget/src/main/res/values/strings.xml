@@ -7,4 +7,13 @@
     <string name="widget_medium_description">이번 달 구독료와 다가오는 결제 2건</string>
     <string name="widget_medium_title">%1$d월 구독료</string>
     <string name="widget_medium_empty">구독을 등록해 보세요</string>
+    <string name="widget_config_title">위젯 설정</string>
+    <string name="widget_config_close">닫기</string>
+    <string name="widget_config_preview_hint">홈 화면에 보일 모습이에요</string>
+    <string name="widget_config_background">배경</string>
+    <string name="widget_config_background_theme">기기 모드 따르기</string>
+    <string name="widget_config_background_dark">다크</string>
+    <string name="widget_config_background_white">화이트</string>
+    <string name="widget_config_save">저장하기</string>
+    <string name="widget_config_save_failed">저장하지 못했어요. 다시 시도해 주세요</string>
 </resources>

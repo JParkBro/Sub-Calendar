@@ -39,6 +39,10 @@ internal class MoreViewModel(
                 sendEvent(MoreEvent.OpenTrial)
             }
 
+            MoreAction.WidgetClicked -> {
+                sendEvent(MoreEvent.OpenWidgetSettings)
+            }
+
             is MoreAction.AppVersionLoaded -> {
                 setState { copy(appVersion = action.versionName) }
             }

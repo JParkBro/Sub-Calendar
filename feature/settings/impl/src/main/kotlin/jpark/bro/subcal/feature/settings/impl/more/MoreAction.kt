@@ -14,6 +14,9 @@ internal sealed interface MoreAction {
     /** 관리 → 무료체험 */
     data object TrialClicked : MoreAction
 
+    /** 위젯 설정 */
+    data object WidgetClicked : MoreAction
+
     /** Root가 기기에서 읽은 앱 버전 이름 */
     data class AppVersionLoaded(
         val versionName: String,

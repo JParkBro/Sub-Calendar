@@ -47,6 +47,7 @@ import jpark.bro.subcal.feature.settings.api.NotificationSettingsKey
 import jpark.bro.subcal.feature.settings.impl.R
 import jpark.bro.subcal.feature.settings.impl.notification.daysBeforeLabel
 import jpark.bro.subcal.feature.settings.impl.notification.formatReminderTime
+import jpark.bro.subcal.feature.settings.impl.widget.WidgetSettingsKey
 import jpark.bro.subcal.feature.trial.api.TrialKey
 import org.koin.compose.viewmodel.koinViewModel
 import jpark.bro.subcal.core.designsystem.R as DesignR
@@ -74,6 +75,10 @@ internal fun MoreRoot(
 
             MoreEvent.OpenTrial -> {
                 onNavigate(TrialKey)
+            }
+
+            MoreEvent.OpenWidgetSettings -> {
+                onNavigate(WidgetSettingsKey)
             }
 
             MoreEvent.SaveFailed -> {
@@ -170,6 +175,19 @@ private fun MoreScreen(
                         )
                     },
                     modifier = Modifier.testTag("more_notification"),
+                )
+                SubCalDivider()
+                SubCalListItem(
+                    title = stringResource(R.string.settings_more_widget),
+                    onClick = { onAction(MoreAction.WidgetClicked) },
+                    leading = {
+                        Icon(
+                            painter = painterResource(DesignR.drawable.ic_brightness_auto),
+                            contentDescription = null,
+                            tint = AppThemeTokens.colors.primary,
+                        )
+                    },
+                    modifier = Modifier.testTag("more_widget"),
                 )
             }
             SettingsSection(state = state, onAction = onAction)
