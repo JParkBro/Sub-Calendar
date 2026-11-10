@@ -5,6 +5,7 @@ import jpark.bro.subcal.core.data.di.dataModule
 import jpark.bro.subcal.core.database.di.databaseModule
 import jpark.bro.subcal.core.datastore.di.datastoreModule
 import jpark.bro.subcal.core.navigation.Navigator
+import jpark.bro.subcal.core.notification.di.notificationModule
 import jpark.bro.subcal.feature.calendar.impl.di.calendarModule
 import jpark.bro.subcal.feature.home.impl.di.homeModule
 import jpark.bro.subcal.feature.onboarding.api.OnboardingResultHandler
@@ -27,6 +28,7 @@ val appModule =
             databaseModule,
             datastoreModule,
             dataModule,
+            notificationModule,
             // feature
             onboardingModule,
             homeModule,

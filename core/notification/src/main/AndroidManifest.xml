@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Android 13 이상: 첫 구독을 저장할 때 묻는다 (product-spec 5장) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+</manifest>

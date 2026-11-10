@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
 
@@ -108,6 +109,14 @@ class SettingsDataStore(
         dataStore.edit { prefs -> prefs[BILLING_DATE_HINT_PENDING] = pending }
     }
 
+    /** 결제 알림을 마지막으로 보낸 날. 작업이 하루에 두 번 돌아도 한 번만 보낸다 */
+    val lastPaymentReminderDate: Flow<LocalDate?> =
+        preferences.map { prefs -> prefs[LAST_PAYMENT_REMINDER_DATE].toLocalDateOrNull() }
+
+    suspend fun setLastPaymentReminderDate(date: LocalDate) {
+        dataStore.edit { prefs -> prefs[LAST_PAYMENT_REMINDER_DATE] = date.toString() }
+    }
+
     private companion object {
         val THEME_MODE = stringPreferencesKey("theme_mode")
         val MONTH_START_DAY = intPreferencesKey("month_start_day")
@@ -122,11 +131,21 @@ class SettingsDataStore(
         val LIST_SORT = stringPreferencesKey("list_sort")
         val ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
         val BILLING_DATE_HINT_PENDING = booleanPreferencesKey("billing_date_hint_pending")
+        val LAST_PAYMENT_REMINDER_DATE = stringPreferencesKey("last_payment_reminder_date")
     }
 }
 
 private inline fun <reified T : Enum<T>> String?.toEnumOr(default: T): T =
     enumValues<T>().firstOrNull { it.name == this } ?: default
+
+private fun String?.toLocalDateOrNull(): LocalDate? =
+    this?.let {
+        try {
+            LocalDate.parse(it)
+        } catch (_: DateTimeParseException) {
+            null
+        }
+    }
 
 private fun String?.toLocalTimeOrNull(): LocalTime? =
     this?.let {

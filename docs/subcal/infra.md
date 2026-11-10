@@ -28,7 +28,7 @@
 
 - `android:allowBackup="true"`, `android:dataExtractionRules="@xml/data_extraction_rules"`(Android 12+), `android:fullBackupContent="@xml/backup_rules"`(11 이하).
 - 포함: Room DB 파일, 설정 DataStore 파일. 제외: 광고 기록 DataStore, `widget_config`가 든 파일이 따로라면 그 파일, 캐시.
-- 복원된 DB는 다음 실행에서 알림을 다시 예약한다 (`ReminderScheduler`를 앱 시작마다 KEEP으로 확인).
+- 복원된 DB는 다음 실행에서 알림을 다시 예약한다 (`ReminderScheduler.start`가 앱 시작마다 확인하고, 같은 시각으로 예약된 작업이 있으면 그대로 둔다).
 - 사용자가 기기 백업을 꺼 두면 동작하지 않으므로, 더보기 → 백업 내보내기 안내 문구에 "기기 변경 전 백업 파일을 저장해 두세요"를 둔다.
 
 ## 3. 정책 페이지 (`policy-site/`)
