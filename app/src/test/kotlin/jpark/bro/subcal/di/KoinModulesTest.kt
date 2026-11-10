@@ -6,6 +6,7 @@ import androidx.navigation3.runtime.NavKey
 import androidx.work.WorkerParameters
 import jpark.bro.subcal.core.model.WidgetSize
 import jpark.bro.subcal.feature.insight.api.SavingsKey
+import jpark.bro.subcal.feature.insight.api.YearReportKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionEditKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionListKey
@@ -26,6 +27,7 @@ class KoinModulesTest {
                 SubscriptionEditKey::class,
                 SubscriptionDetailKey::class,
                 SavingsKey::class,
+                YearReportKey::class,
                 String::class,
             )
         // Worker는 WorkManager가 WorkerParameters를 넘겨 만든다

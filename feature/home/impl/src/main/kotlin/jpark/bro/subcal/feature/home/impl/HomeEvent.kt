@@ -24,5 +24,9 @@ internal sealed interface HomeEvent {
 
     data object OpenTrial : HomeEvent
 
+    data class OpenYearReport(
+        val year: Int,
+    ) : HomeEvent
+
     data object ActionFailed : HomeEvent
 }

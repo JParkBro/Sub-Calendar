@@ -43,6 +43,7 @@ import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.model.NotificationSettings
 import jpark.bro.subcal.core.ui.ObserveEvents
 import jpark.bro.subcal.core.ui.formatMoney
+import jpark.bro.subcal.feature.insight.api.YearReportKey
 import jpark.bro.subcal.feature.party.api.PartyListKey
 import jpark.bro.subcal.feature.settings.api.NotificationSettingsKey
 import jpark.bro.subcal.feature.settings.impl.R
@@ -84,6 +85,10 @@ internal fun MoreRoot(
 
             MoreEvent.OpenWidgetSettings -> {
                 onNavigate(WidgetSettingsKey)
+            }
+
+            is MoreEvent.OpenYearReport -> {
+                onNavigate(YearReportKey(event.year))
             }
 
             MoreEvent.SaveFailed -> {
@@ -179,6 +184,19 @@ private fun MoreScreen(
                         )
                     },
                     modifier = Modifier.testTag("more_party"),
+                )
+                SubCalDivider()
+                SubCalListItem(
+                    title = stringResource(R.string.settings_more_year_report),
+                    onClick = { onAction(MoreAction.YearReportClicked) },
+                    leading = {
+                        Icon(
+                            painter = painterResource(DesignR.drawable.ic_auto_awesome),
+                            contentDescription = null,
+                            tint = AppThemeTokens.colors.primary,
+                        )
+                    },
+                    modifier = Modifier.testTag("more_year_report"),
                 )
                 SubCalDivider()
                 SubCalListItem(

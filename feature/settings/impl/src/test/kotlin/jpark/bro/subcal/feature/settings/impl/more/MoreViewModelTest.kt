@@ -56,6 +56,9 @@ class MoreViewModelTest {
 
                 viewModel.onAction(MoreAction.WidgetClicked)
                 assertEquals(MoreEvent.OpenWidgetSettings, awaitItem())
+
+                viewModel.onAction(MoreAction.YearReportClicked)
+                assertEquals(MoreEvent.OpenYearReport(2026), awaitItem())
             }
         }
 

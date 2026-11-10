@@ -7,6 +7,7 @@ import jpark.bro.subcal.core.domain.billing.payments
 import jpark.bro.subcal.core.domain.billing.periodTotalKrw
 import jpark.bro.subcal.core.domain.billing.toKrw
 import jpark.bro.subcal.core.model.Category
+import jpark.bro.subcal.core.model.Payment
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.SubscriptionStatus
 import java.time.LocalDate
@@ -84,11 +85,20 @@ fun recentPeriodTotals(
 fun SubscriptionRecord.savedKrw(
     today: LocalDate,
     usdKrwRate: Long,
-): Long {
+): Long = avoidedPayments(LocalDate.MIN, today.plusDays(1)).sumOf { it.amount.toKrw(usdKrwRate) }
+
+/**
+ * 해지해서 내지 않은 결제: 해지하지 않았다면 해지일부터 생겼을 결제 중 [from] 이상 [untilExclusive] 미만.
+ * 해지하지 않은 구독은 빈 목록.
+ */
+internal fun SubscriptionRecord.avoidedPayments(
+    from: LocalDate,
+    untilExclusive: LocalDate,
+): List<Payment> {
     val cancelledOn = subscription.cancelledOn
-    if (subscription.status != SubscriptionStatus.CANCELLED || cancelledOn == null) return 0
+    if (subscription.status != SubscriptionStatus.CANCELLED || cancelledOn == null) return emptyList()
     val notCancelled = copy(subscription = subscription.copy(status = SubscriptionStatus.ACTIVE, cancelledOn = null))
-    return notCancelled.payments(cancelledOn, today.plusDays(1)).sumOf { it.amount.toKrw(usdKrwRate) }
+    return notCancelled.payments(maxOf(cancelledOn, from), untilExclusive)
 }
 
 /** 지금까지 아낀 돈: 해지한 구독 전체의 합 (삭제한 구독은 Repository가 빼고 준다) */

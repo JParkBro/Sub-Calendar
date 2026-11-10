@@ -3,6 +3,7 @@ package jpark.bro.subcal.feature.insight.impl.di
 import jpark.bro.subcal.core.navigation.Navigator
 import jpark.bro.subcal.feature.insight.api.SavingsKey
 import jpark.bro.subcal.feature.insight.api.StatsKey
+import jpark.bro.subcal.feature.insight.api.YearReportKey
 import jpark.bro.subcal.feature.insight.impl.savings.SavingsRoot
 import jpark.bro.subcal.feature.insight.impl.savings.SavingsViewModel
 import jpark.bro.subcal.feature.insight.impl.stats.StatsRoot
@@ -10,6 +11,8 @@ import jpark.bro.subcal.feature.insight.impl.stats.StatsViewModel
 import jpark.bro.subcal.feature.insight.impl.value.ValueAnalysisKey
 import jpark.bro.subcal.feature.insight.impl.value.ValueAnalysisRoot
 import jpark.bro.subcal.feature.insight.impl.value.ValueAnalysisViewModel
+import jpark.bro.subcal.feature.insight.impl.yearreport.YearReportRoot
+import jpark.bro.subcal.feature.insight.impl.yearreport.YearReportViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -31,6 +34,14 @@ val insightModule =
                 clock = get(),
             )
         }
+        viewModel { params ->
+            YearReportViewModel(
+                key = params.get(),
+                subscriptionRepository = get(),
+                settingsRepository = get(),
+                clock = get(),
+            )
+        }
 
         navigation<StatsKey> {
             val navigator = get<Navigator>()
@@ -43,5 +54,9 @@ val insightModule =
         navigation<ValueAnalysisKey> {
             val navigator = get<Navigator>()
             ValueAnalysisRoot(onNavigate = navigator::goTo, onBack = navigator::goBack)
+        }
+        navigation<YearReportKey> { key ->
+            val navigator = get<Navigator>()
+            YearReportRoot(key = key, onBack = navigator::goBack)
         }
     }

@@ -32,7 +32,7 @@ internal class MoreViewModel(
     override fun onAction(action: MoreAction) {
         when (action) {
             is MoreAction.Navigate -> {
-                sendEvent(action.toEvent())
+                sendEvent(action.toEvent(thisYear = LocalDate.now(clock).year))
             }
 
             is MoreAction.AppVersionLoaded -> {
@@ -180,10 +180,11 @@ private val BackupFileDate: DateTimeFormatter = DateTimeFormatter.ofPattern("yyy
 internal fun backupFileName(date: LocalDate): String = "subcal-backup-${date.format(BackupFileDate)}.json"
 
 /** 메뉴 → 이동할 화면 */
-private fun MoreAction.Navigate.toEvent(): MoreEvent =
+private fun MoreAction.Navigate.toEvent(thisYear: Int): MoreEvent =
     when (this) {
         MoreAction.NotificationSettingsClicked -> MoreEvent.OpenNotificationSettings
         MoreAction.TrialClicked -> MoreEvent.OpenTrial
         MoreAction.PartyClicked -> MoreEvent.OpenParty
         MoreAction.WidgetClicked -> MoreEvent.OpenWidgetSettings
+        MoreAction.YearReportClicked -> MoreEvent.OpenYearReport(thisYear)
     }

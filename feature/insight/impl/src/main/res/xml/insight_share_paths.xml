@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 연말 리포트 공유 이미지. 경로는 YearReportShare.kt의 SHARE_DIR와 같다 -->
+<paths>
+    <cache-path
+        name="share"
+        path="share/" />
+</paths>

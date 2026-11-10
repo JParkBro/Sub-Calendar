@@ -20,6 +20,14 @@ internal data class HomeState(
     val unresolvedTrials: List<UnresolvedTrial> = emptyList(),
     /** 체험 결과를 저장하는 중 */
     val isWorking: Boolean = false,
+    /** 12월 · 1월 연말 리포트 배너 (product-spec 4-11). 그 해에 보여줄 내용이 없으면 null */
+    val yearReportBanner: YearReportBanner? = null,
+)
+
+internal data class YearReportBanner(
+    val year: Int,
+    /** 그 해 총 지출 (내 몫 기준) */
+    val totalKrw: Long,
 )
 
 internal data class UnresolvedTrial(

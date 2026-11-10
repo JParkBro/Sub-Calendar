@@ -14,6 +14,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import java.time.Clock
 import java.time.LocalDate
 
 /** product-spec 9장 기대 값 (오늘 = 2026.10.30) */
@@ -211,4 +212,39 @@ class HomeViewModelTest {
                 .isEmpty(),
         )
     }
+
+    @Test
+    fun `10월에는 연말 리포트 배너가 없다`() {
+        assertNull(viewModel.state.value.yearReportBanner)
+    }
+
+    @Test
+    fun `12월에는 올해, 1월에는 지난해 리포트 배너를 띄우고 누르면 그 해 리포트로 간다`() =
+        runTest {
+            val december = HomeViewModel(subscriptions, settings, fixedClock("2026-12-01"))
+            val january = HomeViewModel(subscriptions, settings, fixedClock("2027-01-31"))
+
+            // 12월 1일에는 첫 결제일이 지난 체험(디즈니+ · 밀리의 서재)을 계속 쓰는 것으로 본다 (2-7): 635,780 + 41,700 + 19,800
+            assertEquals(YearReportBanner(2026, 697_280), december.state.value.yearReportBanner)
+            assertEquals(
+                2026,
+                january.state.value.yearReportBanner
+                    ?.year,
+            )
+            december.event.test {
+                december.onAction(HomeAction.YearReportBannerClicked)
+
+                assertEquals(HomeEvent.OpenYearReport(2026), awaitItem())
+            }
+        }
+
+    @Test
+    fun `그 해에 결제도 아낀 돈도 없으면 배너를 띄우지 않는다`() {
+        subscriptions.records.value = emptyList()
+
+        assertNull(HomeViewModel(subscriptions, settings, fixedClock("2026-12-01")).state.value.yearReportBanner)
+    }
+
+    private fun fixedClock(date: String): Clock =
+        Clock.fixed(LocalDate.parse(date).atStartOfDay(SampleData.clock.zone).toInstant(), SampleData.clock.zone)
 }
