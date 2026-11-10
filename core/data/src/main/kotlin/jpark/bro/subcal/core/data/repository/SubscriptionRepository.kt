@@ -1,6 +1,8 @@
 package jpark.bro.subcal.core.data.repository
 
+import jpark.bro.subcal.core.model.NotificationSettings
 import jpark.bro.subcal.core.model.PriceChangeTiming
+import jpark.bro.subcal.core.model.ReminderMode
 import jpark.bro.subcal.core.model.SubscriptionInput
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +36,16 @@ interface SubscriptionRepository {
     ): Result<Unit>
 
     suspend fun undoCancel(id: String): Result<Unit>
+
+    /**
+     * 구독별 결제 알림 시점 (product-spec 2-12). [daysBefore]는 [ReminderMode.CUSTOM]일 때만 쓰고
+     * [NotificationSettings.DaysBeforeOptions] 중 하나여야 한다. 다른 모드면 무시한다.
+     */
+    suspend fun setReminder(
+        id: String,
+        mode: ReminderMode,
+        daysBefore: Int? = null,
+    ): Result<Unit>
 
     /** soft delete. 잘못 등록한 구독을 지우는 용도 (product-spec 2-6) */
     suspend fun delete(id: String): Result<Unit>

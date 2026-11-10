@@ -173,7 +173,7 @@ Firebase · AdMob 열은 출시 단계(9장 10단계)부터 적용한다. 그 �
 3. **디자인 시스템**: `core:designsystem` 인디고 2 팔레트, `SubCal*` 컴포넌트, 서비스 색, `SubCalServiceIcon`, `core:ui` `MoneyText`
 4. **데이터**: `core:database` v1(subscription · price_change · pause · widget_config) + DAO 테스트, `core:datastore`, `core:data`(Subscription · Settings · Preset Repository), 프리셋 JSON
 5. **1차 화면**: `feature:subscription`(목록 · 선택 · 입력 · 상세) → `feature:home` → `feature:calendar` → `feature:onboarding`
-6. **알림**: `core:notification`(ReminderScheduler · ReminderWorker · 채널 `payment`), 알림 설정 화면
+6. **알림**: `core:notification`(ReminderScheduler · ReminderWorker · 채널 `payment`), `feature:settings` 골격(더보기 탭은 알림 메뉴만) + 알림 설정 화면, 첫 저장 때 알림 권한 요청
 7. **더보기 (로컬 메뉴)**: `feature:settings`(알림 · 월 시작 기준일 · 달러 환율 · 기본 결제 수단 · 화면 모드 · 백업 내보내기/불러오기 · 문의하기 · 오픈소스 라이선스 · 앱 버전 · 모든 데이터 삭제), Android 자동 백업 규칙
 8. **2차 기능**: `feature:insight`(통계 · 아낀 돈), `feature:trial`, 체험 알림, `widget`, 월초 요약
 9. **3차 기능**: `usage_log` · `party_member` · `party_settlement` 테이블, `feature:party`, 가성비 분석, 연말 리포트

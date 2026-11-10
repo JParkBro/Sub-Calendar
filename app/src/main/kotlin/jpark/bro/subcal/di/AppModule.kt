@@ -10,6 +10,7 @@ import jpark.bro.subcal.feature.calendar.impl.di.calendarModule
 import jpark.bro.subcal.feature.home.impl.di.homeModule
 import jpark.bro.subcal.feature.onboarding.api.OnboardingResultHandler
 import jpark.bro.subcal.feature.onboarding.impl.di.onboardingModule
+import jpark.bro.subcal.feature.settings.impl.di.settingsModule
 import jpark.bro.subcal.feature.subscription.impl.di.subscriptionModule
 import jpark.bro.subcal.navigation.AppOnboardingResultHandler
 import jpark.bro.subcal.navigation.TopLevelDestination
@@ -34,5 +35,6 @@ val appModule =
             homeModule,
             subscriptionModule,
             calendarModule,
+            settingsModule,
         )
     }

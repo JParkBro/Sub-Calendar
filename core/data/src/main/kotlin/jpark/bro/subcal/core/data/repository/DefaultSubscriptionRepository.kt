@@ -9,9 +9,11 @@ import jpark.bro.subcal.core.database.entity.SubscriptionWithRules
 import jpark.bro.subcal.core.domain.billing.nextPayment
 import jpark.bro.subcal.core.domain.billing.priceOn
 import jpark.bro.subcal.core.model.Money
+import jpark.bro.subcal.core.model.NotificationSettings
 import jpark.bro.subcal.core.model.Pause
 import jpark.bro.subcal.core.model.PriceChange
 import jpark.bro.subcal.core.model.PriceChangeTiming
+import jpark.bro.subcal.core.model.ReminderMode
 import jpark.bro.subcal.core.model.Subscription
 import jpark.bro.subcal.core.model.SubscriptionInput
 import jpark.bro.subcal.core.model.SubscriptionRecord
@@ -63,7 +65,7 @@ internal class DefaultSubscriptionRepository(
         input: SubscriptionInput,
         timing: PriceChangeTiming,
     ): Result<Unit> =
-        edit(id) { record ->
+        dao.edit(writeMutex, id) { record ->
             val now = clock.millis()
             val edited = record.subscription.withInput(input, now)
             val keepsPrice = input.amount == record.priceOn(today)
@@ -88,7 +90,7 @@ internal class DefaultSubscriptionRepository(
         }
 
     override suspend fun pause(id: String): Result<Unit> =
-        edit(id) { record ->
+        dao.edit(writeMutex, id) { record ->
             require(record.subscription.status == SubscriptionStatus.ACTIVE) { "이용 중인 구독만 일시정지할 수 있습니다." }
             require(record.pauses.none { it.endDate?.isBefore(today) != true }) { "일시정지 기간이 겹칩니다." }
             val now = clock.millis()
@@ -99,7 +101,7 @@ internal class DefaultSubscriptionRepository(
         }
 
     override suspend fun resume(id: String): Result<Unit> =
-        edit(id) { record ->
+        dao.edit(writeMutex, id) { record ->
             require(record.subscription.status == SubscriptionStatus.PAUSED) { "일시정지한 구독만 다시 시작할 수 있습니다." }
             val updated = record.subscription.copy(status = SubscriptionStatus.ACTIVE, updatedAt = clock.millis())
             dao.saveClosingPause(updated, record.openPause(), today.minusDays(1))
@@ -109,7 +111,7 @@ internal class DefaultSubscriptionRepository(
         id: String,
         cancelledOn: LocalDate,
     ): Result<Unit> =
-        edit(id) { record ->
+        dao.edit(writeMutex, id) { record ->
             val subscription = record.subscription
             require(subscription.status != SubscriptionStatus.CANCELLED) { "이미 해지한 구독입니다." }
             val updated =
@@ -128,7 +130,7 @@ internal class DefaultSubscriptionRepository(
         }
 
     override suspend fun undoCancel(id: String): Result<Unit> =
-        edit(id) { record ->
+        dao.edit(writeMutex, id) { record ->
             val subscription = record.subscription
             require(subscription.status == SubscriptionStatus.CANCELLED) { "해지한 구독만 취소할 수 있습니다." }
             dao.upsertSubscription(
@@ -147,18 +149,38 @@ internal class DefaultSubscriptionRepository(
             )
         }
 
-    override suspend fun delete(id: String): Result<Unit> = edit(id) { dao.softDelete(id, clock.millis()) }
-
-    private suspend fun edit(
+    override suspend fun setReminder(
         id: String,
-        block: suspend (SubscriptionRecord) -> Unit,
+        mode: ReminderMode,
+        daysBefore: Int?,
     ): Result<Unit> =
-        suspendRunCatching {
-            writeMutex.withLock {
-                block(requireNotNull(dao.get(id)) { "구독을 찾을 수 없습니다." }.toModel())
+        dao.edit(writeMutex, id) { record ->
+            val days = if (mode == ReminderMode.CUSTOM) daysBefore else null
+            require(mode != ReminderMode.CUSTOM || days in NotificationSettings.DaysBeforeOptions) {
+                "고를 수 없는 알림 시점입니다."
             }
+            dao.upsertSubscription(
+                record.subscription
+                    .copy(reminderMode = mode, reminderDaysBefore = days, updatedAt = clock.millis())
+                    .toEntity(),
+            )
         }
+
+    override suspend fun delete(id: String): Result<Unit> =
+        dao.edit(writeMutex, id) { dao.softDelete(id, clock.millis()) }
 }
+
+/** 한 번에 하나씩: [id] 구독을 읽어 [block]으로 고친다. 없으면 실패 */
+private suspend fun SubscriptionDao.edit(
+    mutex: Mutex,
+    id: String,
+    block: suspend (SubscriptionRecord) -> Unit,
+): Result<Unit> =
+    suspendRunCatching {
+        mutex.withLock {
+            block(requireNotNull(get(id)) { "구독을 찾을 수 없습니다." }.toModel())
+        }
+    }
 
 /** 다음 결제일부터 적용할 가격. 그 날짜에 이미 변경이 있으면 그 행을 고쳐 쓴다. 다음 결제가 없으면 [today] */
 private fun SubscriptionRecord.priceChangeFromNextPayment(

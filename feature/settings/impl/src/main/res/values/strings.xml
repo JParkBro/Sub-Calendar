@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_more_title">더보기</string>
+    <string name="settings_more_notification">알림 설정</string>
+    <string name="settings_more_notification_summary">결제 %1$s · %2$s</string>
+    <string name="settings_more_notification_off">결제 알림 꺼짐</string>
+
+    <string name="settings_notification_title">알림 설정</string>
+    <string name="settings_notification_back">뒤로</string>
+    <string name="settings_notification_device_off">기기 알림이 꺼져 있어 결제 알림을 받을 수 없어요</string>
+    <string name="settings_notification_open_system">기기 알림 설정 열기</string>
+    <string name="settings_notification_payment">결제 알림 받기</string>
+    <string name="settings_notification_payment_summary">기본값: 결제 %1$s %2$s</string>
+    <string name="settings_notification_default_days">기본 알림 시점</string>
+    <string name="settings_notification_time">알림 시각</string>
+    <string name="settings_notification_time_hint">하루 한 번 이 시각에 알려 드려요. 몇 분 늦을 수 있어요</string>
+    <string name="settings_notification_per_subscription">구독별 설정</string>
+    <string name="settings_notification_yearly_hint">매년 결제는 기본으로 7일 전에 알려 드려요</string>
+    <string name="settings_notification_empty">등록한 구독이 없어요</string>
+    <string name="settings_notification_same_day">당일</string>
+    <string name="settings_notification_days_before">%1$d일 전</string>
+    <string name="settings_notification_off">끔</string>
+    <string name="settings_notification_default">기본</string>
+    <string name="settings_notification_default_with_days">기본 (%1$s)</string>
+    <string name="settings_notification_sheet_title">%1$s 알림 시점</string>
+    <string name="settings_notification_save_failed">저장하지 못했어요. 다시 시도해 주세요</string>
+</resources>
