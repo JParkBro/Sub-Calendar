@@ -12,6 +12,7 @@ import jpark.bro.subcal.core.model.PresetPlan
 import jpark.bro.subcal.core.testing.FakePresetRepository
 import jpark.bro.subcal.core.testing.FakeSettingsRepository
 import jpark.bro.subcal.core.testing.FakeSubscriptionRepository
+import jpark.bro.subcal.core.testing.FakeUsageRepository
 import jpark.bro.subcal.core.testing.MainDispatcherRule
 import jpark.bro.subcal.core.testing.SampleData
 import jpark.bro.subcal.feature.insight.api.SavingsKey
@@ -32,10 +33,11 @@ class SavingsViewModelTest {
 
     private val subscriptions = FakeSubscriptionRepository(SampleData.records)
     private val settings = FakeSettingsRepository()
+    private val usage = FakeUsageRepository(SampleData.usageLogs)
     private var presets = FakePresetRepository()
 
     private fun viewModel(tab: SavingsTab = SavingsTab.CONSIDER) =
-        SavingsViewModel(SavingsKey(tab), subscriptions, settings, presets, SampleData.clock)
+        SavingsViewModel(SavingsKey(tab), subscriptions, usage, settings, presets, SampleData.clock)
 
     @Test
     fun `해지 고민함은 티빙 · 멜론과 연 261,600원, 겹치는 구독을 함께 보여준다`() {
@@ -46,6 +48,8 @@ class SavingsViewModelTest {
         assertEquals(listOf("멜론", "티빙"), state.considerItems.map { it.name })
         assertEquals(261_600, state.considerAnnualKrw)
         assertEquals(listOf("스포티파이"), state.considerItems.first { it.name == "멜론" }.duplicateWith)
+        // 사용 체크를 켠 티빙은 이번 달 사용 횟수(0회)가 이유, 끈 멜론은 없다
+        assertEquals(listOf(null, 0), state.considerItems.map { it.useCount })
         assertEquals(listOf(Category.VIDEO, Category.MUSIC), state.duplicates.map { it.category })
         assertEquals(listOf(42_800L, 21_800L), state.duplicates.map { it.monthlyKrw })
         assertTrue(state.annualOptions.isEmpty())

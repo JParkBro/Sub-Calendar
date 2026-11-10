@@ -4,10 +4,14 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import jpark.bro.subcal.core.database.dao.DataDao
 import jpark.bro.subcal.core.database.dao.SubscriptionDao
+import jpark.bro.subcal.core.database.dao.UsageLogDao
 import jpark.bro.subcal.core.database.dao.WidgetConfigDao
+import jpark.bro.subcal.core.database.entity.PartyMemberEntity
+import jpark.bro.subcal.core.database.entity.PartySettlementEntity
 import jpark.bro.subcal.core.database.entity.PauseEntity
 import jpark.bro.subcal.core.database.entity.PriceChangeEntity
 import jpark.bro.subcal.core.database.entity.SubscriptionEntity
+import jpark.bro.subcal.core.database.entity.UsageLogEntity
 import jpark.bro.subcal.core.database.entity.WidgetConfigEntity
 
 /**
@@ -20,6 +24,9 @@ import jpark.bro.subcal.core.database.entity.WidgetConfigEntity
         PriceChangeEntity::class,
         PauseEntity::class,
         WidgetConfigEntity::class,
+        UsageLogEntity::class,
+        PartyMemberEntity::class,
+        PartySettlementEntity::class,
     ],
     version = 1,
     exportSchema = true,
@@ -30,4 +37,6 @@ abstract class SubCalDatabase : RoomDatabase() {
     abstract fun dataDao(): DataDao
 
     abstract fun widgetConfigDao(): WidgetConfigDao
+
+    abstract fun usageLogDao(): UsageLogDao
 }

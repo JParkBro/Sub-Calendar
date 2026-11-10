@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.semantics
@@ -19,12 +20,13 @@ import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.preview.ComponentPreviews
 import jpark.bro.subcal.core.designsystem.preview.SubCalPreviewSurface
 
-/** 진행바 (무료체험). 트랙 fill, 채움 primary → accent 그라데이션 */
+/** 진행바 (무료체험 · 가성비). 트랙 fill, 채움 primary → accent 그라데이션. [color]를 주면 그 색 한 가지로 채운다 */
 @Composable
 fun SubCalProgressBar(
     progress: Float,
     modifier: Modifier = Modifier,
     height: Dp = 8.dp,
+    color: Color? = null,
 ) {
     val colors = AppThemeTokens.colors
     val value = progress.coerceIn(0f, 1f)
@@ -44,7 +46,13 @@ fun SubCalProgressBar(
                         .fillMaxWidth(value)
                         .fillMaxHeight()
                         .clip(AppShapes.full)
-                        .background(Brush.horizontalGradient(listOf(colors.primary, colors.accent))),
+                        .then(
+                            if (color != null) {
+                                Modifier.background(color)
+                            } else {
+                                Modifier.background(Brush.horizontalGradient(listOf(colors.primary, colors.accent)))
+                            },
+                        ),
             )
         }
     }
@@ -58,5 +66,6 @@ private fun SubCalProgressBarPreview() {
         SubCalProgressBar(progress = 0.1f)
         SubCalProgressBar(progress = 0.62f)
         SubCalProgressBar(progress = 1f)
+        SubCalProgressBar(progress = 1f, color = AppThemeTokens.colors.danger)
     }
 }

@@ -6,8 +6,11 @@ import jpark.bro.subcal.core.domain.billing.isPendingTrial
 import jpark.bro.subcal.core.domain.billing.nextPayment
 import jpark.bro.subcal.core.domain.billing.paymentHistory
 import jpark.bro.subcal.core.domain.billing.priceOn
+import jpark.bro.subcal.core.domain.insight.usageValue
+import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.SubscriptionStatus
+import jpark.bro.subcal.core.model.UsageLog
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -15,8 +18,10 @@ import java.time.temporal.ChronoUnit
 internal fun buildDetailContent(
     record: SubscriptionRecord,
     today: LocalDate,
-    usdKrwRate: Long,
+    settings: AppSettings,
+    usageLogs: List<UsageLog> = emptyList(),
 ): DetailContent {
+    val usdKrwRate = settings.usdKrwRate
     val subscription = record.subscription
     val status =
         when (subscription.status) {
@@ -66,6 +71,15 @@ internal fun buildDetailContent(
         memo = subscription.memo,
         hasCancelUrl = !subscription.cancelUrl.isNullOrBlank(),
         considerCancel = subscription.considerCancel,
+        // 가성비 분석과 같은 대상: 체험 결과를 기다리거나 일시정지 · 해지한 구독은 1회당 비용이 의미 없다
+        usage =
+            if (subscription.trackUsage && status == DetailStatus.ACTIVE) {
+                record
+                    .usageValue(usageLogs, today, settings.monthStartDay, usdKrwRate)
+                    .let { DetailUsage(it.useCount, it.costPerUseKrw) }
+            } else {
+                null
+            },
     )
 }
 

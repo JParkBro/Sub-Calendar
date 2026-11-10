@@ -65,5 +65,6 @@ internal fun SubscriptionEditState.fromRecord(
         colorKey = subscription.colorKey,
         cancelUrl = subscription.cancelUrl.orEmpty(),
         memo = subscription.memo.orEmpty(),
+        trackUsage = subscription.trackUsage,
     ).withCycle(subscription.cycle)
 }

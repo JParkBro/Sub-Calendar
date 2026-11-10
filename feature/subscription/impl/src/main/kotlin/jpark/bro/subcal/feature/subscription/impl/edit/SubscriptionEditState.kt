@@ -39,6 +39,8 @@ internal data class SubscriptionEditState(
     val colorKey: String = DEFAULT_COLOR_KEY,
     val cancelUrl: String = "",
     val memo: String = "",
+    /** 사용 체크 (product-spec 4-10) */
+    val trackUsage: Boolean = false,
     val datePicker: DateTarget? = null,
     val sheet: EditSheet? = null,
     val isSaving: Boolean = false,

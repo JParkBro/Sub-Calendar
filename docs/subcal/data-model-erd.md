@@ -111,6 +111,7 @@ erDiagram
 | `price_change` | 같은 구독 · 같은 `effective_from`은 1개 (unique index) |
 | `party_member` | "나"는 행으로 저장하지 않는다. 인원 = 멤버 수 + 1 |
 | `party_settlement` | 체크를 풀면 행을 지운다 (soft delete 예외: 기록 의미가 없음) |
+| `usage_log` | 하루에 여러 행 가능. "실행 취소"는 soft delete. 30일 지난 soft delete 행은 정리 Worker가 지운다 (`party_member`도 같음) |
 | `color_key` | `theme-guide.md` 5장 서비스 색 이름 (`RED`, `BLUE` …) |
 
 ### 인덱스
@@ -237,6 +238,7 @@ data class PriceChangeEntity(
 | 빼는 것 | soft delete 행, 위젯 설정, 광고 기록, 온보딩 상태 |
 | 불러오기 검사 | `format` 일치, `version` ≤ 앱이 아는 최신, 모든 행 파싱 성공, 참조 무결성(없는 구독을 가리키는 행). 하나라도 실패하면 아무것도 바꾸지 않고 "백업 파일을 읽지 못했어요" |
 | 불러오기 적용 | 한 트랜잭션에서 모든 테이블 비우기 → 넣기 → 설정 덮어쓰기 → 알림 다시 예약(알림 시각이 바뀌면 `ReminderScheduler`가 자동으로) → 위젯 갱신(2차). 설정 값 범위는 DB를 바꾸기 전에 검사한다 |
-| 구현 | `core:data` `BackupV1` · `DefaultBackupRepository`, `core:database` `DataDao`(통째로 바꾸기 · 모두 지우기 · 정리). 파일 읽기 · 쓰기는 더보기 화면(Root)이 SAF로 하고 Repository는 JSON 문자열만 다룬다 |
+| 구현 | `core:data` `BackupV1` · `DefaultBackupRepository`, `core:database` `DataDao`(통째로 바꾸기 · 모두 지우기 · 정리 · 3차 행 내보내기). 파일 읽기 · 쓰기는 더보기 화면(Root)이 SAF로 하고 Repository는 JSON 문자열만 다룬다 |
+| 3차 배열 | `usageLogs` · `partyMembers` · `partySettlements`는 v1 그대로 채운다 (출시 전이라 버전을 올리지 않음). 3차 전에 만든 v1 파일은 배열이 없거나 비어 있어 그대로 읽힌다. 지운 사용 기록 · 멤버와 지운 구독의 하위 행은 넣지 않는다. 정산은 넣은 멤버를 가리켜야 한다 |
 | 버전 올리기 | 스키마가 바뀌면 `version`을 올리고 `BackupV{n}` 클래스를 추가. 옛 버전은 `BackupV{n-1} → V{n}` 변환으로 읽는다. 왕복 테스트(내보내기 → 불러오기 → 같은 데이터) 필수 |
 | 개인정보 | 백업 파일에는 결제 수단 · 메모 · 파티 멤버 이름이 들어 있다고 내보내기 화면에 안내 |

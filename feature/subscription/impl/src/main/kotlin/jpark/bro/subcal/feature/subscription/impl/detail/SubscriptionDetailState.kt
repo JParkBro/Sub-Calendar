@@ -22,6 +22,8 @@ internal data class SubscriptionDetailState(
     val isWorking: Boolean = false,
     /** 헤더 메뉴(해지 고민함에 담기 · 빼기) */
     val isMenuOpen: Boolean = false,
+    /** 사용 체크 "+1"을 길게 눌러 여는 날짜 선택 */
+    val isUsageDatePickerOpen: Boolean = false,
 )
 
 internal data class DetailContent(
@@ -47,6 +49,15 @@ internal data class DetailContent(
     val hasCancelUrl: Boolean,
     /** 해지 고민함에 담았는지 */
     val considerCancel: Boolean = false,
+    /** 사용 체크를 켠 이용 중 구독만 (product-spec 4-4) */
+    val usage: DetailUsage? = null,
+)
+
+/** 사용 체크 카드: "이번 달 n번 썼어요 · 1회당 n원" */
+internal data class DetailUsage(
+    val count: Int,
+    /** 0회면 null */
+    val costPerUseKrw: Long?,
 )
 
 internal data class NextPayment(

@@ -1,5 +1,6 @@
 package jpark.bro.subcal.feature.subscription.impl.detail
 
+import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.BillingCycle
 import jpark.bro.subcal.core.model.Category
 import jpark.bro.subcal.core.model.Currency
@@ -10,6 +11,7 @@ import jpark.bro.subcal.core.model.PriceChange
 import jpark.bro.subcal.core.model.Subscription
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.SubscriptionStatus
+import jpark.bro.subcal.core.model.UsageLog
 import java.time.LocalDate
 
 /** product-spec 9장 넷플릭스 (오늘 = 2026.10.30). [paused]면 10.05부터 일시정지 */
@@ -31,6 +33,7 @@ internal fun previewDetailState(paused: Boolean = false): SubscriptionDetailStat
                     status = if (paused) SubscriptionStatus.PAUSED else SubscriptionStatus.ACTIVE,
                     colorKey = "RED",
                     memo = "가족 공유 X (개인 프로필 전용)",
+                    trackUsage = true,
                     createdAt = 0,
                     updatedAt = 0,
                 ),
@@ -47,6 +50,16 @@ internal fun previewDetailState(paused: Boolean = false): SubscriptionDetailStat
     return SubscriptionDetailState(
         isLoading = false,
         today = today,
-        content = buildDetailContent(record, today, usdKrwRate = 1_400),
+        content =
+            buildDetailContent(
+                record = record,
+                today = today,
+                settings = AppSettings(usdKrwRate = 1_400),
+                usageLogs =
+                    listOf(
+                        3,
+                        17,
+                    ).map { UsageLog("u$it", "netflix", LocalDate.of(2026, 10, it), createdAt = 0) },
+            ),
     )
 }

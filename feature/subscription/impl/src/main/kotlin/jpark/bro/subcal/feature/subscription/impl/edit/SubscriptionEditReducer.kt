@@ -56,6 +56,7 @@ internal fun SubscriptionEditState.reduce(action: SubscriptionEditAction.DetailI
         is SubscriptionEditAction.ColorSelected -> copy(colorKey = action.colorKey)
         is SubscriptionEditAction.CancelUrlChanged -> copy(cancelUrl = action.input)
         is SubscriptionEditAction.MemoChanged -> copy(memo = action.input)
+        is SubscriptionEditAction.TrackUsageToggled -> copy(trackUsage = action.enabled)
     }
 
 /** 체험을 켜면 오늘 시작, 종료일(첫 결제일)은 한 달 뒤로 둔다 */
@@ -115,7 +116,7 @@ internal fun SubscriptionEditState.toInput(original: SubscriptionRecord?): Subsc
         colorKey = colorKey,
         cancelUrl = cancelUrl.trim().ifEmpty { null },
         memo = memo.trim().ifEmpty { null },
-        trackUsage = original?.subscription?.trackUsage ?: false,
+        trackUsage = trackUsage,
     )
 }
 

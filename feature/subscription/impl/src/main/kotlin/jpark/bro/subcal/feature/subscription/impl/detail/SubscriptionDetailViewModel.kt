@@ -3,6 +3,7 @@ package jpark.bro.subcal.feature.subscription.impl.detail
 import androidx.lifecycle.viewModelScope
 import jpark.bro.subcal.core.data.repository.SettingsRepository
 import jpark.bro.subcal.core.data.repository.SubscriptionRepository
+import jpark.bro.subcal.core.data.repository.UsageRepository
 import jpark.bro.subcal.core.ui.MviViewModel
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
 import kotlinx.coroutines.flow.combine
@@ -14,6 +15,7 @@ import java.time.LocalDate
 internal class SubscriptionDetailViewModel(
     key: SubscriptionDetailKey,
     private val subscriptionRepository: SubscriptionRepository,
+    private val usageRepository: UsageRepository,
     settingsRepository: SettingsRepository,
     private val clock: Clock,
 ) : MviViewModel<SubscriptionDetailState, SubscriptionDetailAction, SubscriptionDetailEvent>(
@@ -29,7 +31,11 @@ internal class SubscriptionDetailViewModel(
     private var isClosed = false
 
     init {
-        combine(subscriptionRepository.observeRecord(id), settingsRepository.observeAppSettings()) { record, settings ->
+        combine(
+            subscriptionRepository.observeRecord(id),
+            settingsRepository.observeAppSettings(),
+            usageRepository.observeUsageLogs(),
+        ) { record, settings, usageLogs ->
             if (record == null) {
                 if (!isClosed) {
                     isClosed = true
@@ -43,7 +49,7 @@ internal class SubscriptionDetailViewModel(
                 copy(
                     isLoading = false,
                     today = today,
-                    content = buildDetailContent(record, today, settings.usdKrwRate),
+                    content = buildDetailContent(record, today, settings, usageLogs),
                 )
             }
         }.launchIn(viewModelScope)
@@ -71,26 +77,8 @@ internal class SubscriptionDetailViewModel(
                 onResumed()
             }
 
-            SubscriptionDetailAction.CancelDateClicked -> {
-                setState { copy(isCancelDatePickerOpen = true) }
-            }
-
-            is SubscriptionDetailAction.CancelDatePicked -> {
-                setState {
-                    copy(cancelDate = action.date, isCancelDatePickerOpen = false)
-                }
-            }
-
-            SubscriptionDetailAction.CancelDatePickerDismissed -> {
-                setState { copy(isCancelDatePickerOpen = false) }
-            }
-
-            SubscriptionDetailAction.CancelConfirmed -> {
-                onCancelConfirmed()
-            }
-
-            SubscriptionDetailAction.CancelSheetDismissed -> {
-                setState { copy(isCancelSheetOpen = false) }
+            is SubscriptionDetailAction.CancelSheet -> {
+                onCancelSheetAction(action)
             }
 
             SubscriptionDetailAction.UndoCancelClicked -> {
@@ -103,6 +91,73 @@ internal class SubscriptionDetailViewModel(
 
             is SubscriptionDetailAction.Menu -> {
                 onMenuAction(action)
+            }
+
+            is SubscriptionDetailAction.Usage -> {
+                onUsageAction(action)
+            }
+        }
+    }
+
+    private fun onUsageAction(action: SubscriptionDetailAction.Usage) {
+        when (action) {
+            SubscriptionDetailAction.UsageAddClicked -> {
+                addUsage(today)
+            }
+
+            SubscriptionDetailAction.UsageAddLongClicked -> {
+                setState { copy(isUsageDatePickerOpen = true) }
+            }
+
+            is SubscriptionDetailAction.UsageDatePicked -> {
+                setState { copy(isUsageDatePickerOpen = false) }
+                addUsage(action.date)
+            }
+
+            SubscriptionDetailAction.UsageDatePickerDismissed -> {
+                setState { copy(isUsageDatePickerOpen = false) }
+            }
+
+            is SubscriptionDetailAction.UsageUndoClicked -> {
+                viewModelScope.launch {
+                    usageRepository
+                        .remove(
+                            action.usageLogId,
+                        ).onFailure { sendEvent(SubscriptionDetailEvent.ActionFailed) }
+                }
+            }
+        }
+    }
+
+    private fun addUsage(date: LocalDate) {
+        viewModelScope.launch {
+            usageRepository
+                .add(id, date)
+                .onSuccess { sendEvent(SubscriptionDetailEvent.UsageRecorded(it)) }
+                .onFailure { sendEvent(SubscriptionDetailEvent.ActionFailed) }
+        }
+    }
+
+    private fun onCancelSheetAction(action: SubscriptionDetailAction.CancelSheet) {
+        when (action) {
+            SubscriptionDetailAction.CancelDateClicked -> {
+                setState { copy(isCancelDatePickerOpen = true) }
+            }
+
+            is SubscriptionDetailAction.CancelDatePicked -> {
+                setState { copy(cancelDate = action.date, isCancelDatePickerOpen = false) }
+            }
+
+            SubscriptionDetailAction.CancelDatePickerDismissed -> {
+                setState { copy(isCancelDatePickerOpen = false) }
+            }
+
+            SubscriptionDetailAction.CancelConfirmed -> {
+                onCancelConfirmed()
+            }
+
+            SubscriptionDetailAction.CancelSheetDismissed -> {
+                setState { copy(isCancelSheetOpen = false) }
             }
         }
     }

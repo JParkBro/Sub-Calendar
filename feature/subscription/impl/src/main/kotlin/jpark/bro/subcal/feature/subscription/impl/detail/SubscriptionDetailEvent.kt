@@ -17,6 +17,11 @@ internal sealed interface SubscriptionDetailEvent {
         val url: String,
     ) : SubscriptionDetailEvent
 
-    /** 일시정지 · 다시 시작 · 해지 · 해지 취소 저장 실패 */
+    /** 사용을 기록했다. 실행 취소할 수 있는 토스트를 띄운다 */
+    data class UsageRecorded(
+        val usageLogId: String,
+    ) : SubscriptionDetailEvent
+
+    /** 일시정지 · 다시 시작 · 해지 · 해지 취소 · 사용 기록 저장 실패 */
     data object ActionFailed : SubscriptionDetailEvent
 }

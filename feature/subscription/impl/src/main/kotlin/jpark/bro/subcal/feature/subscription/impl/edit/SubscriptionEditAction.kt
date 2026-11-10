@@ -80,6 +80,10 @@ internal sealed interface SubscriptionEditAction {
         val input: String,
     ) : DetailInput
 
+    data class TrackUsageToggled(
+        val enabled: Boolean,
+    ) : DetailInput
+
     data object SaveClicked : SubscriptionEditAction
 
     /** 가격 변경 시트에서 적용 시점을 골랐을 때 */

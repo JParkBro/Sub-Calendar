@@ -33,6 +33,10 @@ internal data class StatsState(
     /** 해지 고민함 구독을 해지하면 1년에 아끼는 돈 */
     val considerCancelAnnualKrw: Long = 0,
     val savedKrw: Long = 0,
+    /** 가성비 분석 카드: 사용 체크를 켠 이용 중 구독 수 */
+    val valueTrackedCount: Int = 0,
+    /** 그중 이번 달 사용 안 함 */
+    val valueUnusedCount: Int = 0,
 )
 
 /** 최근 몇 개 기간을 보여줄지 (product-spec 4-6 "12개월") */

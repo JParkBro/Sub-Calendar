@@ -15,7 +15,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import jpark.bro.subcal.core.designsystem.AppSpacing
 import jpark.bro.subcal.core.designsystem.AppThemeTokens
+import jpark.bro.subcal.core.designsystem.component.SubCalBadge
+import jpark.bro.subcal.core.designsystem.component.SubCalBadgeTone
 import jpark.bro.subcal.core.designsystem.component.SubCalCard
+import jpark.bro.subcal.core.designsystem.component.SubCalListItem
 import jpark.bro.subcal.core.model.Currency
 import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.ui.MoneyText
@@ -61,6 +64,35 @@ internal fun SummaryCard(
             )
             Text(text = caption, style = AppThemeTokens.typography.bodySm, color = AppThemeTokens.colors.textTertiary)
         }
+    }
+}
+
+/** 가성비 분석 입구: 사용 안 함이 있으면 danger 뱃지, 사용 체크가 없으면 켜는 방법 */
+@Composable
+internal fun ValueCard(
+    state: StatsState,
+    onClick: () -> Unit,
+) {
+    SubCalCard {
+        SubCalListItem(
+            title = stringResource(R.string.insight_stats_value_title),
+            subtitle =
+                if (state.valueTrackedCount == 0) {
+                    stringResource(R.string.insight_stats_value_off)
+                } else {
+                    stringResource(R.string.insight_stats_value_count, state.valueTrackedCount)
+                },
+            onClick = onClick,
+            trailing = {
+                if (state.valueUnusedCount > 0) {
+                    SubCalBadge(
+                        text = stringResource(R.string.insight_stats_value_unused, state.valueUnusedCount),
+                        tone = SubCalBadgeTone.SOON,
+                    )
+                }
+            },
+            modifier = Modifier.testTag("value_card"),
+        )
     }
 }
 

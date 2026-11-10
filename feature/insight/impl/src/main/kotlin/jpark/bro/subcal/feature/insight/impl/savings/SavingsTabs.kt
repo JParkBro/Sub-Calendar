@@ -52,18 +52,7 @@ internal fun ConsiderTab(
             if (index > 0) SubCalDivider()
             SubCalListItem(
                 title = item.name,
-                subtitle =
-                    if (item.duplicateWith.isEmpty()) {
-                        stringResource(
-                            R.string.insight_savings_consider_monthly,
-                            formatMoney(Money(item.monthlyKrw, Currency.KRW)),
-                        )
-                    } else {
-                        stringResource(
-                            R.string.insight_savings_consider_duplicate,
-                            item.duplicateWith.joinToString(", "),
-                        )
-                    },
+                subtitle = considerReason(item),
                 onClick = { onAction(SavingsAction.SubscriptionClicked(item.id)) },
                 showChevron = false,
                 leading = { SubCalServiceIcon(name = item.name, colorKey = item.colorKey) },
@@ -81,6 +70,27 @@ internal fun ConsiderTab(
     state.duplicates.forEach { DuplicateCard(it) }
     state.annualOptions.forEach { AnnualOptionCard(it) }
 }
+
+/** 해지 고민 이유: 이번 달 사용 횟수(사용 체크) → 중복 → 월 환산 (product-spec 4-8) */
+@Composable
+private fun considerReason(item: ConsiderItem): String =
+    when {
+        item.useCount == 0 -> {
+            stringResource(R.string.insight_savings_consider_unused)
+        }
+
+        item.useCount != null -> {
+            stringResource(R.string.insight_savings_consider_usage, item.useCount)
+        }
+
+        item.duplicateWith.isNotEmpty() -> {
+            stringResource(R.string.insight_savings_consider_duplicate, item.duplicateWith.joinToString(", "))
+        }
+
+        else -> {
+            stringResource(R.string.insight_savings_consider_monthly, formatMoney(Money(item.monthlyKrw, Currency.KRW)))
+        }
+    }
 
 /** 아낀 돈 탭: 지금까지 아낀 돈 + 해지한 구독별, 큰 순 */
 @Composable

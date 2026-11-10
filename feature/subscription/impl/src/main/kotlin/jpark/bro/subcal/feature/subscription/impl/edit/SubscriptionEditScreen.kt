@@ -27,10 +27,13 @@ import jpark.bro.subcal.core.designsystem.AppTheme
 import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.component.SubCalAmountField
 import jpark.bro.subcal.core.designsystem.component.SubCalButtonSize
+import jpark.bro.subcal.core.designsystem.component.SubCalCard
 import jpark.bro.subcal.core.designsystem.component.SubCalDangerButton
 import jpark.bro.subcal.core.designsystem.component.SubCalIconButton
+import jpark.bro.subcal.core.designsystem.component.SubCalListItem
 import jpark.bro.subcal.core.designsystem.component.SubCalPrimaryButton
 import jpark.bro.subcal.core.designsystem.component.SubCalServiceIcon
+import jpark.bro.subcal.core.designsystem.component.SubCalSwitch
 import jpark.bro.subcal.core.designsystem.component.SubCalTextField
 import jpark.bro.subcal.core.designsystem.component.SubCalToastHost
 import jpark.bro.subcal.core.designsystem.component.SubCalTopBar
@@ -183,6 +186,7 @@ private fun EditForm(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
+        TrackUsageSection(checked = state.trackUsage, onAction = onAction)
         FormField(label = stringResource(R.string.subscription_edit_memo)) {
             SubCalTextField(
                 value = state.memo,
@@ -216,6 +220,28 @@ private fun NameRow(
             onValueChange = { onAction(SubscriptionEditAction.NameChanged(it)) },
             placeholder = stringResource(R.string.subscription_edit_name_placeholder),
             modifier = Modifier.weight(1f).testTag("name_field"),
+        )
+    }
+}
+
+/** 사용 체크 켜기 (product-spec 4-3, 4-10) */
+@Composable
+private fun TrackUsageSection(
+    checked: Boolean,
+    onAction: (SubscriptionEditAction) -> Unit,
+) {
+    SubCalCard {
+        SubCalListItem(
+            title = stringResource(R.string.subscription_edit_track_usage),
+            subtitle = stringResource(R.string.subscription_edit_track_usage_hint),
+            showChevron = false,
+            trailing = {
+                SubCalSwitch(
+                    checked = checked,
+                    onCheckedChange = { onAction(SubscriptionEditAction.TrackUsageToggled(it)) },
+                    modifier = Modifier.testTag("track_usage_switch"),
+                )
+            },
         )
     }
 }
