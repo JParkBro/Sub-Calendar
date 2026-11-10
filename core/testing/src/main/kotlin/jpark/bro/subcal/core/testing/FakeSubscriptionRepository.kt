@@ -2,6 +2,7 @@ package jpark.bro.subcal.core.testing
 
 import jpark.bro.subcal.core.data.repository.SubscriptionRepository
 import jpark.bro.subcal.core.model.PriceChangeTiming
+import jpark.bro.subcal.core.model.ReminderMode
 import jpark.bro.subcal.core.model.Subscription
 import jpark.bro.subcal.core.model.SubscriptionInput
 import jpark.bro.subcal.core.model.SubscriptionRecord
@@ -33,7 +34,7 @@ class FakeSubscriptionRepository(
         records.map { list -> list.firstOrNull { it.subscription.id == id } }
 
     override suspend fun add(input: SubscriptionInput): Result<String> =
-        write {
+        fakeResult(failure) {
             val id = "fake-${nextId++}"
             records.update { it + SubscriptionRecord(input.toSubscription(id)) }
             id
@@ -45,18 +46,18 @@ class FakeSubscriptionRepository(
         timing: PriceChangeTiming,
     ): Result<Unit> {
         lastUpdateTiming = timing
-        return write {
+        return fakeResult(failure) {
             records.update { it.edit(id) { input.toSubscription(id).copy(status = status, cancelledOn = cancelledOn) } }
         }
     }
 
     override suspend fun pause(id: String): Result<Unit> =
-        write {
+        fakeResult(failure) {
             records.update { it.edit(id) { copy(status = SubscriptionStatus.PAUSED) } }
         }
 
     override suspend fun resume(id: String): Result<Unit> =
-        write {
+        fakeResult(failure) {
             records.update { it.edit(id) { copy(status = SubscriptionStatus.ACTIVE) } }
         }
 
@@ -64,18 +65,33 @@ class FakeSubscriptionRepository(
         id: String,
         cancelledOn: LocalDate,
     ): Result<Unit> =
-        write {
+        fakeResult(failure) {
             records.update { it.edit(id) { copy(status = SubscriptionStatus.CANCELLED, cancelledOn = cancelledOn) } }
         }
 
     override suspend fun undoCancel(id: String): Result<Unit> =
-        write { records.update { it.edit(id) { copy(status = SubscriptionStatus.ACTIVE, cancelledOn = null) } } }
+        fakeResult(
+            failure,
+        ) { records.update { it.edit(id) { copy(status = SubscriptionStatus.ACTIVE, cancelledOn = null) } } }
+
+    override suspend fun setReminder(
+        id: String,
+        mode: ReminderMode,
+        daysBefore: Int?,
+    ): Result<Unit> =
+        fakeResult(failure) {
+            val days = if (mode == ReminderMode.CUSTOM) daysBefore else null
+            records.update { it.edit(id) { copy(reminderMode = mode, reminderDaysBefore = days) } }
+        }
 
     override suspend fun delete(id: String): Result<Unit> =
-        write { records.update { list -> list.filterNot { it.subscription.id == id } } }
-
-    private fun <T> write(block: () -> T): Result<T> = failure?.let { Result.failure(it) } ?: Result.success(block())
+        fakeResult(failure) { records.update { list -> list.filterNot { it.subscription.id == id } } }
 }
+
+private fun <T> fakeResult(
+    failure: Throwable?,
+    block: () -> T,
+): Result<T> = failure?.let { Result.failure(it) } ?: Result.success(block())
 
 private fun List<SubscriptionRecord>.edit(
     id: String,

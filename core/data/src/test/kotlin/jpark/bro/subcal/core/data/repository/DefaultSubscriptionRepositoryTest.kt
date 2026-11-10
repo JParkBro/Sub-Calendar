@@ -11,6 +11,7 @@ import jpark.bro.subcal.core.model.Currency
 import jpark.bro.subcal.core.model.CycleUnit
 import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.model.PriceChangeTiming
+import jpark.bro.subcal.core.model.ReminderMode
 import jpark.bro.subcal.core.model.SubscriptionInput
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.SubscriptionStatus
@@ -261,6 +262,30 @@ class DefaultSubscriptionRepositoryTest {
 
             repository.undoCancel(id).getOrThrow()
             assertEquals(TrialOutcome.PENDING, record(id).subscription.trialOutcome)
+        }
+
+    @Test
+    fun `구독별 알림 시점을 바꾸고 직접 고른 값이 아니면 일수를 지운다`() =
+        runTest {
+            val id = add()
+
+            repository.setReminder(id, ReminderMode.CUSTOM, daysBefore = 3).getOrThrow()
+            assertEquals(ReminderMode.CUSTOM, record(id).subscription.reminderMode)
+            assertEquals(3, record(id).subscription.reminderDaysBefore)
+
+            repository.setReminder(id, ReminderMode.OFF, daysBefore = 3).getOrThrow()
+            assertEquals(ReminderMode.OFF, record(id).subscription.reminderMode)
+            assertNull(record(id).subscription.reminderDaysBefore)
+        }
+
+    @Test
+    fun `고를 수 없는 알림 시점은 저장하지 않는다`() =
+        runTest {
+            val id = add()
+
+            assertFailure(repository.setReminder(id, ReminderMode.CUSTOM, daysBefore = 2))
+            assertFailure(repository.setReminder(id, ReminderMode.CUSTOM, daysBefore = null))
+            assertEquals(ReminderMode.DEFAULT, record(id).subscription.reminderMode)
         }
 
     @Test
