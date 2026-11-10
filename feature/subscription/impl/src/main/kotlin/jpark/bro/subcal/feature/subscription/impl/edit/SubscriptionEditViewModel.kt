@@ -126,7 +126,7 @@ internal class SubscriptionEditViewModel(
         update { copy(isSaving = true) }
         viewModelScope.launch {
             write()
-                .onSuccess { sendEvent(SubscriptionEditEvent.Saved) }
+                .onSuccess { sendEvent(SubscriptionEditEvent.Saved(isNew = original == null)) }
                 .onFailure {
                     update { copy(isSaving = false) }
                     sendEvent(SubscriptionEditEvent.SaveFailed)
