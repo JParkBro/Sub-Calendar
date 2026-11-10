@@ -12,14 +12,24 @@ internal sealed interface NotificationSettingsAction {
 
     data object OpenSystemSettingsClicked : NotificationSettingsAction
 
+    /** 알림 종류 스위치 */
+    sealed interface Toggle : NotificationSettingsAction {
+        val enabled: Boolean
+    }
+
     data class PaymentEnabledChanged(
-        val enabled: Boolean,
-    ) : NotificationSettingsAction
+        override val enabled: Boolean,
+    ) : Toggle
 
     /** 무료체험 종료 알림 (product-spec 2-7) */
     data class TrialEnabledChanged(
-        val enabled: Boolean,
-    ) : NotificationSettingsAction
+        override val enabled: Boolean,
+    ) : Toggle
+
+    /** 월초 요약 (product-spec 6장) */
+    data class MonthlySummaryChanged(
+        override val enabled: Boolean,
+    ) : Toggle
 
     data class DefaultDaysBeforeSelected(
         val daysBefore: Int,
