@@ -1,0 +1,47 @@
+package jpark.bro.subcal.feature.insight.impl.stats
+
+import jpark.bro.subcal.core.domain.billing.BillingPeriod
+import jpark.bro.subcal.core.domain.billing.annualizedKrw
+import jpark.bro.subcal.core.domain.billing.isPendingTrial
+import jpark.bro.subcal.core.domain.insight.categoryShares
+import jpark.bro.subcal.core.domain.insight.considerCancelAnnualKrw
+import jpark.bro.subcal.core.domain.insight.considerCancelRecords
+import jpark.bro.subcal.core.domain.insight.recentPeriodTotals
+import jpark.bro.subcal.core.domain.insight.totalSavedKrw
+import jpark.bro.subcal.core.model.AppSettings
+import jpark.bro.subcal.core.model.SubscriptionRecord
+import jpark.bro.subcal.core.model.SubscriptionStatus
+import java.time.LocalDate
+
+/** 저장된 구독 · 설정에서 통계 화면 값을 만든다. 계산은 모두 core:domain */
+internal fun buildStatsState(
+    records: List<SubscriptionRecord>,
+    settings: AppSettings,
+    today: LocalDate,
+): StatsState {
+    val rate = settings.usdKrwRate
+    val current = BillingPeriod.containing(today, settings.monthStartDay)
+    val categories = categoryShares(records, today, rate)
+    val periods = recentPeriodTotals(records, current, today, rate, RECENT_PERIOD_COUNT)
+    val thisPeriod = periods.last().totalKrw
+    val previous = periods.getOrNull(periods.lastIndex - 1)?.totalKrw ?: 0
+    return StatsState(
+        isLoading = false,
+        month = current.month,
+        periodStart = current.start.takeIf { settings.monthStartDay != 1 },
+        periodEndInclusive = current.endExclusive.minusDays(1).takeIf { settings.monthStartDay != 1 },
+        categories = categories,
+        monthlyAverageKrw = categories.sumOf { it.monthlyKrw },
+        activeCount =
+            records.count {
+                it.subscription.status == SubscriptionStatus.ACTIVE && !it.subscription.isPendingTrial(today)
+            },
+        periods = periods,
+        thisPeriodKrw = thisPeriod,
+        changeKrw = thisPeriod - previous,
+        annualKrw = annualizedKrw(records, today, rate),
+        considerCancelCount = considerCancelRecords(records, today).size,
+        considerCancelAnnualKrw = considerCancelAnnualKrw(records, today, rate),
+        savedKrw = totalSavedKrw(records, today, rate),
+    )
+}

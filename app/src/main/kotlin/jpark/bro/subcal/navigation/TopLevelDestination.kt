@@ -6,10 +6,11 @@ import androidx.navigation3.runtime.NavKey
 import jpark.bro.subcal.R
 import jpark.bro.subcal.feature.calendar.api.CalendarKey
 import jpark.bro.subcal.feature.home.api.HomeKey
+import jpark.bro.subcal.feature.insight.api.StatsKey
 import jpark.bro.subcal.feature.settings.api.MoreKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionListKey
 
-/** 하단 탭 (product-spec 3-1). 통계는 8단계에 캘린더와 더보기 사이에 추가한다 (module-map 9장) */
+/** 하단 탭 (product-spec 3-1): 홈 / 목록 / 캘린더 / 통계 / 더보기 */
 internal enum class TopLevelDestination(
     val key: NavKey,
     @StringRes val labelRes: Int,
@@ -18,6 +19,7 @@ internal enum class TopLevelDestination(
     HOME(HomeKey, R.string.app_tab_home, R.drawable.ic_tab_home),
     LIST(SubscriptionListKey(), R.string.app_tab_list, R.drawable.ic_tab_list),
     CALENDAR(CalendarKey, R.string.app_tab_calendar, R.drawable.ic_tab_calendar),
+    STATS(StatsKey, R.string.app_tab_stats, R.drawable.ic_tab_stats),
     MORE(MoreKey, R.string.app_tab_more, R.drawable.ic_tab_more),
     ;
 
