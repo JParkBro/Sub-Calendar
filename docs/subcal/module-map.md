@@ -54,7 +54,7 @@ subcalendar/
 └─ widget/           Glance 위젯(작게 · 중간), 갱신(`WidgetUpdater` · 자정 Worker · 시각 변경), 위젯 설정 Activity, `HomeWidgets` 구현
 ```
 
-데이즈에서 가져오지 않는 모듈: `core:network`(외부 HTTP 없음), `core:sync`(서버 없음), `feature:couple` · `feature:notifications`(알림 목록 없음). 데이즈의 `core:firebase`는 Auth · Firestore · App Check였지만 여기서는 Crashlytics · Analytics · Remote Config만 담는다.
+데이즈에서 가져오지 않는 모듈: `core:network`(외부 HTTP 없음), `core:sync`(실시간 동기화 없음, 2.0.0 클라우드 백업은 `core:data`의 `CloudBackupRepository`), `feature:couple` · `feature:notifications`(알림 목록 없음). 데이즈의 `core:firebase`는 Auth · Firestore · App Check였지만 여기서는 Crashlytics · Analytics · Remote Config만 담는다.
 
 `core:notification`의 Worker는 알림 설정과 마지막 발송일을 `core:datastore`에서 직접 읽는다 (화면이 아닌 백그라운드 작업이고, 마지막 발송일은 알림만 쓰는 내부 상태). 구독은 `core:data`로 읽는다.
 
@@ -163,8 +163,8 @@ Firebase · AdMob 열은 출시 단계(9장 10단계)부터 적용한다. 그 �
 
 | flavor | Firebase | AdMob | 앱 ID |
 |---|---|---|---|
-| `dev` | 같은 Spark 프로젝트, Analytics 수집 끔 | Google 샘플 (테스트 광고) | `jpark.bro.subcal.dev` |
-| `prod` | Spark 프로젝트 | `admob.appId` · `admob.bannerAdUnitId` · `admob.interstitialAdUnitId` (`local.properties`, 없으면 샘플) | `jpark.bro.subcal` |
+| `dev` | 같은 Firebase 프로젝트(Blaze), Analytics 수집 끔 | Google 샘플 (테스트 광고) | `jpark.bro.subcal.dev` |
+| `prod` | Firebase 프로젝트(Blaze) | `admob.appId` · `admob.bannerAdUnitId` · `admob.interstitialAdUnitId` (`local.properties`, 없으면 샘플) | `jpark.bro.subcal` |
 
 ## 9. 개발 순서
 
@@ -179,11 +179,11 @@ Firebase · AdMob 열은 출시 단계(9장 10단계)부터 적용한다. 그 �
 7. **더보기 (로컬 메뉴)**: `feature:settings`(월 시작 기준일 · 달러 환율 · 기본 결제 수단 · 화면 모드 · 앱 버전 → 백업 내보내기/불러오기 → 모든 데이터 삭제), Android 자동 백업 규칙, 30일 지난 soft delete 정리 Worker
 8. **2차 기능**: `feature:insight`(통계 · 아낀 돈), `feature:trial`, 체험 알림, `widget`, 월초 요약
 9. **3차 기능**: `usage_log` · `party_member` · `party_settlement` 테이블, `feature:party`, 가성비 분석, 연말 리포트
-10. **출시 단계 (최후순위)**: 아래 "출시 단계 작업" 전부
+10. **출시 단계 = 2.0.0 (최후순위)**: 아래 "출시 단계 작업" 전부 (로그인 · 클라우드 백업 포함)
 
 ### 개인용 단계와 출시 단계
 
-1 ~ 9단계는 **개인용 단계**다. 저장소는 Room · DataStore(Preferences)만 쓰고, 사용자가 외부 콘솔 · 계정에서 설정할 일이 없어야 한다. 외부 설정이 필요한 작업은 모두 10단계로 미룬다.
+1 ~ 9단계는 **개인용 단계(1.x)**다. 1.x를 Play 내부 · 비공개 테스트로 먼저 배포할 수 있다 (외부 기능 없음, 개인정보 처리방침 URL만 필요). 저장소는 Room · DataStore(Preferences)만 쓰고, 사용자가 외부 콘솔 · 계정에서 설정할 일이 없어야 한다. 외부 설정이 필요한 작업은 모두 10단계로 미룬다.
 
 | 출시 단계 작업 | 사용자가 외부에서 할 일 |
 |---|---|
@@ -193,7 +193,9 @@ Firebase · AdMob 열은 출시 단계(9장 10단계)부터 적용한다. 그 �
 | `policy-site/`, 개인정보 처리방침 웹뷰 | Firebase Hosting 배포 |
 | 더보기의 광고 제거 · 앱 평가하기 · 다른 앱 둘러보기 · 개인정보 처리방침 메뉴 | Play 스토어 등록 |
 | 더보기의 문의하기 · 오픈소스 라이선스 (배포할 때 필요) | 문의 메일 주소 정하기 |
-| 출시 체크리스트 (`infra.md` 4장) | Play Console 앱 콘텐츠 · 스토어 정보 |
+| `core:auth`(Firebase Auth · Credential Manager · Kakao SDK), `feature:account`(더보기 → 계정), 클라우드 백업 · 복원 · 계정 삭제 (`account-backup.md`) | Firebase Blaze · 예산 알림 · Auth · Firestore · App Check, SHA 등록, Kakao Developers 앱 · 키 해시, Google Cloud OAuth 동의 화면 |
+| `firebase/` Firestore 보안 규칙 · Functions `kakaoCustomToken` | `firebase deploy --only firestore:rules,functions` (사용자 확인 후) |
+| 출시 체크리스트 (`infra.md` 4장) | Play Console 앱 콘텐츠(데이터 보안 · 계정 삭제 URL) · 스토어 정보 |
 
 - 개인용 단계 빌드에는 출시 단계 메뉴 · 광고 자리를 넣지 않는다 (비활성 표시도 하지 않음).
 - 출시 단계 모듈이 없어도 앱이 빌드 · 실행되어야 한다. 화면 · ViewModel이 광고 · 결제 · Firebase를 미리 참조하지 않는다.
