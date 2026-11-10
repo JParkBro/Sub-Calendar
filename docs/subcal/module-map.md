@@ -98,7 +98,7 @@ subcalendar/
 |---|---|---|
 | 앱 시작 | – | 온보딩 미완료 → `OnboardingKey`, 완료 → `HomeKey` |
 | 온보딩 완료 · 건너뛰기 | `OnboardingResult.Done` | `replaceAll(HomeKey)` |
-| 모든 데이터 삭제 · 백업 불러오기 | `DataReset` | `replaceAll(HomeKey)` (삭제는 `OnboardingKey`) |
+| 모든 데이터 삭제 · 백업 불러오기 | `DataReset` (`settings:api`, `DataResetHandler`) | `Restored` → `replaceAll(HomeKey)`, 삭제는 `OnboardingKey` |
 | 알림 · 위젯 탭 | `AppIntents.EXTRA_OPEN_SUBSCRIPTION_ID` | `[HomeKey, SubscriptionDetailKey]` 백스택 |
 | 체험 알림 탭 | `AppIntents.EXTRA_OPEN_TRIAL` | `[HomeKey, TrialKey]` |
 

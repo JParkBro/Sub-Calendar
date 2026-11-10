@@ -11,6 +11,9 @@ data class AppSettings(
     val usdKrwRate: Long = DEFAULT_USD_KRW_RATE,
     val defaultPaymentMethod: String? = null,
 ) {
+    /** 저장할 수 있는 값인지: 월 시작일 1~28, 환율 0보다 큼 */
+    val isSelectable: Boolean get() = monthStartDay in MonthStartDays && usdKrwRate > 0
+
     companion object {
         const val DEFAULT_USD_KRW_RATE = 1_400L
         val MonthStartDays = 1..28
@@ -27,6 +30,10 @@ data class NotificationSettings(
     val monthlySummaryEnabled: Boolean = false,
     val time: LocalTime = DefaultTime,
 ) {
+    /** 저장할 수 있는 값인지: 정해진 알림 시점, 오전 8시 ~ 오후 9시 */
+    val isSelectable: Boolean
+        get() = defaultDaysBefore in DaysBeforeOptions && !time.isBefore(EarliestTime) && !time.isAfter(LatestTime)
+
     companion object {
         val DaysBeforeOptions = setOf(0, 1, 3, 7)
         val DefaultTime: LocalTime = LocalTime.of(9, 0)

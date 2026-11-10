@@ -3,6 +3,7 @@ package jpark.bro.subcal.feature.settings.impl.more
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,18 +52,25 @@ import jpark.bro.subcal.core.designsystem.R as DesignR
 @Composable
 internal fun MoreRoot(
     onNavigate: (NavKey) -> Unit,
+    onDataRestored: () -> Unit,
     viewModel: MoreViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val toastHostState = remember { SnackbarHostState() }
     val saveFailed = stringResource(R.string.settings_more_save_failed)
+    val backupMessages = BackupMessage.entries.associateWith { stringResource(it.textRes) }
+    val backupFiles = rememberBackupFileLaunchers(onAction = viewModel::onAction)
 
     LaunchedEffect(Unit) { viewModel.onAction(MoreAction.AppVersionLoaded(context.versionName())) }
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             MoreEvent.OpenNotificationSettings -> onNavigate(NotificationSettingsKey)
             MoreEvent.SaveFailed -> toastHostState.showSnackbar(saveFailed)
+            is MoreEvent.SaveBackupFile -> backupFiles.save(event.fileName, event.json)
+            MoreEvent.OpenBackupFile -> backupFiles.open()
+            is MoreEvent.ShowBackupMessage -> toastHostState.showSnackbar(backupMessages.getValue(event.message))
+            MoreEvent.DataRestored -> onDataRestored()
         }
     }
     Box(modifier = Modifier.fillMaxSize()) {
@@ -122,6 +130,7 @@ private fun MoreScreen(
                 )
             }
             SettingsSection(state = state, onAction = onAction)
+            DataSection(isBusy = state.isBackupBusy, onAction = onAction)
             SubCalSection(title = stringResource(R.string.settings_more_section_info)) {
                 SubCalListItem(
                     title = stringResource(R.string.settings_more_app_version),
@@ -181,6 +190,39 @@ private fun SettingsSection(
         )
     }
 }
+
+/** 백업 내보내기 · 불러오기 (product-spec 6장) */
+@Composable
+private fun DataSection(
+    isBusy: Boolean,
+    onAction: (MoreAction) -> Unit,
+) {
+    SubCalSection(title = stringResource(R.string.settings_more_section_data)) {
+        SubCalListItem(
+            title = stringResource(R.string.settings_more_backup_export),
+            subtitle = stringResource(R.string.settings_more_backup_export_hint),
+            onClick = { if (!isBusy) onAction(MoreAction.ExportClicked) },
+            modifier = Modifier.testTag("more_backup_export"),
+        )
+        SubCalDivider()
+        SubCalListItem(
+            title = stringResource(R.string.settings_more_backup_import),
+            subtitle = stringResource(R.string.settings_more_backup_import_hint),
+            onClick = { if (!isBusy) onAction(MoreAction.ImportClicked) },
+            modifier = Modifier.testTag("more_backup_import"),
+        )
+    }
+}
+
+@get:StringRes
+private val BackupMessage.textRes: Int
+    get() =
+        when (this) {
+            BackupMessage.EXPORTED -> R.string.settings_more_backup_exported
+            BackupMessage.EXPORT_FAILED -> R.string.settings_more_backup_export_failed
+            BackupMessage.INVALID_FILE -> R.string.settings_more_backup_invalid
+            BackupMessage.RESTORE_FAILED -> R.string.settings_more_backup_restore_failed
+        }
 
 @Composable
 private fun ValueText(text: String) {

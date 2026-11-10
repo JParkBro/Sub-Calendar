@@ -11,4 +11,5 @@ val databaseModule =
             Room.databaseBuilder(androidContext(), SubCalDatabase::class.java, "subcal.db").build()
         }
         single { get<SubCalDatabase>().subscriptionDao() }
+        single { get<SubCalDatabase>().backupDao() }
     }

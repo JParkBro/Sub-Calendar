@@ -1,6 +1,8 @@
 package jpark.bro.subcal.feature.settings.impl.di
 
 import jpark.bro.subcal.core.navigation.Navigator
+import jpark.bro.subcal.feature.settings.api.DataReset
+import jpark.bro.subcal.feature.settings.api.DataResetHandler
 import jpark.bro.subcal.feature.settings.api.MoreKey
 import jpark.bro.subcal.feature.settings.api.NotificationSettingsKey
 import jpark.bro.subcal.feature.settings.impl.more.MoreRoot
@@ -20,7 +22,10 @@ val settingsModule =
 
         navigation<MoreKey> {
             val navigator = get<Navigator>()
-            MoreRoot(onNavigate = navigator::goTo)
+            MoreRoot(
+                onNavigate = navigator::goTo,
+                onDataRestored = { get<DataResetHandler>().handle(DataReset.Restored) },
+            )
         }
         navigation<NotificationSettingsKey> {
             val navigator = get<Navigator>()

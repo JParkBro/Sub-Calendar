@@ -2,6 +2,8 @@ package jpark.bro.subcal.core.data.di
 
 import jpark.bro.subcal.core.common.IdGenerator
 import jpark.bro.subcal.core.common.UuidIdGenerator
+import jpark.bro.subcal.core.data.backup.DefaultBackupRepository
+import jpark.bro.subcal.core.data.repository.BackupRepository
 import jpark.bro.subcal.core.data.repository.DefaultPresetRepository
 import jpark.bro.subcal.core.data.repository.DefaultSettingsRepository
 import jpark.bro.subcal.core.data.repository.DefaultSubscriptionRepository
@@ -23,6 +25,7 @@ val dataModule =
         single<IdGenerator> { UuidIdGenerator }
         singleOf(::DefaultSubscriptionRepository) bind SubscriptionRepository::class
         singleOf(::DefaultSettingsRepository) bind SettingsRepository::class
+        singleOf(::DefaultBackupRepository) bind BackupRepository::class
         single<PresetRepository> {
             val context = androidContext()
             DefaultPresetRepository(

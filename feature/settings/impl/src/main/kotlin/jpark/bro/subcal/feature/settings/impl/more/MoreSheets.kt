@@ -15,14 +15,22 @@ import androidx.compose.ui.text.input.KeyboardType
 import jpark.bro.subcal.core.designsystem.AppSpacing
 import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.component.SubCalBottomSheet
+import jpark.bro.subcal.core.designsystem.component.SubCalDangerButton
 import jpark.bro.subcal.core.designsystem.component.SubCalFilterChip
+import jpark.bro.subcal.core.designsystem.component.SubCalInfoBox
+import jpark.bro.subcal.core.designsystem.component.SubCalInfoBoxTone
 import jpark.bro.subcal.core.designsystem.component.SubCalPrimaryButton
+import jpark.bro.subcal.core.designsystem.component.SubCalSecondaryButton
 import jpark.bro.subcal.core.designsystem.component.SubCalTextField
 import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.AppThemeMode
+import jpark.bro.subcal.core.model.BackupSummary
 import jpark.bro.subcal.feature.settings.impl.R
 import jpark.bro.subcal.feature.settings.impl.ui.ChipRow
 import jpark.bro.subcal.feature.settings.impl.ui.SheetTitle
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 /** 더보기 설정 값을 고치는 바텀시트 (product-spec 6장) */
 @Composable
@@ -50,6 +58,10 @@ internal fun MoreSheetContent(
 
             MoreSheet.THEME_MODE -> {
                 ThemeModeSheet(selected = state.appSettings.themeMode, onAction = onAction)
+            }
+
+            MoreSheet.RESTORE_CONFIRM -> {
+                state.restorePreview?.let { RestoreConfirmSheet(summary = it, onAction = onAction) }
             }
         }
     }
@@ -143,6 +155,37 @@ private fun ThemeModeSheet(
         }
     }
 }
+
+@Composable
+private fun RestoreConfirmSheet(
+    summary: BackupSummary,
+    onAction: (MoreAction) -> Unit,
+) {
+    val exportedAt =
+        Instant
+            .ofEpochMilli(summary.exportedAt)
+            .atZone(ZoneId.systemDefault())
+            .format(ExportedAtFormatter)
+    SheetBody(
+        title = stringResource(R.string.settings_more_restore_title),
+        hint = stringResource(R.string.settings_more_restore_summary, exportedAt, summary.subscriptionCount),
+    ) {
+        SubCalInfoBox(text = stringResource(R.string.settings_more_restore_warning), tone = SubCalInfoBoxTone.WARNING)
+        SubCalDangerButton(
+            text = stringResource(R.string.settings_more_restore_confirm),
+            onClick = { onAction(MoreAction.RestoreConfirmed) },
+            filled = true,
+            modifier = Modifier.fillMaxWidth().testTag("restore_confirm"),
+        )
+        SubCalSecondaryButton(
+            text = stringResource(R.string.settings_more_cancel),
+            onClick = { onAction(MoreAction.SheetDismissed) },
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+private val ExportedAtFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")
 
 @Composable
 private fun SheetBody(
