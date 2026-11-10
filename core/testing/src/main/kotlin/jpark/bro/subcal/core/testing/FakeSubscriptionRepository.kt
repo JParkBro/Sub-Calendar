@@ -84,6 +84,9 @@ class FakeSubscriptionRepository(
             records.update { it.edit(id) { copy(reminderMode = mode, reminderDaysBefore = days) } }
         }
 
+    override suspend fun keepTrial(id: String): Result<Unit> =
+        fakeResult(failure) { records.update { it.edit(id) { copy(trialOutcome = TrialOutcome.KEPT) } } }
+
     override suspend fun setConsiderCancel(
         id: String,
         considerCancel: Boolean,

@@ -14,6 +14,7 @@ import jpark.bro.subcal.feature.onboarding.impl.di.onboardingModule
 import jpark.bro.subcal.feature.settings.api.DataResetHandler
 import jpark.bro.subcal.feature.settings.impl.di.settingsModule
 import jpark.bro.subcal.feature.subscription.impl.di.subscriptionModule
+import jpark.bro.subcal.feature.trial.impl.di.trialModule
 import jpark.bro.subcal.navigation.AppDataResetHandler
 import jpark.bro.subcal.navigation.AppOnboardingResultHandler
 import jpark.bro.subcal.navigation.TopLevelDestination
@@ -40,6 +41,7 @@ val appModule =
             subscriptionModule,
             calendarModule,
             insightModule,
+            trialModule,
             settingsModule,
         )
     }

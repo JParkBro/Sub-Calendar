@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -35,6 +37,7 @@ import jpark.bro.subcal.core.designsystem.component.SubCalFilterChip
 import jpark.bro.subcal.core.designsystem.component.SubCalIconButton
 import jpark.bro.subcal.core.designsystem.component.SubCalListItem
 import jpark.bro.subcal.core.designsystem.component.SubCalSecondaryButton
+import jpark.bro.subcal.core.designsystem.component.SubCalToastHost
 import jpark.bro.subcal.core.designsystem.component.SubCalTopBar
 import jpark.bro.subcal.core.designsystem.preview.ScreenPreviews
 import jpark.bro.subcal.core.model.Currency
@@ -51,6 +54,7 @@ import jpark.bro.subcal.feature.subscription.api.ServicePickerKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionEditKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionListKey
+import jpark.bro.subcal.feature.trial.api.TrialKey
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.absoluteValue
 import jpark.bro.subcal.core.designsystem.R as DesignR
@@ -66,6 +70,8 @@ internal fun HomeRoot(
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val toastHostState = remember { SnackbarHostState() }
+    val actionFailed = stringResource(R.string.home_action_failed)
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             is HomeEvent.OpenDetail -> onNavigate(SubscriptionDetailKey(event.subscriptionId))
@@ -73,9 +79,14 @@ internal fun HomeRoot(
             is HomeEvent.OpenList -> onSwitchTab(SubscriptionListKey(event.category))
             HomeEvent.OpenServicePicker -> onNavigate(ServicePickerKey)
             is HomeEvent.OpenEdit -> onNavigate(SubscriptionEditKey(presetId = event.presetId))
+            HomeEvent.OpenTrial -> onNavigate(TrialKey)
+            HomeEvent.ActionFailed -> toastHostState.showSnackbar(actionFailed)
         }
     }
-    HomeScreen(state = state, onAction = viewModel::onAction)
+    Box(modifier = Modifier.fillMaxSize()) {
+        HomeScreen(state = state, onAction = viewModel::onAction)
+        SubCalToastHost(hostState = toastHostState, modifier = Modifier.align(Alignment.BottomCenter))
+    }
 }
 
 /** 홈 (product-spec 4-1) */
@@ -109,6 +120,14 @@ private fun HomeScreen(
                 ) {
                     if (state.showBillingDateHint) BillingDateHintCard(onAction = onAction)
                     MonthCard(state.summary)
+                    if (state.trialsEndingSoon >
+                        0
+                    ) {
+                        TrialWarningCard(count = state.trialsEndingSoon, onAction = onAction)
+                    }
+                    state.unresolvedTrials.forEach {
+                        UnresolvedTrialCard(trial = it, isWorking = state.isWorking, onAction = onAction)
+                    }
                     if (state.isEmpty) {
                         EmptyCard(onAction = onAction)
                     } else {

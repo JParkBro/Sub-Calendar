@@ -21,4 +21,8 @@ internal sealed interface HomeEvent {
     data class OpenEdit(
         val presetId: String?,
     ) : HomeEvent
+
+    data object OpenTrial : HomeEvent
+
+    data object ActionFailed : HomeEvent
 }

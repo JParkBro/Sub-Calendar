@@ -6,7 +6,10 @@ import jpark.bro.subcal.core.domain.billing.isPendingTrial
 import jpark.bro.subcal.core.domain.billing.monthlyAverageKrw
 import jpark.bro.subcal.core.domain.billing.periodChangeKrw
 import jpark.bro.subcal.core.domain.billing.periodTotalKrw
+import jpark.bro.subcal.core.domain.billing.priceOn
 import jpark.bro.subcal.core.domain.billing.upcomingPayments
+import jpark.bro.subcal.core.domain.trial.trialsEndingSoon
+import jpark.bro.subcal.core.domain.trial.unresolvedTrials
 import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.SubscriptionStatus
@@ -50,5 +53,17 @@ internal fun buildHomeState(
                 .eachCount()
                 .toSortedMap()
                 .map { (category, count) -> CategoryCount(category, count) },
+        trialsEndingSoon = trialsEndingSoon(records, today).size,
+        unresolvedTrials =
+            unresolvedTrials(records, today).map { record ->
+                val subscription = record.subscription
+                UnresolvedTrial(
+                    id = subscription.id,
+                    name = subscription.name,
+                    colorKey = subscription.colorKey,
+                    firstBillingDate = subscription.firstBillingDate,
+                    amount = record.priceOn(subscription.firstBillingDate),
+                )
+            },
     )
 }

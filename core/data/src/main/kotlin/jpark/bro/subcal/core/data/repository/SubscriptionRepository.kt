@@ -47,6 +47,9 @@ interface SubscriptionRepository {
         daysBefore: Int? = null,
     ): Result<Unit>
 
+    /** 체험 "계속 쓸래요" (product-spec 2-7): 결과를 고르기 전인 체험을 KEPT로. "해지했어요"는 [cancel] */
+    suspend fun keepTrial(id: String): Result<Unit>
+
     /** 해지 고민함에 담기 · 빼기 (product-spec 2-9, 4-4) */
     suspend fun setConsiderCancel(
         id: String,

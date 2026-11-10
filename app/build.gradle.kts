@@ -36,6 +36,8 @@ dependencies {
     implementation(projects.feature.calendar.impl)
     implementation(projects.feature.insight.api)
     implementation(projects.feature.insight.impl)
+    implementation(projects.feature.trial.api)
+    implementation(projects.feature.trial.impl)
     implementation(projects.feature.settings.api)
     implementation(projects.feature.settings.impl)
 

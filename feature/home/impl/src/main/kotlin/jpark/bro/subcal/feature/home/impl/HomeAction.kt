@@ -25,4 +25,20 @@ internal sealed interface HomeAction {
     data class QuickAddClicked(
         val quickAdd: QuickAdd,
     ) : HomeAction
+
+    /** 무료체험 카드 · "결제됐나요?" (product-spec 4-1, 2-7) */
+    sealed interface Trial : HomeAction
+
+    /** "무료체험 n건 종료 임박" → 무료체험 화면 */
+    data object TrialWarningClicked : Trial
+
+    /** "결제됐나요?" → 계속 쓸래요 */
+    data class UnresolvedKeepClicked(
+        val subscriptionId: String,
+    ) : Trial
+
+    /** "결제됐나요?" → 해지했어요 */
+    data class UnresolvedCancelledClicked(
+        val subscriptionId: String,
+    ) : Trial
 }
