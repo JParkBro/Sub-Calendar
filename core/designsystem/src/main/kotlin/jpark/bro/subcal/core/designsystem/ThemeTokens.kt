@@ -70,7 +70,8 @@ internal val IndigoDark =
         shadow = Color(0x66000000),
     )
 
-internal fun palette(dark: Boolean): AppColors = if (dark) IndigoDark else IndigoLight
+/** 라이트 · 다크 팔레트. 앱 테마 밖(위젯 Glance)에서도 같은 토큰을 쓰기 위해 공개한다 */
+fun palette(dark: Boolean): AppColors = if (dark) IndigoDark else IndigoLight
 
 /** 테마와 무관한 고정 색 (theme-guide 5장) */
 object AppFixedColors {

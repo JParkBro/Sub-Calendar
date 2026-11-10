@@ -18,6 +18,7 @@ import jpark.bro.subcal.feature.trial.impl.di.trialModule
 import jpark.bro.subcal.navigation.AppDataResetHandler
 import jpark.bro.subcal.navigation.AppOnboardingResultHandler
 import jpark.bro.subcal.navigation.TopLevelDestination
+import jpark.bro.subcal.widget.di.widgetModule
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -35,6 +36,7 @@ val appModule =
             datastoreModule,
             dataModule,
             notificationModule,
+            widgetModule,
             // feature
             onboardingModule,
             homeModule,

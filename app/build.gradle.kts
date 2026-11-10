@@ -24,6 +24,7 @@ dependencies {
     implementation(projects.core.datastore)
     implementation(projects.core.data)
     implementation(projects.core.notification)
+    implementation(projects.widget)
 
     // feature
     implementation(projects.feature.onboarding.api)

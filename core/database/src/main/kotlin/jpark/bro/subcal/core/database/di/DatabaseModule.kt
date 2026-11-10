@@ -12,4 +12,5 @@ val databaseModule =
         }
         single { get<SubCalDatabase>().subscriptionDao() }
         single { get<SubCalDatabase>().dataDao() }
+        single { get<SubCalDatabase>().widgetConfigDao() }
     }
