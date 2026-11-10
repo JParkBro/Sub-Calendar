@@ -3,6 +3,7 @@ package jpark.bro.subcal.core.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import jpark.bro.subcal.core.database.dao.DataDao
+import jpark.bro.subcal.core.database.dao.PartyDao
 import jpark.bro.subcal.core.database.dao.SubscriptionDao
 import jpark.bro.subcal.core.database.dao.UsageLogDao
 import jpark.bro.subcal.core.database.dao.WidgetConfigDao
@@ -39,4 +40,6 @@ abstract class SubCalDatabase : RoomDatabase() {
     abstract fun widgetConfigDao(): WidgetConfigDao
 
     abstract fun usageLogDao(): UsageLogDao
+
+    abstract fun partyDao(): PartyDao
 }

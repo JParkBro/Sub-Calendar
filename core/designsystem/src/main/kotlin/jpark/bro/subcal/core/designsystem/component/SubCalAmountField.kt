@@ -40,7 +40,7 @@ fun SubCalAmountField(
     value: String,
     currency: Currency,
     onValueChange: (String) -> Unit,
-    onCurrencyChange: (Currency) -> Unit,
+    onCurrencyChange: ((Currency) -> Unit)?,
     modifier: Modifier = Modifier,
     placeholder: String? = null,
 ) {
@@ -65,6 +65,8 @@ fun SubCalAmountField(
                 ),
             visualTransformation = ThousandsSeparatorTransformation,
         )
+        // 통화를 바꿀 수 없으면(파티 몫 등) 통화 선택을 숨긴다
+        if (onCurrencyChange == null) return@Row
         SubCalSegmentedControl(
             segments =
                 currencies.map {

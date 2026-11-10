@@ -34,6 +34,9 @@ internal sealed interface SubscriptionDetailAction {
 
     data object ShowAllHistoryClicked : SubscriptionDetailAction
 
+    /** 파티 행 → 파티 정산 */
+    data object PartyClicked : SubscriptionDetailAction
+
     /** 헤더 메뉴 */
     sealed interface Menu : SubscriptionDetailAction
 

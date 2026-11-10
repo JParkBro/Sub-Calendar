@@ -31,13 +31,14 @@ class ValueAnalysisViewModelTest {
     fun `10월 가성비는 사용 안 함 → 1회당 비용 큰 순이고 막대는 최대값 대비다`() {
         assertFalse(state.isLoading)
         assertEquals(YearMonth.of(2026, 10), state.month)
-        assertEquals(listOf("tving", "netflix", "youtube_premium", "coupang_wow"), state.items.map { it.id })
-        // 유튜브 프리미엄은 파티 정산 전이라 전체 금액 기준 (14,900 ÷ 20)
-        assertEquals(listOf(null, 8_500L, 745L, 526L), state.items.map { it.costPerUseKrw })
-        assertEquals(listOf(0, 2, 20, 15), state.items.map { it.useCount })
+        // 9장 기대 값: 유튜브 프리미엄은 파티 4인 내 몫 3,725 ÷ 20 = 186
+        assertEquals(listOf("tving", "netflix", "coupang_wow", "youtube_premium"), state.items.map { it.id })
+        assertEquals(listOf(null, 8_500L, 526L, 186L), state.items.map { it.costPerUseKrw })
+        assertEquals(listOf(0, 2, 15, 20), state.items.map { it.useCount })
+        assertEquals(listOf(false, false, false, true), state.items.map { it.isParty })
         assertEquals(1f, state.items[0].barFraction)
         assertEquals(1f, state.items[1].barFraction)
-        assertEquals(526f / 8_500, state.items[3].barFraction)
+        assertEquals(526f / 8_500, state.items[2].barFraction)
     }
 
     @Test

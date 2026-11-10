@@ -7,11 +7,13 @@ import jpark.bro.subcal.core.data.backup.DefaultBackupRepository
 import jpark.bro.subcal.core.data.cleanup.DeletedSubscriptionCleanupScheduler
 import jpark.bro.subcal.core.data.cleanup.DeletedSubscriptionCleanupWorker
 import jpark.bro.subcal.core.data.repository.BackupRepository
+import jpark.bro.subcal.core.data.repository.DefaultPartyRepository
 import jpark.bro.subcal.core.data.repository.DefaultPresetRepository
 import jpark.bro.subcal.core.data.repository.DefaultSettingsRepository
 import jpark.bro.subcal.core.data.repository.DefaultSubscriptionRepository
 import jpark.bro.subcal.core.data.repository.DefaultUsageRepository
 import jpark.bro.subcal.core.data.repository.DefaultWidgetConfigRepository
+import jpark.bro.subcal.core.data.repository.PartyRepository
 import jpark.bro.subcal.core.data.repository.PresetRepository
 import jpark.bro.subcal.core.data.repository.SettingsRepository
 import jpark.bro.subcal.core.data.repository.SubscriptionRepository
@@ -37,6 +39,7 @@ val dataModule =
         single<IdGenerator> { UuidIdGenerator }
         singleOf(::DefaultSubscriptionRepository) bind SubscriptionRepository::class
         singleOf(::DefaultUsageRepository) bind UsageRepository::class
+        singleOf(::DefaultPartyRepository) bind PartyRepository::class
         singleOf(::DefaultSettingsRepository) bind SettingsRepository::class
         singleOf(::DefaultBackupRepository) bind BackupRepository::class
         singleOf(::DefaultWidgetConfigRepository) bind WidgetConfigRepository::class

@@ -11,6 +11,7 @@ import jpark.bro.subcal.feature.home.impl.di.homeModule
 import jpark.bro.subcal.feature.insight.impl.di.insightModule
 import jpark.bro.subcal.feature.onboarding.api.OnboardingResultHandler
 import jpark.bro.subcal.feature.onboarding.impl.di.onboardingModule
+import jpark.bro.subcal.feature.party.impl.di.partyModule
 import jpark.bro.subcal.feature.settings.api.DataResetHandler
 import jpark.bro.subcal.feature.settings.impl.di.settingsModule
 import jpark.bro.subcal.feature.subscription.impl.di.subscriptionModule
@@ -44,6 +45,7 @@ val appModule =
             calendarModule,
             insightModule,
             trialModule,
+            partyModule,
             settingsModule,
         )
     }

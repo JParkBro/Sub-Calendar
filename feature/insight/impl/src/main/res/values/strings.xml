@@ -70,4 +70,6 @@
     <string name="insight_value_footer">구독 상세의 +1 버튼으로 쓸 때마다 기록해요. 길게 누르면 날짜를 고를 수 있어요.</string>
     <string name="insight_value_empty_title">사용 체크를 켠 구독이 없어요</string>
     <string name="insight_value_empty_body">구독 수정에서 사용 체크를 켜면 이번 달 1회당 비용을 볼 수 있어요.</string>
+    <string name="insight_stats_party_notice">파티 구독은 내 몫만 계산해요</string>
+    <string name="insight_value_use_count_party">%1$d회 사용 · 파티 내 몫 기준</string>
 </resources>

@@ -12,6 +12,7 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import jpark.bro.subcal.core.domain.party.PartyReminder
 import jpark.bro.subcal.core.domain.reminder.MonthlySummary
 import jpark.bro.subcal.core.domain.reminder.PaymentReminder
 import jpark.bro.subcal.core.domain.reminder.TrialReminder
@@ -22,8 +23,9 @@ import jpark.bro.subcal.core.ui.formatMoney
 import java.time.LocalDate
 
 /**
- * 결제 · 체험 알림을 띄운다. 구독마다 하나씩 보내고, 종류별로 두 건 이상이면 묶음 요약을 함께 보낸다.
- * 결제 알림을 누르면 그 구독 상세, 체험 알림을 누르면 무료체험 화면, 결제 요약 · 월초 요약을 누르면 앱이 열린다.
+ * 결제 · 체험 · 정산 알림을 띄운다. 구독마다 하나씩 보내고, 종류별로 두 건 이상이면 묶음 요약을 함께 보낸다.
+ * 결제 알림을 누르면 그 구독 상세, 체험 알림을 누르면 무료체험 화면, 정산 알림을 누르면 그 구독의 파티 정산,
+ * 묶음 요약 · 월초 요약을 누르면 앱이 열린다.
  */
 internal class ReminderNotifier(
     private val context: Context,
@@ -51,6 +53,15 @@ internal class ReminderNotifier(
             R.string.notification_channel_trial_description,
             "jpark.bro.subcal.TRIAL",
             R.string.notification_trial_summary_title,
+        ),
+
+        /** 정산: 결제 다음 날 미정산 멤버가 있는 파티 (product-spec 4-9) */
+        PARTY(
+            CHANNEL_PARTY,
+            R.string.notification_channel_party,
+            R.string.notification_channel_party_description,
+            "jpark.bro.subcal.PARTY",
+            R.string.notification_party_summary_title,
         ),
 
         /** 월초 요약: 한 달에 한 건이라 묶음 요약이 없다 */
@@ -87,8 +98,9 @@ internal class ReminderNotifier(
         payments: List<PaymentReminder>,
         trials: List<TrialReminder>,
         monthly: MonthlySummary? = null,
+        parties: List<PartyReminder> = emptyList(),
     ) {
-        val nothingToSend = payments.isEmpty() && trials.isEmpty() && monthly == null
+        val nothingToSend = payments.isEmpty() && trials.isEmpty() && monthly == null && parties.isEmpty()
         if (nothingToSend || !canNotify()) return
         createChannels()
         post(
@@ -107,6 +119,19 @@ internal class ReminderNotifier(
                 Item(
                     subscriptionId = reminder.firstPayment.subscription.id,
                     title = context.getString(R.string.notification_trial_title, name),
+                    text = text,
+                    summaryLine = summaryLine(name, text),
+                )
+            },
+        )
+        post(
+            Kind.PARTY,
+            parties.map { reminder ->
+                val name = reminder.record.subscription.name
+                val text = partyMessage(reminder)
+                Item(
+                    subscriptionId = reminder.record.subscription.id,
+                    title = context.getString(R.string.notification_party_title, name),
                     text = text,
                     summaryLine = summaryLine(name, text),
                 )
@@ -225,6 +250,17 @@ internal class ReminderNotifier(
         }
     }
 
+    /** "서연이 아직 안 보냈어요" · "서연 외 1명이 아직 안 보냈어요" */
+    private fun partyMessage(reminder: PartyReminder): String {
+        val first = reminder.unsettledMembers.first().name
+        val others = reminder.unsettledMembers.size - 1
+        return if (others == 0) {
+            context.getString(R.string.notification_party_one, first)
+        } else {
+            context.getString(R.string.notification_party_many, first, others)
+        }
+    }
+
     /**
      * 앱의 첫 Activity를 연다. app이 백스택을 만든다 (module-map 4-3):
      * 결제는 그 구독 상세(요약은 홈), 체험은 무료체험 화면.
@@ -240,6 +276,7 @@ internal class ReminderNotifier(
                 when (kind) {
                     Kind.PAYMENT -> subscriptionId?.let { putExtra(AppIntents.EXTRA_OPEN_SUBSCRIPTION_ID, it) }
                     Kind.TRIAL -> putExtra(AppIntents.EXTRA_OPEN_TRIAL, true)
+                    Kind.PARTY -> subscriptionId?.let { putExtra(AppIntents.EXTRA_OPEN_PARTY_SUBSCRIPTION_ID, it) }
                     Kind.MONTHLY -> Unit
                 }
             } ?: return null
@@ -255,6 +292,7 @@ internal class ReminderNotifier(
         const val CHANNEL_PAYMENT = "payment"
         const val CHANNEL_TRIAL = "trial"
         const val CHANNEL_MONTHLY = "monthly"
+        const val CHANNEL_PARTY = "party"
         private const val MONTHLY_TAG = "this_month"
         private const val NOTIFICATION_ID = 1
     }

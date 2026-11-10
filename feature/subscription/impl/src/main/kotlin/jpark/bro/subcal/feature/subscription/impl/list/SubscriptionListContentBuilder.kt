@@ -4,6 +4,8 @@ import jpark.bro.subcal.core.domain.billing.isPendingTrial
 import jpark.bro.subcal.core.domain.billing.monthlyEquivalentKrw
 import jpark.bro.subcal.core.domain.billing.nextPayment
 import jpark.bro.subcal.core.domain.billing.priceOn
+import jpark.bro.subcal.core.domain.party.hasParty
+import jpark.bro.subcal.core.domain.party.partySize
 import jpark.bro.subcal.core.model.CycleUnit
 import jpark.bro.subcal.core.model.ListSort
 import jpark.bro.subcal.core.model.SubscriptionRecord
@@ -103,5 +105,6 @@ private fun SubscriptionRecord.toRow(
         amount = priceOn(today),
         monthlyKrw = if (isMonthlyOrWeekly) null else monthlyKrw,
         isInactive = subscription.status != SubscriptionStatus.ACTIVE,
+        partySize = partySize.takeIf { hasParty },
     )
 }

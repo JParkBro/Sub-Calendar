@@ -41,11 +41,13 @@ class StatsViewModelTest {
             state.categories.map { it.category },
         )
         assertEquals(100, state.categories.sumOf { it.percent })
-        assertEquals(76_190, state.monthlyAverageKrw)
+        // 내 부담액 기준: 유튜브 프리미엄은 파티 4인 내 몫 3,725원 (9장 76,190 · 72,490에서 11,175원 적다)
+        assertTrue(state.hasParty)
+        assertEquals(65_015, state.monthlyAverageKrw)
         assertEquals(7, state.activeCount)
-        assertEquals(72_490, state.thisPeriodKrw)
+        assertEquals(61_315, state.thisPeriodKrw)
         assertEquals(10_900, state.changeKrw)
-        assertEquals(914_280, state.annualKrw)
+        assertEquals(780_180, state.annualKrw)
         assertEquals(2, state.considerCancelCount)
         assertEquals(261_600, state.considerCancelAnnualKrw)
         assertEquals(15_800, state.savedKrw)
@@ -63,7 +65,7 @@ class StatsViewModelTest {
                 .first()
                 .period.month,
         )
-        assertEquals(72_490, state.periods.last().totalKrw)
+        assertEquals(61_315, state.periods.last().totalKrw)
     }
 
     @Test

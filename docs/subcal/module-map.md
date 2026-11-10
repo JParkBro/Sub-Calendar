@@ -75,7 +75,6 @@ subcalendar/
 | `calendar:api` | `CalendarKey` (탭) | – |
 | `insight:api` | `StatsKey` (탭) | – |
 | | `SavingsKey` | `tab: SavingsTab = CONSIDER` |
-| | `ValueAnalysisKey` | – |
 | | `YearReportKey` | `year: Int` |
 | `trial:api` | `TrialKey` | – |
 | `party:api` | `PartyKey` | `subscriptionId: String` |
@@ -102,6 +101,7 @@ subcalendar/
 | 모든 데이터 삭제 · 백업 불러오기 | `DataReset` (`settings:api`, `DataResetHandler`) | `Restored` → `replaceAll(HomeKey)`, 삭제는 `OnboardingKey` |
 | 알림 · 위젯 탭 | `AppIntents.EXTRA_OPEN_SUBSCRIPTION_ID` | `[HomeKey, SubscriptionDetailKey]` 백스택 |
 | 체험 알림 탭 | `AppIntents.EXTRA_OPEN_TRIAL` | `[HomeKey, TrialKey]` |
+| 정산 알림 탭 | `AppIntents.EXTRA_OPEN_PARTY_SUBSCRIPTION_ID` | `[HomeKey, PartyKey]` |
 
 탭 전환(홈의 "전체보기" → 캘린더 탭, 카테고리 칩 → 목록 탭)은 `Navigator.switchTab(key)`로 하고, 대상 탭의 백스택 맨 아래 키를 인자와 함께 교체한다. `SubscriptionListKey`는 인자가 있어 `Navigator`는 탭을 키 값이 아니라 키 클래스로 구분한다.
 
@@ -136,7 +136,8 @@ subcalendar/
 | 가성비 분석 | 있음 | 상세 이동, 해지 고민함 담기 결과 토스트 |
 | 연말 리포트 | 있음 | 공유 시트 |
 | 무료체험 | 있음 | 입력 이동, 결과 저장 스낵바 |
-| 파티 정산 | 있음 | 공유 시트, 스낵바 |
+| 파티 정산 | 있음 | 공유 시트(요청 문구), 저장 실패 · 직접 입력 합 초과 토스트, 뒤로(삭제됨) |
+| 파티 관리 | 있음 | 파티 정산 이동 |
 | 더보기 | 있음 | 하위 화면 이동, 파일 저장 · 선택 창, 메일 앱 |
 | 알림 설정 | 있음 | 시스템 알림 설정 열기 |
 | 광고 제거 | 있음 | 결제 창, 결과 스낵바 |

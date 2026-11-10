@@ -39,6 +39,8 @@ dependencies {
     implementation(projects.feature.insight.impl)
     implementation(projects.feature.trial.api)
     implementation(projects.feature.trial.impl)
+    implementation(projects.feature.party.api)
+    implementation(projects.feature.party.impl)
     implementation(projects.feature.settings.api)
     implementation(projects.feature.settings.impl)
 

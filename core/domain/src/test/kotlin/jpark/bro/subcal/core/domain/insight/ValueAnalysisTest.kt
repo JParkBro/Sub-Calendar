@@ -9,6 +9,7 @@ import jpark.bro.subcal.core.domain.billing.subscription
 import jpark.bro.subcal.core.domain.billing.trial
 import jpark.bro.subcal.core.domain.billing.usd
 import jpark.bro.subcal.core.model.CycleUnit
+import jpark.bro.subcal.core.model.PartyMember
 import jpark.bro.subcal.core.model.Subscription
 import jpark.bro.subcal.core.model.TrialOutcome
 import jpark.bro.subcal.core.model.UsageLog
@@ -46,16 +47,19 @@ class ValueAnalysisTest {
             listOf(
                 tracked("넷플릭스 프리미엄", 17_000).record(),
                 tracked("쿠팡 와우", 7_890).record(),
-                tracked("유튜브 프리미엄", 14_900).record(),
+                tracked("유튜브 프리미엄", 14_900).record().copy(
+                    partyMembers =
+                        listOf("민지", "준호", "서연").map { PartyMember(it, "유튜브 프리미엄", it, null, 0, 0, 0) },
+                ),
                 tracked("티빙", 10_900).record(),
             )
         val usage = times("넷플릭스 프리미엄", 2) + times("쿠팡 와우", 15) + times("유튜브 프리미엄", 20)
 
         val values = valueAnalysis(records, usage, today, monthStartDay = 1, usdKrwRate = rate)
 
-        assertEquals(listOf("티빙", "넷플릭스 프리미엄", "유튜브 프리미엄", "쿠팡 와우"), values.map { it.record.subscription.name })
-        // 유튜브 프리미엄은 파티(3차 2/3) 전까지 전체 금액 기준: 14,900 ÷ 20 = 745
-        assertEquals(listOf(null, 8_500L, 745L, 526L), values.map { it.costPerUseKrw })
+        assertEquals(listOf("티빙", "넷플릭스 프리미엄", "쿠팡 와우", "유튜브 프리미엄"), values.map { it.record.subscription.name })
+        // 유튜브 프리미엄은 파티 4인 내 몫 기준: 3,725 ÷ 20 = 186
+        assertEquals(listOf(null, 8_500L, 526L, 186L), values.map { it.costPerUseKrw })
         assertTrue(values.first().isUnused)
         assertEquals(10_900, values.first().monthlyKrw)
     }

@@ -2,6 +2,7 @@ package jpark.bro.subcal.feature.insight.impl.value
 
 import jpark.bro.subcal.core.domain.billing.BillingPeriod
 import jpark.bro.subcal.core.domain.insight.valueAnalysis
+import jpark.bro.subcal.core.domain.party.hasParty
 import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.UsageLog
@@ -29,6 +30,7 @@ internal fun buildValueAnalysisState(
                     useCount = value.useCount,
                     costPerUseKrw = value.costPerUseKrw,
                     monthlyKrw = value.monthlyKrw,
+                    isParty = value.record.hasParty,
                     barFraction =
                         value.costPerUseKrw?.let { cost -> if (maxCost > 0) cost.toFloat() / maxCost else 0f } ?: 1f,
                 )

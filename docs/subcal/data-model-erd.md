@@ -109,7 +109,7 @@ erDiagram
 | `status` · `cancelled_on` | `CANCELLED`일 때만 `cancelled_on`이 있다. 체험 해지도 `status = CANCELLED` + `trial_outcome = CANCELLED` |
 | `pause` | 한 구독에 끝이 없는 행은 최대 1개. 기간은 겹치지 않는다 (Repository에서 검사) |
 | `price_change` | 같은 구독 · 같은 `effective_from`은 1개 (unique index) |
-| `party_member` | "나"는 행으로 저장하지 않는다. 인원 = 멤버 수 + 1 |
+| `party_member` | "나"는 행으로 저장하지 않는다. 인원 = 멤버 수 + 1. 구독과 함께 읽어 `SubscriptionRecord.partyMembers`(지운 멤버 제외, `sort_order`순)로 나온다 |
 | `party_settlement` | 체크를 풀면 행을 지운다 (soft delete 예외: 기록 의미가 없음) |
 | `usage_log` | 하루에 여러 행 가능. "실행 취소"는 soft delete. 30일 지난 soft delete 행은 정리 Worker가 지운다 (`party_member`도 같음) |
 | `color_key` | `theme-guide.md` 5장 서비스 색 이름 (`RED`, `BLUE` …) |

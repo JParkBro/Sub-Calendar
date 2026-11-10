@@ -10,4 +10,7 @@ data class SubscriptionWithRules(
     val priceChanges: List<PriceChangeEntity>,
     @Relation(parentColumn = "id", entityColumn = "subscription_id")
     val pauses: List<PauseEntity>,
+    /** 지운 멤버도 들어 있다. 모델로 바꿀 때 거른다 */
+    @Relation(parentColumn = "id", entityColumn = "subscription_id")
+    val partyMembers: List<PartyMemberEntity>,
 )

@@ -13,6 +13,7 @@ import androidx.work.WorkerParameters
 import androidx.work.testing.TestListenableWorkerBuilder
 import jpark.bro.subcal.core.datastore.SettingsDataStore
 import jpark.bro.subcal.core.model.NotificationSettings
+import jpark.bro.subcal.core.testing.FakePartyRepository
 import jpark.bro.subcal.core.testing.FakeSubscriptionRepository
 import jpark.bro.subcal.core.testing.SampleData
 import kotlinx.coroutines.flow.first
@@ -33,6 +34,7 @@ class ReminderWorkerTest {
     private val notificationManager = context.getSystemService(NotificationManager::class.java)
     private val today = SampleData.today
     private val subscriptions = FakeSubscriptionRepository()
+    private val party = FakePartyRepository(subscriptions)
     private val settingsDataStore =
         SettingsDataStore(
             PreferenceDataStoreFactory.create {
@@ -58,6 +60,7 @@ class ReminderWorkerTest {
                             appContext,
                             workerParameters,
                             subscriptions,
+                            party,
                             settingsDataStore,
                             ReminderNotifier(appContext),
                             clock,
@@ -123,6 +126,44 @@ class ReminderWorkerTest {
             runWorker(clock)
 
             assertEquals(listOf("11월 구독료"), postedTitles())
+        }
+
+    @Test
+    fun `결제 다음 날 미정산 멤버가 있으면 정산 알림을 보낸다`() =
+        runTest {
+            // 유튜브 프리미엄 11.14 결제, 11월 정산은 아무도 하지 않음
+            subscriptions.records.value = listOf(SampleData.youtubePremium)
+            party.settlements.value = SampleData.partySettlements
+            val dayAfter = LocalDate.of(2026, 11, 15)
+            val clock =
+                Clock.fixed(
+                    dayAfter.atTime(9, 0).atZone(SampleData.clock.zone).toInstant(),
+                    SampleData.clock.zone,
+                )
+
+            runWorker(clock)
+
+            val posted = shadowOf(notificationManager).allNotifications.single()
+            assertEquals("유튜브 프리미엄 정산", posted.extras.getCharSequence("android.title").toString())
+            assertEquals("민지 님 외 2명이 아직 보내지 않았어요", posted.extras.getCharSequence("android.text").toString())
+            assertEquals(ReminderNotifier.CHANNEL_PARTY, posted.channelId)
+        }
+
+    @Test
+    fun `정산 알림을 끄면 보내지 않는다`() =
+        runTest {
+            settingsDataStore.setNotificationSettings(NotificationSettings(partyEnabled = false))
+            subscriptions.records.value = listOf(SampleData.youtubePremium)
+            val dayAfter = LocalDate.of(2026, 11, 15)
+            val clock =
+                Clock.fixed(
+                    dayAfter.atTime(9, 0).atZone(SampleData.clock.zone).toInstant(),
+                    SampleData.clock.zone,
+                )
+
+            runWorker(clock)
+
+            assertEquals(emptyList<String>(), postedTitles())
         }
 
     @Test

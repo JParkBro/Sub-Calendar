@@ -51,6 +51,14 @@ internal data class DetailContent(
     val considerCancel: Boolean = false,
     /** 사용 체크를 켠 이용 중 구독만 (product-spec 4-4) */
     val usage: DetailUsage? = null,
+    /** 파티 행: 파티가 있거나 이용 중이면 (없으면 "같이 내는 사람 추가" 안내) */
+    val party: DetailParty? = null,
+)
+
+/** "파티 n인 · 내 몫 n원". [size]가 1이면 아직 멤버가 없다 */
+internal data class DetailParty(
+    val size: Int,
+    val myShare: Money,
 )
 
 /** 사용 체크 카드: "이번 달 n번 썼어요 · 1회당 n원" */

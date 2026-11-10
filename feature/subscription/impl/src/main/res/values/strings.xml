@@ -14,6 +14,7 @@
     <string name="subscription_list_sort_name">이름순</string>
     <string name="subscription_list_total_label">월 환산</string>
     <string name="subscription_list_row_subtitle">%1$s · %2$s</string>
+    <string name="subscription_list_row_party">%1$s · 파티 %2$d인</string>
     <string name="subscription_list_row_monthly">/월 %1$s</string>
     <string name="subscription_list_empty">이 상태의 구독이 없어요</string>
 
@@ -73,6 +74,9 @@
     <string name="subscription_edit_cancel_url">해지 페이지 주소</string>
     <string name="subscription_edit_cancel_url_placeholder">https://</string>
     <string name="subscription_edit_memo">메모</string>
+    <string name="subscription_detail_party_title">파티 정산</string>
+    <string name="subscription_detail_party_summary">파티 %1$d인 · 내 몫 %2$s</string>
+    <string name="subscription_detail_party_empty">같이 내는 사람을 추가해 보세요</string>
     <string name="subscription_detail_usage_title">사용 체크</string>
     <string name="subscription_detail_usage_summary">이번 달 %1$d번 썼어요 · 1회당 %2$s</string>
     <string name="subscription_detail_usage_none">이번 달에는 아직 기록이 없어요</string>

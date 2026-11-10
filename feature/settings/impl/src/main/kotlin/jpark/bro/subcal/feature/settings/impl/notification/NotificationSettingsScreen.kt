@@ -204,7 +204,7 @@ private fun PaymentCard(
     }
 }
 
-/** 무료체험 종료 알림 · 월초 요약: 결제 알림과 따로 켜고 끈다 (product-spec 2-7, 6장) */
+/** 무료체험 종료 · 파티 정산 알림 · 월초 요약: 결제 알림과 따로 켜고 끈다 (product-spec 2-7, 4-9, 6장) */
 @Composable
 private fun ExtraCard(
     settings: NotificationSettings,
@@ -219,6 +219,18 @@ private fun ExtraCard(
                     checked = settings.trialEnabled,
                     onCheckedChange = { onAction(NotificationSettingsAction.TrialEnabledChanged(it)) },
                     modifier = Modifier.testTag("trial_switch"),
+                )
+            },
+        )
+        SubCalDivider()
+        SubCalListItem(
+            title = stringResource(R.string.settings_notification_party),
+            subtitle = stringResource(R.string.settings_notification_party_hint),
+            trailing = {
+                SubCalSwitch(
+                    checked = settings.partyEnabled,
+                    onCheckedChange = { onAction(NotificationSettingsAction.PartyEnabledChanged(it)) },
+                    modifier = Modifier.testTag("party_switch"),
                 )
             },
         )

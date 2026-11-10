@@ -26,6 +26,11 @@ internal sealed interface NotificationSettingsAction {
         override val enabled: Boolean,
     ) : Toggle
 
+    /** 파티 정산 알림 (product-spec 4-9) */
+    data class PartyEnabledChanged(
+        override val enabled: Boolean,
+    ) : Toggle
+
     /** 월초 요약 (product-spec 6장) */
     data class MonthlySummaryChanged(
         override val enabled: Boolean,

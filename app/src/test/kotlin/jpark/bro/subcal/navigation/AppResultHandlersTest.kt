@@ -5,6 +5,7 @@ import jpark.bro.subcal.feature.calendar.api.CalendarKey
 import jpark.bro.subcal.feature.home.api.HomeKey
 import jpark.bro.subcal.feature.onboarding.api.OnboardingKey
 import jpark.bro.subcal.feature.onboarding.api.OnboardingResult
+import jpark.bro.subcal.feature.party.api.PartyKey
 import jpark.bro.subcal.feature.settings.api.DataReset
 import jpark.bro.subcal.feature.settings.api.MoreKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
@@ -69,6 +70,15 @@ class AppResultHandlersTest {
         navigator.open(AppOpenRequest.Trial)
 
         assertEquals(listOf(HomeKey, TrialKey), navigator.backStack.toList())
+    }
+
+    @Test
+    fun `정산 알림은 홈 위에 그 구독의 파티 정산을 연다`() {
+        val navigator = Navigator(startKey = HomeKey, topLevelKeys = TopLevelDestination.keys)
+
+        navigator.open(AppOpenRequest.Party("youtube_premium"))
+
+        assertEquals(listOf(HomeKey, PartyKey("youtube_premium")), navigator.backStack.toList())
     }
 
     @Test

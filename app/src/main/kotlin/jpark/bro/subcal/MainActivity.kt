@@ -81,7 +81,16 @@ class MainActivity : ComponentActivity() {
 
     private fun Intent.openRequest(): AppOpenRequest? =
         when {
-            getBooleanExtra(AppIntents.EXTRA_OPEN_TRIAL, false) -> AppOpenRequest.Trial
-            else -> getStringExtra(AppIntents.EXTRA_OPEN_SUBSCRIPTION_ID)?.let(AppOpenRequest::Subscription)
+            getBooleanExtra(AppIntents.EXTRA_OPEN_TRIAL, false) -> {
+                AppOpenRequest.Trial
+            }
+
+            hasExtra(AppIntents.EXTRA_OPEN_PARTY_SUBSCRIPTION_ID) -> {
+                getStringExtra(AppIntents.EXTRA_OPEN_PARTY_SUBSCRIPTION_ID)?.let(AppOpenRequest::Party)
+            }
+
+            else -> {
+                getStringExtra(AppIntents.EXTRA_OPEN_SUBSCRIPTION_ID)?.let(AppOpenRequest::Subscription)
+            }
         }
 }

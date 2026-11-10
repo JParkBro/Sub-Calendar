@@ -5,6 +5,8 @@ import jpark.bro.subcal.core.model.Category
 import jpark.bro.subcal.core.model.Currency
 import jpark.bro.subcal.core.model.CycleUnit
 import jpark.bro.subcal.core.model.Money
+import jpark.bro.subcal.core.model.PartyMember
+import jpark.bro.subcal.core.model.PartySettlement
 import jpark.bro.subcal.core.model.Preset
 import jpark.bro.subcal.core.model.PresetCatalog
 import jpark.bro.subcal.core.model.PresetPlan
@@ -16,6 +18,7 @@ import jpark.bro.subcal.core.model.TrialOutcome
 import jpark.bro.subcal.core.model.UsageLog
 import java.time.Clock
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.ZoneId
 
 /** product-spec 9장 샘플 데이터 시나리오. 오늘 = 2026.10.30 (금), 월 시작 기준일 1일, 달러 환율 1,400원 */
@@ -87,7 +90,12 @@ object SampleData {
             amount = 14_900,
             first = "2025-01-14",
             colorKey = "PINK",
-        ) { copy(trackUsage = true) }
+        ) { copy(trackUsage = true) }.copy(
+            partyMembers =
+                listOf("민지", "준호", "서연").mapIndexed { index, name ->
+                    PartyMember("youtube-$name", "youtube_premium", name, null, index, createdAt = 0, updatedAt = 0)
+                },
+        )
 
     val tving: SubscriptionRecord =
         record(
@@ -174,6 +182,10 @@ object SampleData {
                     ),
                 ),
         )
+
+    /** 유튜브 프리미엄 파티 10월 정산: 민지 · 준호 받음, 서연 미정산 */
+    val partySettlements: List<PartySettlement> =
+        listOf("민지", "준호").map { PartySettlement("youtube-$it", YearMonth.of(2026, 10), settledAt = 0) }
 
     /** 10월 사용 체크: 넷플릭스 2회 · 쿠팡 와우 15회 · 유튜브 프리미엄 20회 · 티빙 0회 */
     val usageLogs: List<UsageLog> =
