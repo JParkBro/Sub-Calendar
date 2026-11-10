@@ -5,6 +5,9 @@
 /local.properties
 .DS_Store
 build/
+# Android Studio 서명 번들 출력 (Generate Signed Bundle → app/{dev,prod}/release/)
+/app/dev/
+/app/prod/
 /captures
 .externalNativeBuild
 .cxx
