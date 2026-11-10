@@ -204,7 +204,8 @@ class SubscriptionEditViewModelTest {
 
             viewModel.event.test {
                 viewModel.onAction(SubscriptionEditAction.SaveClicked)
-                assertEquals(SubscriptionEditEvent.Saved, awaitItem())
+                // 새 구독이라 화면이 알림 권한을 묻고 돌아간다 (product-spec 5장)
+                assertEquals(SubscriptionEditEvent.Saved(isNew = true), awaitItem())
             }
 
             val added =
@@ -257,7 +258,7 @@ class SubscriptionEditViewModelTest {
 
             viewModel.event.test {
                 viewModel.onAction(SubscriptionEditAction.SaveClicked)
-                assertEquals(SubscriptionEditEvent.Saved, awaitItem())
+                assertEquals(SubscriptionEditEvent.Saved(isNew = false), awaitItem())
             }
             assertNull(viewModel.state.value.sheet)
             assertEquals(
@@ -279,7 +280,7 @@ class SubscriptionEditViewModelTest {
 
             viewModel.event.test {
                 viewModel.onAction(SubscriptionEditAction.PriceChangeTimingSelected(PriceChangeTiming.NEXT_PAYMENT))
-                assertEquals(SubscriptionEditEvent.Saved, awaitItem())
+                assertEquals(SubscriptionEditEvent.Saved(isNew = false), awaitItem())
             }
             assertNull(viewModel.state.value.sheet)
             assertEquals(PriceChangeTiming.NEXT_PAYMENT, subscriptions.lastUpdateTiming)
@@ -294,7 +295,7 @@ class SubscriptionEditViewModelTest {
 
             viewModel.event.test {
                 viewModel.onAction(SubscriptionEditAction.SaveClicked)
-                assertEquals(SubscriptionEditEvent.Saved, awaitItem())
+                assertEquals(SubscriptionEditEvent.Saved(isNew = false), awaitItem())
             }
             assertNull(viewModel.state.value.sheet)
         }

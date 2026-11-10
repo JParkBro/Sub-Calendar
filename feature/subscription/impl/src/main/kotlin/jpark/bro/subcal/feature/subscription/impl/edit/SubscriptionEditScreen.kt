@@ -61,11 +61,12 @@ internal fun SubscriptionEditRoot(
     val toastHostState = remember { SnackbarHostState() }
     val saveFailed = stringResource(R.string.subscription_edit_save_failed)
     val deleteFailed = stringResource(R.string.subscription_edit_delete_failed)
+    val requestNotificationPermission = rememberNotificationPermissionRequest(onDone = onSaved)
 
     ObserveEvents(viewModel.event) { event ->
         when (event) {
             SubscriptionEditEvent.NavigateBack -> onBack()
-            SubscriptionEditEvent.Saved -> onSaved()
+            is SubscriptionEditEvent.Saved -> if (event.isNew) requestNotificationPermission() else onSaved()
             SubscriptionEditEvent.Deleted -> onBack()
             SubscriptionEditEvent.SaveFailed -> toastHostState.showSnackbar(saveFailed)
             SubscriptionEditEvent.DeleteFailed -> toastHostState.showSnackbar(deleteFailed)
