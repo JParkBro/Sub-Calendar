@@ -43,6 +43,7 @@ import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.model.NotificationSettings
 import jpark.bro.subcal.core.ui.ObserveEvents
 import jpark.bro.subcal.core.ui.formatMoney
+import jpark.bro.subcal.feature.party.api.PartyListKey
 import jpark.bro.subcal.feature.settings.api.NotificationSettingsKey
 import jpark.bro.subcal.feature.settings.impl.R
 import jpark.bro.subcal.feature.settings.impl.notification.daysBeforeLabel
@@ -75,6 +76,10 @@ internal fun MoreRoot(
 
             MoreEvent.OpenTrial -> {
                 onNavigate(TrialKey)
+            }
+
+            MoreEvent.OpenParty -> {
+                onNavigate(PartyListKey)
             }
 
             MoreEvent.OpenWidgetSettings -> {
@@ -161,6 +166,19 @@ private fun MoreScreen(
                         )
                     },
                     modifier = Modifier.testTag("more_trial"),
+                )
+                SubCalDivider()
+                SubCalListItem(
+                    title = stringResource(R.string.settings_more_party),
+                    onClick = { onAction(MoreAction.PartyClicked) },
+                    leading = {
+                        Icon(
+                            painter = painterResource(DesignR.drawable.ic_group),
+                            contentDescription = null,
+                            tint = AppThemeTokens.colors.primary,
+                        )
+                    },
+                    modifier = Modifier.testTag("more_party"),
                 )
                 SubCalDivider()
                 SubCalListItem(

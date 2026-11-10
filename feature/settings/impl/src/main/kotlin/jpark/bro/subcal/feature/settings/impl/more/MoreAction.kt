@@ -9,13 +9,19 @@ internal sealed interface MoreAction {
     /** 시트 안 입력 */
     sealed interface SheetInput : MoreAction
 
-    data object NotificationSettingsClicked : MoreAction
+    /** 다른 화면으로 가는 메뉴 */
+    sealed interface Navigate : MoreAction
+
+    data object NotificationSettingsClicked : Navigate
 
     /** 관리 → 무료체험 */
-    data object TrialClicked : MoreAction
+    data object TrialClicked : Navigate
+
+    /** 관리 → 파티 관리 */
+    data object PartyClicked : Navigate
 
     /** 위젯 설정 */
-    data object WidgetClicked : MoreAction
+    data object WidgetClicked : Navigate
 
     /** Root가 기기에서 읽은 앱 버전 이름 */
     data class AppVersionLoaded(

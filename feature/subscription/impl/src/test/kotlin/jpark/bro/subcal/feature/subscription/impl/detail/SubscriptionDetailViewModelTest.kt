@@ -305,4 +305,20 @@ class SubscriptionDetailViewModelTest {
                 assertEquals(SubscriptionDetailEvent.ActionFailed, awaitItem())
             }
         }
+
+    @Test
+    fun `파티 행은 파티 인원과 내 몫, 멤버가 없는 이용 중 구독은 추가 안내를 보여준다`() =
+        runTest {
+            assertEquals(DetailParty(4, Money(3_725, Currency.KRW)), viewModel("youtube_premium").content.party)
+            assertEquals(DetailParty(1, Money(17_000, Currency.KRW)), viewModel("netflix").content.party)
+            // 해지한 구독 · 체험 결과를 기다리는 구독에는 없다
+            assertNull(viewModel("watcha").content.party)
+            assertNull(viewModel("disney_plus").content.party)
+
+            val viewModel = viewModel("youtube_premium")
+            viewModel.event.test {
+                viewModel.onAction(SubscriptionDetailAction.PartyClicked)
+                assertEquals(SubscriptionDetailEvent.OpenParty("youtube_premium"), awaitItem())
+            }
+        }
 }

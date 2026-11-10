@@ -7,4 +7,7 @@ object AppIntents {
 
     /** true면 무료체험 화면을 연다: [HomeKey, TrialKey] */
     const val EXTRA_OPEN_TRIAL = "jpark.bro.subcal.extra.OPEN_TRIAL"
+
+    /** 이 구독의 파티 정산을 연다: [HomeKey, PartyKey] */
+    const val EXTRA_OPEN_PARTY_SUBSCRIPTION_ID = "jpark.bro.subcal.extra.OPEN_PARTY_SUBSCRIPTION_ID"
 }

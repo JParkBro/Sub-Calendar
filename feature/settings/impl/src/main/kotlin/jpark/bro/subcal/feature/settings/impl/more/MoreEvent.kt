@@ -5,6 +5,8 @@ internal sealed interface MoreEvent {
 
     data object OpenTrial : MoreEvent
 
+    data object OpenParty : MoreEvent
+
     data object OpenWidgetSettings : MoreEvent
 
     data object SaveFailed : MoreEvent

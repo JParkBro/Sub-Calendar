@@ -60,4 +60,6 @@ internal data class SubscriptionRow(
     val monthlyKrw: Long?,
     /** 일시정지 · 해지는 아이콘을 흐리게 */
     val isInactive: Boolean,
+    /** 파티 인원 (나 포함). 파티가 아니면 null */
+    val partySize: Int? = null,
 )

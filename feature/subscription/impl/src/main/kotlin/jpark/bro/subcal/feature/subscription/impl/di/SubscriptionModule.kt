@@ -1,6 +1,7 @@
 package jpark.bro.subcal.feature.subscription.impl.di
 
 import jpark.bro.subcal.core.navigation.Navigator
+import jpark.bro.subcal.feature.party.api.PartyKey
 import jpark.bro.subcal.feature.subscription.api.ServicePickerKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionEditKey
@@ -71,6 +72,7 @@ val subscriptionModule =
                 key = key,
                 onOpenEdit = { id -> navigator.goTo(SubscriptionEditKey(id = id)) },
                 onOpenHistory = { id -> navigator.goTo(PaymentHistoryKey(id)) },
+                onOpenParty = { id -> navigator.goTo(PartyKey(id)) },
                 onBack = navigator::goBack,
             )
         }

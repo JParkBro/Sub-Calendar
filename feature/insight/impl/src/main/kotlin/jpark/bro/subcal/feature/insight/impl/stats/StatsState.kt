@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 /**
- * 통계 (product-spec 4-6). 파티 구독의 내 몫(3차)은 아직 없어 전체 금액 기준이다.
+ * 통계 (product-spec 4-6). 비중 · 12개월 · 연간 환산은 내 부담액(파티 구독은 내 몫) 기준이다.
  * 광고 배너는 출시 단계에서 맨 아래에 붙인다.
  */
 internal data class StatsState(
@@ -33,6 +33,8 @@ internal data class StatsState(
     /** 해지 고민함 구독을 해지하면 1년에 아끼는 돈 */
     val considerCancelAnnualKrw: Long = 0,
     val savedKrw: Long = 0,
+    /** 이용 중 파티 구독이 있으면 "파티 구독은 내 몫만 계산해요" */
+    val hasParty: Boolean = false,
     /** 가성비 분석 카드: 사용 체크를 켠 이용 중 구독 수 */
     val valueTrackedCount: Int = 0,
     /** 그중 이번 달 사용 안 함 */

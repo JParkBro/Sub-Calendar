@@ -55,6 +55,9 @@ class NotificationSettingsViewModelTest {
 
         viewModel.onAction(NotificationSettingsAction.TrialEnabledChanged(false))
         assertFalse(settings.notificationSettings.value.trialEnabled)
+
+        viewModel.onAction(NotificationSettingsAction.PartyEnabledChanged(false))
+        assertFalse(settings.notificationSettings.value.partyEnabled)
         viewModel.onAction(NotificationSettingsAction.MonthlySummaryChanged(true))
         assertTrue(settings.notificationSettings.value.monthlySummaryEnabled)
 

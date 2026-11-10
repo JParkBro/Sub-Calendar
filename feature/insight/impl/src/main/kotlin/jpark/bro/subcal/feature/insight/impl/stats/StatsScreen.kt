@@ -34,6 +34,7 @@ import jpark.bro.subcal.core.designsystem.component.SubCalCard
 import jpark.bro.subcal.core.designsystem.component.SubCalChartBar
 import jpark.bro.subcal.core.designsystem.component.SubCalChartSlice
 import jpark.bro.subcal.core.designsystem.component.SubCalDonutChart
+import jpark.bro.subcal.core.designsystem.component.SubCalInfoBox
 import jpark.bro.subcal.core.designsystem.component.SubCalTopBar
 import jpark.bro.subcal.core.designsystem.component.chartOtherColor
 import jpark.bro.subcal.core.designsystem.component.chartSeriesColor
@@ -96,6 +97,7 @@ private fun StatsScreen(
             verticalArrangement = Arrangement.spacedBy(AppSpacing.gutter),
         ) {
             PeriodLabel(state)
+            if (state.hasParty) SubCalInfoBox(text = stringResource(R.string.insight_stats_party_notice))
             CategorySection(state = state, onAction = onAction)
             TrendSection(state)
             AnnualCard(state.annualKrw)

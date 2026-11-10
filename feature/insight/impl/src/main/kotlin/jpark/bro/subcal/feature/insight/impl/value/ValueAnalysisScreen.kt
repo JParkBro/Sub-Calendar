@@ -186,7 +186,15 @@ private fun ValueItemCard(
                 Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(AppSpacing.xs)) {
                     Text(text = item.name, style = AppThemeTokens.typography.labelLg, color = colors.textPrimary)
                     Text(
-                        text = stringResource(R.string.insight_value_use_count, item.useCount),
+                        text =
+                            stringResource(
+                                if (item.isParty) {
+                                    R.string.insight_value_use_count_party
+                                } else {
+                                    R.string.insight_value_use_count
+                                },
+                                item.useCount,
+                            ),
                         style = AppThemeTokens.typography.bodySm.copy(fontFeatureSettings = "tnum"),
                         color = if (cost == null) colors.danger else colors.textSecondary,
                     )

@@ -89,6 +89,10 @@ internal class SubscriptionDetailViewModel(
                 sendEvent(SubscriptionDetailEvent.OpenHistory(id))
             }
 
+            SubscriptionDetailAction.PartyClicked -> {
+                sendEvent(SubscriptionDetailEvent.OpenParty(id))
+            }
+
             is SubscriptionDetailAction.Menu -> {
                 onMenuAction(action)
             }

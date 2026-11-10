@@ -3,6 +3,7 @@ package jpark.bro.subcal.core.domain.insight
 import jpark.bro.subcal.core.domain.billing.BillingPeriod
 import jpark.bro.subcal.core.domain.billing.monthlyEquivalentKrw
 import jpark.bro.subcal.core.domain.billing.roundedDiv
+import jpark.bro.subcal.core.domain.party.toMyShare
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.UsageLog
 import java.time.LocalDate
@@ -35,7 +36,7 @@ fun usageCount(
 
 /**
  * 구독 한 건의 이번 달 가성비. 구독 상세의 사용 체크 카드에 쓴다 (product-spec 4-4).
- * 내 부담액은 파티 정산(3차) 전까지 구독 전체의 월 환산이다.
+ * 내 부담액은 내 몫의 월 환산이다 (파티가 아니면 전체).
  */
 fun SubscriptionRecord.usageValue(
     usageLogs: List<UsageLog>,
@@ -46,7 +47,7 @@ fun SubscriptionRecord.usageValue(
     UsageValue(
         record = this,
         useCount = usageCount(subscription.id, usageLogs, BillingPeriod.containing(today, monthStartDay)),
-        monthlyKrw = monthlyEquivalentKrw(today, usdKrwRate),
+        monthlyKrw = toMyShare().monthlyEquivalentKrw(today, usdKrwRate),
     )
 
 /**

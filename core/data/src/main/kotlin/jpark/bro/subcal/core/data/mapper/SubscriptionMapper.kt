@@ -1,5 +1,6 @@
 package jpark.bro.subcal.core.data.mapper
 
+import jpark.bro.subcal.core.database.entity.PartyMemberEntity
 import jpark.bro.subcal.core.database.entity.PauseEntity
 import jpark.bro.subcal.core.database.entity.PriceChangeEntity
 import jpark.bro.subcal.core.database.entity.SubscriptionEntity
@@ -24,6 +25,11 @@ internal fun SubscriptionWithRules.toModel(): SubscriptionRecord =
         subscription = subscription.toModel(),
         priceChanges = priceChanges.map(PriceChangeEntity::toModel),
         pauses = pauses.map(PauseEntity::toModel),
+        partyMembers =
+            partyMembers
+                .filter { it.deletedAt == null }
+                .sortedWith(compareBy({ it.sortOrder }, { it.createdAt }))
+                .map(PartyMemberEntity::toModel),
     )
 
 internal fun SubscriptionEntity.toModel(): Subscription =

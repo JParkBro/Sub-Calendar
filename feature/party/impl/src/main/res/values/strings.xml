@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="party_title">%1$s 파티</string>
+    <string name="party_back">뒤로</string>
+    <string name="party_split_equal">균등 분담</string>
+    <string name="party_split_custom">직접 입력</string>
+    <string name="party_total">총 %1$s ÷ %2$d명</string>
+    <string name="party_my_share">내 몫</string>
+    <string name="party_split_change">분담 방식 바꾸기</string>
+    <string name="party_members_title">멤버 %1$d명</string>
+    <string name="party_me">나</string>
+    <string name="party_members_empty">같이 내는 사람을 추가하면 내 몫과 정산을 계산해요.</string>
+    <string name="party_member_add">+ 멤버 추가</string>
+    <string name="party_member_full">멤버는 9명까지 추가할 수 있어요</string>
+    <string name="party_settlement_title">%1$d월 정산</string>
+    <string name="party_settlement_title_empty">정산</string>
+    <string name="party_settlement_empty">최근 석 달 동안 결제가 없어 정산할 게 없어요.</string>
+    <string name="party_settlement_progress">%1$d / %2$d 받음</string>
+    <string name="party_settlement_payment">%1$d월 %2$d일 결제 · %3$s</string>
+    <string name="party_period_chip">%1$d월</string>
+    <string name="party_settled">받음</string>
+    <string name="party_unsettled">%1$s 아직 안 받음</string>
+    <string name="party_settled_check">%1$s 받음</string>
+    <string name="party_request">요청</string>
+    <string name="party_request_all">정산 요청 보내기 (%1$d명)</string>
+    <string name="party_request_message">%1$s 이번 달 %2$s %3$s 보내줘!</string>
+    <string name="party_request_message_month">%1$s %2$d월 %3$s %4$s 보내줘!</string>
+    <string name="party_request_chooser">정산 요청 보내기</string>
+    <string name="party_member_add_title">멤버 추가</string>
+    <string name="party_member_edit_title">멤버 이름</string>
+    <string name="party_member_name_hint">이름 (1~10자)</string>
+    <string name="party_member_delete">멤버 빼기</string>
+    <string name="party_save">저장</string>
+    <string name="party_split_title">분담 방식</string>
+    <string name="party_split_equal_hint">총액을 인원으로 나눠요. 나누고 남는 원은 내 몫에 더해요.</string>
+    <string name="party_split_my_share">내 몫</string>
+    <string name="party_split_over_total">멤버 몫의 합이 구독 금액보다 커요</string>
+    <string name="party_action_failed">저장하지 못했어요. 다시 시도해 주세요</string>
+    <string name="party_list_title">파티 관리</string>
+    <string name="party_list_empty">파티가 있는 구독이 없어요. 구독 상세에서 같이 내는 사람을 추가할 수 있어요.</string>
+    <string name="party_list_subtitle">파티 %1$d인 · 내 몫 %2$s</string>
+    <string name="party_list_unsettled">미정산 %1$d</string>
+</resources>

@@ -73,7 +73,11 @@ internal fun SubscriptionRowCard(
     row: SubscriptionRow,
     onClick: () -> Unit,
 ) {
-    val cycle = billingCycleLabel(row.cycle, row.firstBillingDate)
+    // "매월 14일 · 파티 4인" (product-spec 4-2)
+    val cycle =
+        billingCycleLabel(row.cycle, row.firstBillingDate).let { label ->
+            row.partySize?.let { stringResource(R.string.subscription_list_row_party, label, it) } ?: label
+        }
     SubCalCard(onClick = onClick, modifier = Modifier.testTag("subscription_row")) {
         SubCalListItem(
             title = row.name,

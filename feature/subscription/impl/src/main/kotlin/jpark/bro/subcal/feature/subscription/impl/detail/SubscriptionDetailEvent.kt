@@ -12,6 +12,10 @@ internal sealed interface SubscriptionDetailEvent {
         val id: String,
     ) : SubscriptionDetailEvent
 
+    data class OpenParty(
+        val id: String,
+    ) : SubscriptionDetailEvent
+
     /** 해지 페이지를 브라우저로 */
     data class OpenCancelPage(
         val url: String,

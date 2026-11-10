@@ -54,6 +54,7 @@ internal fun SubscriptionDetailRoot(
     key: SubscriptionDetailKey,
     onOpenEdit: (id: String) -> Unit,
     onOpenHistory: (id: String) -> Unit,
+    onOpenParty: (id: String) -> Unit,
     onBack: () -> Unit,
     viewModel: SubscriptionDetailViewModel = koinViewModel { parametersOf(key) },
 ) {
@@ -78,6 +79,10 @@ internal fun SubscriptionDetailRoot(
 
             is SubscriptionDetailEvent.OpenHistory -> {
                 onOpenHistory(event.id)
+            }
+
+            is SubscriptionDetailEvent.OpenParty -> {
+                onOpenParty(event.id)
             }
 
             is SubscriptionDetailEvent.OpenCancelPage -> {
@@ -168,6 +173,7 @@ private fun SubscriptionDetailScreen(
             StatCards(content)
             content.nextPayment?.let { NextPaymentCard(next = it, isTrial = content.status == DetailStatus.TRIAL) }
             content.usage?.let { UsageCard(usage = it, onAction = onAction) }
+            content.party?.let { PartyCard(party = it, onClick = { onAction(SubscriptionDetailAction.PartyClicked) }) }
             HistoryCard(
                 entries = content.recentHistory,
                 onShowAll =

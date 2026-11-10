@@ -111,6 +111,10 @@ class SubscriptionListViewModelTest {
         assertEquals(Money(17_000, Currency.KRW), rows.getValue("넷플릭스 프리미엄").amount)
         assertNull(rows.getValue("넷플릭스 프리미엄").monthlyKrw)
         assertEquals(3_700L, rows.getValue("구글 원 200GB").monthlyKrw)
+        // 행 금액은 전체 금액, 파티면 "파티 n인"
+        assertEquals(Money(14_900, Currency.KRW), rows.getValue("유튜브 프리미엄").amount)
+        assertEquals(4, rows.getValue("유튜브 프리미엄").partySize)
+        assertNull(rows.getValue("넷플릭스 프리미엄").partySize)
     }
 
     @Test

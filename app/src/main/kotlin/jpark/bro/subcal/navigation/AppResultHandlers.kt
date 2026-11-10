@@ -6,6 +6,7 @@ import jpark.bro.subcal.feature.home.api.HomeKey
 import jpark.bro.subcal.feature.onboarding.api.OnboardingKey
 import jpark.bro.subcal.feature.onboarding.api.OnboardingResult
 import jpark.bro.subcal.feature.onboarding.api.OnboardingResultHandler
+import jpark.bro.subcal.feature.party.api.PartyKey
 import jpark.bro.subcal.feature.settings.api.DataReset
 import jpark.bro.subcal.feature.settings.api.DataResetHandler
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
@@ -21,6 +22,11 @@ internal sealed interface AppOpenRequest {
     ) : AppOpenRequest
 
     data object Trial : AppOpenRequest
+
+    /** 정산 알림: 그 구독의 파티 정산 */
+    data class Party(
+        val subscriptionId: String,
+    ) : AppOpenRequest
 }
 
 /**
@@ -34,6 +40,7 @@ internal fun Navigator.open(request: AppOpenRequest) {
         when (request) {
             is AppOpenRequest.Subscription -> SubscriptionDetailKey(request.id)
             AppOpenRequest.Trial -> TrialKey
+            is AppOpenRequest.Party -> PartyKey(request.subscriptionId)
         },
     )
 }

@@ -136,5 +136,6 @@ private fun NotificationSettings.toggled(action: NotificationSettingsAction.Togg
     when (action) {
         is NotificationSettingsAction.PaymentEnabledChanged -> copy(paymentEnabled = action.enabled)
         is NotificationSettingsAction.TrialEnabledChanged -> copy(trialEnabled = action.enabled)
+        is NotificationSettingsAction.PartyEnabledChanged -> copy(partyEnabled = action.enabled)
         is NotificationSettingsAction.MonthlySummaryChanged -> copy(monthlySummaryEnabled = action.enabled)
     }

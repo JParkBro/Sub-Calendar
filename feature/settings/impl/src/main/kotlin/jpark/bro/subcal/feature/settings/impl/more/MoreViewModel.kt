@@ -31,16 +31,8 @@ internal class MoreViewModel(
 
     override fun onAction(action: MoreAction) {
         when (action) {
-            MoreAction.NotificationSettingsClicked -> {
-                sendEvent(MoreEvent.OpenNotificationSettings)
-            }
-
-            MoreAction.TrialClicked -> {
-                sendEvent(MoreEvent.OpenTrial)
-            }
-
-            MoreAction.WidgetClicked -> {
-                sendEvent(MoreEvent.OpenWidgetSettings)
+            is MoreAction.Navigate -> {
+                sendEvent(action.toEvent())
             }
 
             is MoreAction.AppVersionLoaded -> {
@@ -186,3 +178,12 @@ private val BackupFileDate: DateTimeFormatter = DateTimeFormatter.ofPattern("yyy
 
 /** 백업 파일 이름: subcal-backup-yyyyMMdd.json (product-spec 6장) */
 internal fun backupFileName(date: LocalDate): String = "subcal-backup-${date.format(BackupFileDate)}.json"
+
+/** 메뉴 → 이동할 화면 */
+private fun MoreAction.Navigate.toEvent(): MoreEvent =
+    when (this) {
+        MoreAction.NotificationSettingsClicked -> MoreEvent.OpenNotificationSettings
+        MoreAction.TrialClicked -> MoreEvent.OpenTrial
+        MoreAction.PartyClicked -> MoreEvent.OpenParty
+        MoreAction.WidgetClicked -> MoreEvent.OpenWidgetSettings
+    }

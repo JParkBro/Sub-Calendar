@@ -229,50 +229,6 @@ internal fun HistoryRow(entry: PaymentHistoryEntry) {
     }
 }
 
-/** 사용 체크 (product-spec 4-4): "+1"은 오늘로 기록, 길게 누르면 날짜 선택 */
-@Composable
-internal fun UsageCard(
-    usage: DetailUsage,
-    onAction: (SubscriptionDetailAction) -> Unit,
-) {
-    SubCalCard {
-        Row(
-            modifier = Modifier.padding(AppSpacing.lg),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(AppSpacing.md),
-        ) {
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(AppSpacing.xs)) {
-                Text(
-                    text = stringResource(R.string.subscription_detail_usage_title),
-                    style = AppThemeTokens.typography.labelMd,
-                    color = AppThemeTokens.colors.textSecondary,
-                )
-                Text(
-                    text =
-                        usage.costPerUseKrw?.let { cost ->
-                            stringResource(
-                                R.string.subscription_detail_usage_summary,
-                                usage.count,
-                                formatMoney(Money(cost, Currency.KRW)),
-                            )
-                        } ?: stringResource(R.string.subscription_detail_usage_none),
-                    style = AppThemeTokens.typography.bodyMd.copy(fontFeatureSettings = "tnum"),
-                    color = AppThemeTokens.colors.textPrimary,
-                    modifier = Modifier.testTag("usage_summary"),
-                )
-            }
-            SubCalPrimaryButton(
-                text = stringResource(R.string.subscription_detail_usage_add),
-                onClick = { onAction(SubscriptionDetailAction.UsageAddClicked) },
-                size = SubCalButtonSize.SMALL,
-                onLongClick = { onAction(SubscriptionDetailAction.UsageAddLongClicked) },
-                longClickLabel = stringResource(R.string.subscription_detail_usage_pick_date),
-                modifier = Modifier.testTag("usage_add_button"),
-            )
-        }
-    }
-}
-
 @Composable
 internal fun MemoCard(memo: String) {
     SubCalCard {
