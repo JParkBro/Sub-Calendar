@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_label">다음 결제</string>
+    <string name="widget_small_description">가장 가까운 결제 1건</string>
+    <string name="widget_small_empty">다가오는 결제가 없어요</string>
+    <string name="widget_medium_label">이번 달 구독료</string>
+    <string name="widget_medium_description">이번 달 구독료와 다가오는 결제 2건</string>
+    <string name="widget_medium_title">%1$d월 구독료</string>
+    <string name="widget_medium_empty">구독을 등록해 보세요</string>
+</resources>

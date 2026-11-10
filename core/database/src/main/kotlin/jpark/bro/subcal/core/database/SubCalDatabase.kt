@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import jpark.bro.subcal.core.database.dao.DataDao
 import jpark.bro.subcal.core.database.dao.SubscriptionDao
+import jpark.bro.subcal.core.database.dao.WidgetConfigDao
 import jpark.bro.subcal.core.database.entity.PauseEntity
 import jpark.bro.subcal.core.database.entity.PriceChangeEntity
 import jpark.bro.subcal.core.database.entity.SubscriptionEntity
@@ -27,4 +28,6 @@ abstract class SubCalDatabase : RoomDatabase() {
     abstract fun subscriptionDao(): SubscriptionDao
 
     abstract fun dataDao(): DataDao
+
+    abstract fun widgetConfigDao(): WidgetConfigDao
 }

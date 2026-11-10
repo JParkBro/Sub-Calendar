@@ -67,7 +67,7 @@ fun SubCalServiceIcon(
 }
 
 /** 한글 등은 첫 글자 1자, 영문은 첫 두 단어의 머리글자 대문자 (theme-guide.md 5장) */
-internal fun serviceInitials(name: String): String {
+fun serviceInitials(name: String): String {
     val words = name.trim().split(Regex("\\s+")).filter { it.isNotEmpty() }
     val first = words.firstOrNull() ?: return ""
     return if (first[0] in 'a'..'z' || first[0] in 'A'..'Z') {

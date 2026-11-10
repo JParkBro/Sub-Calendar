@@ -10,9 +10,11 @@ import jpark.bro.subcal.core.data.repository.BackupRepository
 import jpark.bro.subcal.core.data.repository.DefaultPresetRepository
 import jpark.bro.subcal.core.data.repository.DefaultSettingsRepository
 import jpark.bro.subcal.core.data.repository.DefaultSubscriptionRepository
+import jpark.bro.subcal.core.data.repository.DefaultWidgetConfigRepository
 import jpark.bro.subcal.core.data.repository.PresetRepository
 import jpark.bro.subcal.core.data.repository.SettingsRepository
 import jpark.bro.subcal.core.data.repository.SubscriptionRepository
+import jpark.bro.subcal.core.data.repository.WidgetConfigRepository
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.dsl.workerOf
@@ -34,6 +36,7 @@ val dataModule =
         singleOf(::DefaultSubscriptionRepository) bind SubscriptionRepository::class
         singleOf(::DefaultSettingsRepository) bind SettingsRepository::class
         singleOf(::DefaultBackupRepository) bind BackupRepository::class
+        singleOf(::DefaultWidgetConfigRepository) bind WidgetConfigRepository::class
         single<PresetRepository> {
             val context = androidContext()
             DefaultPresetRepository(

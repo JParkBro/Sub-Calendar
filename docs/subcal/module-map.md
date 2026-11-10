@@ -51,7 +51,7 @@ subcalendar/
 │  ├─ trial/         api/ impl/
 │  ├─ party/         api/ impl/
 │  └─ settings/      api/ impl/   더보기 · 알림 설정 · 백업 · 광고 제거 · 정책
-└─ widget/           Glance 위젯, 위젯 설정 Activity
+└─ widget/           Glance 위젯(작게 · 중간), 갱신(`WidgetUpdater` · 자정 Worker · 시각 변경), 위젯 설정 Activity(다음 PR)
 ```
 
 데이즈에서 가져오지 않는 모듈: `core:network`(외부 HTTP 없음), `core:sync`(서버 없음), `feature:couple` · `feature:notifications`(알림 목록 없음). 데이즈의 `core:firebase`는 Auth · Firestore · App Check였지만 여기서는 Crashlytics · Analytics · Remote Config만 담는다.

@@ -9,7 +9,7 @@
 | 경로 | 내용 | 세부 지침 |
 |---|---|---|
 | 루트 (`app/`, `build-logic/`, 이후 `core/`, `feature/`, `widget/`) | Android 앱 (Kotlin, Compose, 멀티 모듈) | 이 파일의 "Android 앱" 섹션 |
-| `widget/` | Glance 홈 화면 위젯 (2차, 아직 Gradle 모듈 아님) | `widget/CLAUDE.md` |
+| `widget/` | Glance 홈 화면 위젯 (2차, Gradle 모듈 `:widget`) | `widget/CLAUDE.md` |
 | `policy-site/` | Firebase Hosting(`public/`): 개인정보 처리방침 · app-ads.txt (출시 단계에서 생성) | `docs/subcal/infra.md` 3장 |
 | `docs/common/` | 범용 규칙 (아키텍처, 컨벤션, 테스트, Git). 데이즈와 같은 문서 | – |
 | `docs/subcal/` | 이 프로젝트의 기획 · 데이터 · 인프라 결정 | – |
