@@ -15,8 +15,10 @@ import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.component.SubCalBottomSheet
 import jpark.bro.subcal.core.designsystem.component.SubCalFilterChip
 import jpark.bro.subcal.feature.settings.impl.R
+import jpark.bro.subcal.feature.settings.impl.ui.ChipRow
+import jpark.bro.subcal.feature.settings.impl.ui.SheetTitle
 
-/** 알림 시각 · 구독별 알림 시점 바텀시트와 화면 공통 조각 */
+/** 알림 시각 · 구독별 알림 시점 바텀시트 */
 @Composable
 internal fun TimeSheet(
     state: NotificationSettingsState,
@@ -69,36 +71,4 @@ internal fun SubscriptionReminderSheet(
             }
         }
     }
-}
-
-@Composable
-internal fun ChipRow(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
-    FlowRow(
-        modifier = modifier.fillMaxWidth().selectableGroup(),
-        horizontalArrangement = Arrangement.spacedBy(AppSpacing.sm),
-        verticalArrangement = Arrangement.spacedBy(AppSpacing.sm),
-    ) { content() }
-}
-
-@Composable
-internal fun SectionLabel(text: String) {
-    Text(
-        text = text,
-        style = AppThemeTokens.typography.labelMd,
-        color = AppThemeTokens.colors.textSecondary,
-        modifier = Modifier.padding(horizontal = AppSpacing.xs),
-    )
-}
-
-@Composable
-private fun SheetTitle(text: String) {
-    Text(
-        text = text,
-        style = AppThemeTokens.typography.headlineSm,
-        color = AppThemeTokens.colors.textPrimary,
-        modifier = Modifier.padding(horizontal = AppSpacing.marginMobile, vertical = AppSpacing.md),
-    )
 }
