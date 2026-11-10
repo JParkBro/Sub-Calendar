@@ -62,6 +62,10 @@ internal class NotificationSettingsViewModel(
                 saveSettings { copy(paymentEnabled = action.enabled) }
             }
 
+            is NotificationSettingsAction.TrialEnabledChanged -> {
+                saveSettings { copy(trialEnabled = action.enabled) }
+            }
+
             is NotificationSettingsAction.DefaultDaysBeforeSelected -> {
                 saveSettings { copy(defaultDaysBefore = action.daysBefore) }
             }

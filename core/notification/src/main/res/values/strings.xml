@@ -7,4 +7,11 @@
     <string name="notification_payment_days_later">%1$d일 뒤 %2$d월 %3$d일에 %4$s 결제돼요</string>
     <string name="notification_payment_summary_title">다가오는 결제 %1$d건</string>
     <string name="notification_payment_summary_line">%1$s · %2$s</string>
+    <string name="notification_channel_trial">무료체험 알림</string>
+    <string name="notification_channel_trial_description">무료체험이 끝나기 전에 알려 드려요</string>
+    <string name="notification_trial_title">%1$s 무료체험</string>
+    <string name="notification_trial_today">오늘 무료체험이 끝나고 %1$s 결제돼요</string>
+    <string name="notification_trial_tomorrow">내일 무료체험이 끝나고 %1$s 결제돼요</string>
+    <string name="notification_trial_days_later">%1$d일 뒤 %2$d월 %3$d일에 무료체험이 끝나고 %4$s 결제돼요</string>
+    <string name="notification_trial_summary_title">무료체험 종료 %1$d건</string>
 </resources>

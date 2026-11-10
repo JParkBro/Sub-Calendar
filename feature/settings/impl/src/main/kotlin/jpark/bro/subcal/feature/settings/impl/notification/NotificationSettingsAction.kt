@@ -16,6 +16,11 @@ internal sealed interface NotificationSettingsAction {
         val enabled: Boolean,
     ) : NotificationSettingsAction
 
+    /** 무료체험 종료 알림 (product-spec 2-7) */
+    data class TrialEnabledChanged(
+        val enabled: Boolean,
+    ) : NotificationSettingsAction
+
     data class DefaultDaysBeforeSelected(
         val daysBefore: Int,
     ) : NotificationSettingsAction

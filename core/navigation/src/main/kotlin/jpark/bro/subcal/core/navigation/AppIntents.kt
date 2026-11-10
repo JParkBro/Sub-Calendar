@@ -4,4 +4,7 @@ package jpark.bro.subcal.core.navigation
 object AppIntents {
     /** 이 구독의 상세를 연다: [HomeKey, SubscriptionDetailKey] */
     const val EXTRA_OPEN_SUBSCRIPTION_ID = "jpark.bro.subcal.extra.OPEN_SUBSCRIPTION_ID"
+
+    /** true면 무료체험 화면을 연다: [HomeKey, TrialKey] */
+    const val EXTRA_OPEN_TRIAL = "jpark.bro.subcal.extra.OPEN_TRIAL"
 }

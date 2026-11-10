@@ -23,12 +23,12 @@ import java.util.concurrent.TimeUnit
 class ReminderScheduler internal constructor(
     private val workManager: WorkManager,
     private val settingsRepository: SettingsRepository,
-    private val notifier: PaymentNotifier,
+    private val notifier: ReminderNotifier,
     private val clock: Clock,
 ) {
-    /** 앱 시작마다 한 번: 알림 채널을 만들고, 알림 시각을 지켜보다 바뀌면 다시 예약한다 */
+    /** 앱 시작마다 한 번: 알림 채널(결제 · 체험)을 만들고, 알림 시각을 지켜보다 바뀌면 다시 예약한다 */
     fun start(scope: CoroutineScope) {
-        notifier.createChannel()
+        notifier.createChannels()
         settingsRepository
             .observeNotificationSettings()
             .map { it.time }

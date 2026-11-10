@@ -6,6 +6,7 @@ import jpark.bro.subcal.core.model.CycleUnit
 import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.model.Subscription
 import jpark.bro.subcal.core.model.SubscriptionRecord
+import jpark.bro.subcal.core.model.TrialOutcome
 import java.time.LocalDate
 
 /** 매월 [first]의 "일"에 결제하는 구독 */
@@ -13,6 +14,7 @@ internal fun monthly(
     name: String,
     first: LocalDate,
     amount: Long = 10_000,
+    trialStartedOn: LocalDate? = null,
 ): SubscriptionRecord =
     SubscriptionRecord(
         Subscription(
@@ -21,6 +23,8 @@ internal fun monthly(
             amount = Money(amount, Currency.KRW),
             cycle = BillingCycle(CycleUnit.MONTH),
             firstBillingDate = first,
+            trialStartedOn = trialStartedOn,
+            trialOutcome = if (trialStartedOn != null) TrialOutcome.PENDING else TrialOutcome.NONE,
             colorKey = "BLUE",
             createdAt = 0,
             updatedAt = 0,

@@ -8,6 +8,7 @@ import jpark.bro.subcal.feature.onboarding.api.OnboardingResult
 import jpark.bro.subcal.feature.settings.api.DataReset
 import jpark.bro.subcal.feature.settings.api.MoreKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
+import jpark.bro.subcal.feature.trial.api.TrialKey
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -54,17 +55,27 @@ class AppResultHandlersTest {
         val navigator = Navigator(startKey = HomeKey, topLevelKeys = TopLevelDestination.keys)
         navigator.goTo(CalendarKey)
 
-        navigator.openSubscriptionDetail("netflix")
+        navigator.open(AppOpenRequest.Subscription("netflix"))
 
         assertEquals(listOf(HomeKey, SubscriptionDetailKey("netflix")), navigator.backStack.toList())
         assertEquals(HomeKey, navigator.currentTab)
     }
 
     @Test
+    fun `체험 알림을 누르면 홈 위에 무료체험을 쌓는다`() {
+        val navigator = Navigator(startKey = HomeKey, topLevelKeys = TopLevelDestination.keys)
+        navigator.goTo(MoreKey)
+
+        navigator.open(AppOpenRequest.Trial)
+
+        assertEquals(listOf(HomeKey, TrialKey), navigator.backStack.toList())
+    }
+
+    @Test
     fun `온보딩 중에는 알림으로 구독을 열지 않는다`() {
         val navigator = Navigator(startKey = OnboardingKey, topLevelKeys = TopLevelDestination.keys)
 
-        navigator.openSubscriptionDetail("netflix")
+        navigator.open(AppOpenRequest.Subscription("netflix"))
 
         assertEquals(listOf(OnboardingKey), navigator.backStack.toList())
     }

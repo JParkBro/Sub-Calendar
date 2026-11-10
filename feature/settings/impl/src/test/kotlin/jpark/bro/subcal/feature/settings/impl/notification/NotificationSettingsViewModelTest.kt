@@ -53,6 +53,9 @@ class NotificationSettingsViewModelTest {
         assertEquals(3, settings.notificationSettings.value.defaultDaysBefore)
         assertEquals(3, item("youtube_premium").leadDays)
 
+        viewModel.onAction(NotificationSettingsAction.TrialEnabledChanged(false))
+        assertFalse(settings.notificationSettings.value.trialEnabled)
+
         viewModel.onAction(NotificationSettingsAction.TimeClicked)
         assertTrue(viewModel.state.value.isTimeSheetVisible)
         viewModel.onAction(NotificationSettingsAction.TimeSelected(LocalTime.of(20, 0)))
