@@ -3,6 +3,8 @@ package jpark.bro.subcal.feature.settings.impl.more
 internal sealed interface MoreEvent {
     data object OpenNotificationSettings : MoreEvent
 
+    data object OpenTrial : MoreEvent
+
     data object SaveFailed : MoreEvent
 
     /** 시스템 파일 저장 창을 열어 [json]을 [fileName]으로 저장한다 */

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings_more_title">더보기</string>
+    <string name="settings_more_trial">무료체험</string>
     <string name="settings_more_notification">알림 설정</string>
     <string name="settings_more_notification_summary">결제 %1$s · %2$s</string>
     <string name="settings_more_notification_off">결제 알림 꺼짐</string>

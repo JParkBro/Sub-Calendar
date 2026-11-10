@@ -47,6 +47,9 @@ class MoreViewModelTest {
                 viewModel.onAction(MoreAction.NotificationSettingsClicked)
 
                 assertEquals(MoreEvent.OpenNotificationSettings, awaitItem())
+
+                viewModel.onAction(MoreAction.TrialClicked)
+                assertEquals(MoreEvent.OpenTrial, awaitItem())
             }
         }
 

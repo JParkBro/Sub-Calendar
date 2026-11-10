@@ -10,4 +10,5 @@ dependencies {
     implementation(projects.feature.home.api)
     implementation(projects.feature.subscription.api)
     implementation(projects.feature.calendar.api)
+    implementation(projects.feature.trial.api)
 }

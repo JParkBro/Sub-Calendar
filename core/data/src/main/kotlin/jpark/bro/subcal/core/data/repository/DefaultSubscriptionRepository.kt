@@ -166,6 +166,15 @@ internal class DefaultSubscriptionRepository(
             )
         }
 
+    override suspend fun keepTrial(id: String): Result<Unit> =
+        dao.edit(writeMutex, id) { record ->
+            val subscription = record.subscription
+            require(subscription.trialOutcome == TrialOutcome.PENDING) { "결과를 고르기 전인 체험만 고를 수 있습니다." }
+            dao.upsertSubscription(
+                subscription.copy(trialOutcome = TrialOutcome.KEPT, updatedAt = clock.millis()).toEntity(),
+            )
+        }
+
     override suspend fun setConsiderCancel(
         id: String,
         considerCancel: Boolean,

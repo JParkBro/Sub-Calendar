@@ -1,6 +1,7 @@
 package jpark.bro.subcal.feature.home.impl
 
 import jpark.bro.subcal.core.model.Category
+import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.model.Payment
 import java.time.LocalDate
 
@@ -13,6 +14,20 @@ internal data class HomeState(
     val summary: MonthSummary = MonthSummary(),
     val upcoming: List<UpcomingPayment> = emptyList(),
     val categories: List<CategoryCount> = emptyList(),
+    /** 종료가 3일 이내인 무료체험 수: 0보다 크면 "무료체험 n건 종료 임박" 카드 (4-1) */
+    val trialsEndingSoon: Int = 0,
+    /** 첫 결제일이 지났는데 결과를 고르지 않은 체험: "결제됐나요?" 카드 (2-7) */
+    val unresolvedTrials: List<UnresolvedTrial> = emptyList(),
+    /** 체험 결과를 저장하는 중 */
+    val isWorking: Boolean = false,
+)
+
+internal data class UnresolvedTrial(
+    val id: String,
+    val name: String,
+    val colorKey: String,
+    val firstBillingDate: LocalDate,
+    val amount: Money,
 )
 
 /** 이번 달 카드 (product-spec 4-1 · 2-8). 금액은 모두 원 */

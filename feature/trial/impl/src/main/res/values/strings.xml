@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trial_title">무료체험</string>
+    <string name="trial_back">뒤로</string>
+    <string name="trial_add">무료체험 추가</string>
+    <string name="trial_active_title">진행 중인 무료체험</string>
+    <string name="trial_active_count">%1$d건</string>
+    <string name="trial_active_charge">%1$d월 %2$d일 자동결제 %3$s</string>
+    <string name="trial_active_days">%1$d일 / 총 %2$d일</string>
+    <string name="trial_active_empty">진행 중인 무료체험이 없어요</string>
+    <string name="trial_cancelled">해지했어요</string>
+    <string name="trial_keep">계속 쓸래요</string>
+    <string name="trial_ended_title">지난 체험</string>
+    <string name="trial_ended_on">%1$d월 %2$d일 종료</string>
+    <string name="trial_ended_saved">해지함 · %1$s 아낌</string>
+    <string name="trial_ended_kept">구독 전환</string>
+    <string name="trial_ended_empty">최근 90일 동안 끝난 체험이 없어요</string>
+    <string name="trial_action_failed">저장하지 못했어요. 다시 시도해 주세요</string>
+</resources>

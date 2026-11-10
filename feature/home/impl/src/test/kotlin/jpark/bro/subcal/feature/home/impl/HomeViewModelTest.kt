@@ -146,4 +146,69 @@ class HomeViewModelTest {
 
         assertFalse(viewModel.state.value.showBillingDateHint)
     }
+
+    /** 디즈니+ 첫 결제일(10/31)이 지났는데 결과를 고르지 않은 11/2 */
+    private fun afterDisneyFirstBilling() =
+        HomeViewModel(
+            subscriptions,
+            settings,
+            java.time.Clock.fixed(
+                LocalDate
+                    .of(2026, 11, 2)
+                    .atTime(12, 0)
+                    .atZone(SampleData.clock.zone)
+                    .toInstant(),
+                SampleData.clock.zone,
+            ),
+        )
+
+    @Test
+    fun `종료 3일 이내 체험은 디즈니+ 1건이고 누르면 무료체험으로 간다`() =
+        runTest {
+            assertEquals(1, viewModel.state.value.trialsEndingSoon)
+            assertTrue(
+                viewModel.state.value.unresolvedTrials
+                    .isEmpty(),
+            )
+
+            viewModel.event.test {
+                viewModel.onAction(HomeAction.TrialWarningClicked)
+
+                assertEquals(HomeEvent.OpenTrial, awaitItem())
+            }
+        }
+
+    @Test
+    fun `첫 결제일이 지난 체험은 결제됐나요에 나오고 계속 쓸래요를 고르면 사라진다`() {
+        val viewModel = afterDisneyFirstBilling()
+        assertEquals(
+            listOf("disney_plus"),
+            viewModel.state.value.unresolvedTrials
+                .map { it.id },
+        )
+
+        viewModel.onAction(HomeAction.UnresolvedKeepClicked("disney_plus"))
+
+        assertTrue(
+            viewModel.state.value.unresolvedTrials
+                .isEmpty(),
+        )
+    }
+
+    @Test
+    fun `결제됐나요에서 해지했어요를 고르면 첫 결제일로 해지한다`() {
+        val viewModel = afterDisneyFirstBilling()
+
+        viewModel.onAction(HomeAction.UnresolvedCancelledClicked("disney_plus"))
+
+        val disney =
+            subscriptions.records.value
+                .first { it.subscription.id == "disney_plus" }
+                .subscription
+        assertEquals(LocalDate.of(2026, 10, 31), disney.cancelledOn)
+        assertTrue(
+            viewModel.state.value.unresolvedTrials
+                .isEmpty(),
+        )
+    }
 }

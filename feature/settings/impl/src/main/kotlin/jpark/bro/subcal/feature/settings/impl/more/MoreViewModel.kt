@@ -35,6 +35,10 @@ internal class MoreViewModel(
                 sendEvent(MoreEvent.OpenNotificationSettings)
             }
 
+            MoreAction.TrialClicked -> {
+                sendEvent(MoreEvent.OpenTrial)
+            }
+
             is MoreAction.AppVersionLoaded -> {
                 setState { copy(appVersion = action.versionName) }
             }

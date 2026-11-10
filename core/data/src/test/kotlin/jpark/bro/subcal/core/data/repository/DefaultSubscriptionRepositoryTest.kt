@@ -289,6 +289,19 @@ class DefaultSubscriptionRepositoryTest {
         }
 
     @Test
+    fun `체험을 계속 쓰면 결과가 KEPT가 되고 체험이 아니면 실패한다`() =
+        runTest {
+            val trial = add(input(trialStartedOn = LocalDate.of(2026, 10, 1), first = LocalDate.of(2026, 11, 1)))
+            val normal = add()
+
+            repository.keepTrial(trial).getOrThrow()
+
+            assertEquals(TrialOutcome.KEPT, record(trial).subscription.trialOutcome)
+            assertFailure(repository.keepTrial(trial))
+            assertFailure(repository.keepTrial(normal))
+        }
+
+    @Test
     fun `해지 고민함에 담고 뺄 수 있다`() =
         runTest {
             val id = add()
