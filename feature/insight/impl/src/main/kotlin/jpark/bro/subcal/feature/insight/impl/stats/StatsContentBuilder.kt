@@ -8,9 +8,11 @@ import jpark.bro.subcal.core.domain.insight.considerCancelAnnualKrw
 import jpark.bro.subcal.core.domain.insight.considerCancelRecords
 import jpark.bro.subcal.core.domain.insight.recentPeriodTotals
 import jpark.bro.subcal.core.domain.insight.totalSavedKrw
+import jpark.bro.subcal.core.domain.insight.valueAnalysis
 import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.SubscriptionStatus
+import jpark.bro.subcal.core.model.UsageLog
 import java.time.LocalDate
 
 /** 저장된 구독 · 설정에서 통계 화면 값을 만든다. 계산은 모두 core:domain */
@@ -18,7 +20,9 @@ internal fun buildStatsState(
     records: List<SubscriptionRecord>,
     settings: AppSettings,
     today: LocalDate,
+    usageLogs: List<UsageLog> = emptyList(),
 ): StatsState {
+    val values = valueAnalysis(records, usageLogs, today, settings.monthStartDay, settings.usdKrwRate)
     val rate = settings.usdKrwRate
     val current = BillingPeriod.containing(today, settings.monthStartDay)
     val categories = categoryShares(records, today, rate)
@@ -43,5 +47,7 @@ internal fun buildStatsState(
         considerCancelCount = considerCancelRecords(records, today).size,
         considerCancelAnnualKrw = considerCancelAnnualKrw(records, today, rate),
         savedKrw = totalSavedKrw(records, today, rate),
+        valueTrackedCount = values.size,
+        valueUnusedCount = values.count { it.isUnused },
     )
 }

@@ -5,6 +5,7 @@ import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.Category
 import jpark.bro.subcal.core.testing.FakeSettingsRepository
 import jpark.bro.subcal.core.testing.FakeSubscriptionRepository
+import jpark.bro.subcal.core.testing.FakeUsageRepository
 import jpark.bro.subcal.core.testing.MainDispatcherRule
 import jpark.bro.subcal.core.testing.SampleData
 import jpark.bro.subcal.feature.insight.api.SavingsTab
@@ -25,7 +26,8 @@ class StatsViewModelTest {
 
     private val subscriptions = FakeSubscriptionRepository(SampleData.records)
     private val settings = FakeSettingsRepository()
-    private val viewModel by lazy { StatsViewModel(subscriptions, settings, SampleData.clock) }
+    private val usage = FakeUsageRepository(SampleData.usageLogs)
+    private val viewModel by lazy { StatsViewModel(subscriptions, usage, settings, SampleData.clock) }
 
     private val state: StatsState get() = viewModel.state.value
 
@@ -47,6 +49,9 @@ class StatsViewModelTest {
         assertEquals(2, state.considerCancelCount)
         assertEquals(261_600, state.considerCancelAnnualKrw)
         assertEquals(15_800, state.savedKrw)
+        // 사용 체크: 넷플릭스 · 쿠팡 와우 · 유튜브 프리미엄 · 티빙, 그중 티빙은 이번 달 사용 안 함
+        assertEquals(4, state.valueTrackedCount)
+        assertEquals(1, state.valueUnusedCount)
     }
 
     @Test
@@ -92,6 +97,9 @@ class StatsViewModelTest {
 
                 viewModel.onAction(StatsAction.SavedCardClicked)
                 assertEquals(StatsEvent.OpenSavings(SavingsTab.SAVED), awaitItem())
+
+                viewModel.onAction(StatsAction.ValueCardClicked)
+                assertEquals(StatsEvent.OpenValueAnalysis, awaitItem())
             }
         }
 }

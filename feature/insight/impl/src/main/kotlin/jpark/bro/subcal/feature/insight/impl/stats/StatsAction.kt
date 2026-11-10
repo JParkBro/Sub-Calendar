@@ -13,4 +13,7 @@ internal sealed interface StatsAction {
 
     /** 지금까지 아낀 돈 카드 → 아낀 돈 화면(아낀 돈 탭) */
     data object SavedCardClicked : StatsAction
+
+    /** 가성비 분석 카드 → 가성비 분석 */
+    data object ValueCardClicked : StatsAction
 }

@@ -11,4 +11,6 @@ internal sealed interface StatsEvent {
     data class OpenSavings(
         val tab: SavingsTab,
     ) : StatsEvent
+
+    data object OpenValueAnalysis : StatsEvent
 }

@@ -3,6 +3,7 @@ package jpark.bro.subcal.core.designsystem.component
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -16,11 +17,18 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.onLongClick
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -30,8 +38,14 @@ import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.R
 import jpark.bro.subcal.core.designsystem.preview.ComponentPreviews
 import jpark.bro.subcal.core.designsystem.preview.SubCalPreviewSurface
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-/** 주 버튼 (primary, 눌림 primary-pressed). 화면당 한 곳만 */
+/**
+ * 주 버튼 (primary, 눌림 primary-pressed). 화면당 한 곳만.
+ * [onLongClick]이 있으면 길게 눌렀을 때 그것만 실행하고 [onClick]은 실행하지 않는다 ([longClickLabel]은 접근성 이름).
+ */
 @Composable
 fun SubCalPrimaryButton(
     text: String,
@@ -40,16 +54,49 @@ fun SubCalPrimaryButton(
     enabled: Boolean = true,
     size: SubCalButtonSize = SubCalButtonSize.LARGE,
     @DrawableRes icon: Int? = null,
+    onLongClick: (() -> Unit)? = null,
+    longClickLabel: String? = null,
 ) {
     val colors = AppThemeTokens.colors
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
+    // 길게 눌러 onLongClick을 실행했으면 손을 뗄 때 오는 onClick을 무시한다
+    var longPressed by remember { mutableStateOf(false) }
+    if (onLongClick != null) {
+        val timeoutMillis = LocalViewConfiguration.current.longPressTimeoutMillis
+        val currentOnLongClick by rememberUpdatedState(onLongClick)
+        LaunchedEffect(interactionSource, timeoutMillis) {
+            var job: Job? = null
+            interactionSource.interactions.collect { interaction ->
+                when (interaction) {
+                    is PressInteraction.Press -> {
+                        longPressed = false
+                        job =
+                            launch {
+                                delay(timeoutMillis)
+                                longPressed = true
+                                currentOnLongClick()
+                            }
+                    }
+
+                    is PressInteraction.Release, is PressInteraction.Cancel -> {
+                        job?.cancel()
+                    }
+                }
+            }
+        }
+    }
     SubCalButton(
         text = text,
-        onClick = onClick,
+        onClick = { if (longPressed) longPressed = false else onClick() },
         container = if (pressed) colors.primaryPressed else colors.primary,
         content = colors.onPrimary,
-        modifier = modifier,
+        modifier =
+            if (onLongClick != null && enabled) {
+                modifier.semantics { onLongClick(label = longClickLabel) { onLongClick().let { true } } }
+            } else {
+                modifier
+            },
         enabled = enabled,
         size = size,
         icon = icon,

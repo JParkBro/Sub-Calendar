@@ -48,6 +48,7 @@ val subscriptionModule =
             SubscriptionDetailViewModel(
                 key = params.get(),
                 subscriptionRepository = get(),
+                usageRepository = get(),
                 settingsRepository = get(),
                 clock = get(),
             )

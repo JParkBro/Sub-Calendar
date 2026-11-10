@@ -1,7 +1,6 @@
 package jpark.bro.subcal.core.data.backup
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonObject
 
 /**
  * 백업 JSON 형식 v1 (data-model-erd 6장). 키는 camelCase, 날짜는 yyyy-MM-dd, 시각은 epoch millis,
@@ -17,10 +16,10 @@ internal data class BackupV1(
     val subscriptions: List<BackupSubscription>,
     val priceChanges: List<BackupPriceChange>,
     val pauses: List<BackupPause>,
-    /** 3차 테이블. v1에서는 항상 비어 있다 */
-    val usageLogs: List<JsonObject> = emptyList(),
-    val partyMembers: List<JsonObject> = emptyList(),
-    val partySettlements: List<JsonObject> = emptyList(),
+    /** 3차 테이블. 3차 전에 만든 v1 파일에는 비어 있다 */
+    val usageLogs: List<BackupUsageLog> = emptyList(),
+    val partyMembers: List<BackupPartyMember> = emptyList(),
+    val partySettlements: List<BackupPartySettlement> = emptyList(),
 )
 
 /** 형식 · 버전만 먼저 읽는다 */
@@ -91,6 +90,33 @@ internal data class BackupPause(
     val startDate: String,
     val endDate: String? = null,
     val createdAt: Long,
+)
+
+@Serializable
+internal data class BackupUsageLog(
+    val id: String,
+    val subscriptionId: String,
+    val usedOn: String,
+    val createdAt: Long,
+)
+
+@Serializable
+internal data class BackupPartyMember(
+    val id: String,
+    val subscriptionId: String,
+    val name: String,
+    val shareAmountMinor: Long? = null,
+    val sortOrder: Int,
+    val createdAt: Long,
+    val updatedAt: Long,
+)
+
+@Serializable
+internal data class BackupPartySettlement(
+    val partyMemberId: String,
+    /** yyyy-MM */
+    val period: String,
+    val settledAt: Long,
 )
 
 internal const val BACKUP_FORMAT = "subcal-backup"

@@ -270,6 +270,25 @@ class SubscriptionEditViewModelTest {
         }
 
     @Test
+    fun `사용 체크는 저장된 값을 채우고 바꾼 값으로 저장한다`() =
+        runTest {
+            val viewModel = viewModel(SubscriptionEditKey(id = "netflix"))
+            assertTrue(viewModel.state.value.trackUsage)
+
+            viewModel.onAction(SubscriptionEditAction.TrackUsageToggled(false))
+            viewModel.event.test {
+                viewModel.onAction(SubscriptionEditAction.SaveClicked)
+                assertEquals(SubscriptionEditEvent.Saved(isNew = false), awaitItem())
+            }
+
+            assertFalse(
+                subscriptions.records.value
+                    .first { it.subscription.id == "netflix" }
+                    .subscription.trackUsage,
+            )
+        }
+
+    @Test
     fun `금액을 바꾸면 적용 시점을 묻고 고른 시점으로 저장한다`() =
         runTest {
             val viewModel = viewModel(SubscriptionEditKey(id = "netflix"))

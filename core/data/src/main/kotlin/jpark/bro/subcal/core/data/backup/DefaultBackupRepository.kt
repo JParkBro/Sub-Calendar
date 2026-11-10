@@ -11,10 +11,13 @@ import jpark.bro.subcal.core.datastore.SettingsDataStore
 import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.BackupSummary
 import jpark.bro.subcal.core.model.NotificationSettings
+import jpark.bro.subcal.core.model.PartyMember
+import jpark.bro.subcal.core.model.PartySettlement
 import jpark.bro.subcal.core.model.Pause
 import jpark.bro.subcal.core.model.PriceChange
 import jpark.bro.subcal.core.model.ReminderMode
 import jpark.bro.subcal.core.model.Subscription
+import jpark.bro.subcal.core.model.UsageLog
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
 import java.time.Clock
@@ -40,6 +43,9 @@ internal class DefaultBackupRepository(
                     subscriptions = records.map { it.subscription.toBackup() },
                     priceChanges = records.flatMap { record -> record.priceChanges.map { it.toBackup() } },
                     pauses = records.flatMap { record -> record.pauses.map { it.toBackup() } },
+                    usageLogs = dataDao.getUsageLogs().map { it.toModel().toBackup() },
+                    partyMembers = dataDao.getPartyMembers().map { it.toModel().toBackup() },
+                    partySettlements = dataDao.getPartySettlements().map { it.toModel().toBackup() },
                 )
             BackupJson.encodeToString(BackupV1.serializer(), backup)
         }
@@ -47,17 +53,21 @@ internal class DefaultBackupRepository(
     override suspend fun inspect(json: String): Result<BackupSummary> =
         suspendRunCatching {
             val backup = parseBackup(json)
-            BackupSummary(subscriptionCount = backup.subscriptions.size, exportedAt = backup.exportedAt)
+            BackupSummary(subscriptionCount = backup.rows.subscriptions.size, exportedAt = backup.exportedAt)
         }
 
     override suspend fun restore(json: String): Result<Unit> =
         suspendRunCatching {
             val backup = parseBackup(json)
+            val rows = backup.rows
             // DB는 한 트랜잭션이라 실패하면 그대로다. 설정은 검사를 마친 값이라 쓰기만 남는다
             dataDao.replaceAll(
-                subscriptions = backup.subscriptions.map(Subscription::toEntity),
-                priceChanges = backup.priceChanges.map(PriceChange::toEntity),
-                pauses = backup.pauses.map(Pause::toEntity),
+                subscriptions = rows.subscriptions.map(Subscription::toEntity),
+                priceChanges = rows.priceChanges.map(PriceChange::toEntity),
+                pauses = rows.pauses.map(Pause::toEntity),
+                usageLogs = rows.usageLogs.map(UsageLog::toEntity),
+                partyMembers = rows.partyMembers.map(PartyMember::toEntity),
+                partySettlements = rows.partySettlements.map(PartySettlement::toEntity),
             )
             settingsDataStore.setAppSettings(backup.appSettings)
             settingsDataStore.setNotificationSettings(backup.notificationSettings)
@@ -79,11 +89,19 @@ private val BackupJson =
 /** 검사를 마친 백업 내용 */
 private class ParsedBackup(
     val exportedAt: Long,
+    val rows: BackupRows,
+    val appSettings: AppSettings,
+    val notificationSettings: NotificationSettings,
+)
+
+/** DB에 넣을 행 */
+private class BackupRows(
     val subscriptions: List<Subscription>,
     val priceChanges: List<PriceChange>,
     val pauses: List<Pause>,
-    val appSettings: AppSettings,
-    val notificationSettings: NotificationSettings,
+    val usageLogs: List<UsageLog>,
+    val partyMembers: List<PartyMember>,
+    val partySettlements: List<PartySettlement>,
 )
 
 /**
@@ -100,6 +118,9 @@ private fun parseBackup(json: String): ParsedBackup {
     val subscriptions = backup.subscriptions.map(BackupSubscription::toModel)
     val priceChanges = backup.priceChanges.map(BackupPriceChange::toModel)
     val pauses = backup.pauses.map(BackupPause::toModel)
+    val usageLogs = backup.usageLogs.map(BackupUsageLog::toModel)
+    val partyMembers = backup.partyMembers.map(BackupPartyMember::toModel)
+    val partySettlements = backup.partySettlements.map(BackupPartySettlement::toModel)
     val appSettings = backup.settings.toAppSettings()
     val notificationSettings = backup.settings.toNotificationSettings()
 
@@ -107,6 +128,10 @@ private fun parseBackup(json: String): ParsedBackup {
     require(ids.size == ids.toSet().size) { "구독 id가 겹칩니다." }
     require(priceChanges.all { it.subscriptionId in ids }) { "없는 구독의 가격 변경이 있습니다." }
     require(pauses.all { it.subscriptionId in ids }) { "없는 구독의 일시정지가 있습니다." }
+    require(usageLogs.all { it.subscriptionId in ids }) { "없는 구독의 사용 기록이 있습니다." }
+    require(partyMembers.all { it.subscriptionId in ids }) { "없는 구독의 파티 멤버가 있습니다." }
+    val memberIds = partyMembers.map { it.id }.toSet()
+    require(partySettlements.all { it.partyMemberId in memberIds }) { "없는 멤버의 정산이 있습니다." }
     require(
         subscriptions.all {
             it.reminderMode != ReminderMode.CUSTOM || it.reminderDaysBefore in NotificationSettings.DaysBeforeOptions
@@ -115,5 +140,10 @@ private fun parseBackup(json: String): ParsedBackup {
     require(appSettings.isSelectable) { "앱 설정 값이 범위를 벗어났습니다." }
     require(notificationSettings.isSelectable) { "알림 설정 값이 범위를 벗어났습니다." }
 
-    return ParsedBackup(backup.exportedAt, subscriptions, priceChanges, pauses, appSettings, notificationSettings)
+    return ParsedBackup(
+        exportedAt = backup.exportedAt,
+        rows = BackupRows(subscriptions, priceChanges, pauses, usageLogs, partyMembers, partySettlements),
+        appSettings = appSettings,
+        notificationSettings = notificationSettings,
+    )
 }

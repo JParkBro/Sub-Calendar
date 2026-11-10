@@ -15,10 +15,12 @@ import jpark.bro.subcal.core.designsystem.AppSpacing
 import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.component.SubCalBadge
 import jpark.bro.subcal.core.designsystem.component.SubCalBadgeTone
+import jpark.bro.subcal.core.designsystem.component.SubCalButtonSize
 import jpark.bro.subcal.core.designsystem.component.SubCalCard
 import jpark.bro.subcal.core.designsystem.component.SubCalDdayText
 import jpark.bro.subcal.core.designsystem.component.SubCalDivider
 import jpark.bro.subcal.core.designsystem.component.SubCalListItem
+import jpark.bro.subcal.core.designsystem.component.SubCalPrimaryButton
 import jpark.bro.subcal.core.designsystem.component.SubCalServiceIcon
 import jpark.bro.subcal.core.domain.billing.PaymentHistoryEntry
 import jpark.bro.subcal.core.domain.billing.PriceTrend
@@ -27,6 +29,7 @@ import jpark.bro.subcal.core.model.Money
 import jpark.bro.subcal.core.ui.MoneyText
 import jpark.bro.subcal.core.ui.MoneyTone
 import jpark.bro.subcal.core.ui.billingCycleLabel
+import jpark.bro.subcal.core.ui.formatMoney
 import jpark.bro.subcal.feature.subscription.impl.R
 import java.time.LocalDate
 
@@ -221,6 +224,50 @@ internal fun HistoryRow(entry: PaymentHistoryEntry) {
                 style = AppThemeTokens.typography.bodySm,
                 color = AppThemeTokens.colors.textTertiary,
                 modifier = Modifier.padding(horizontal = AppSpacing.marginMobile, vertical = AppSpacing.sm),
+            )
+        }
+    }
+}
+
+/** 사용 체크 (product-spec 4-4): "+1"은 오늘로 기록, 길게 누르면 날짜 선택 */
+@Composable
+internal fun UsageCard(
+    usage: DetailUsage,
+    onAction: (SubscriptionDetailAction) -> Unit,
+) {
+    SubCalCard {
+        Row(
+            modifier = Modifier.padding(AppSpacing.lg),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(AppSpacing.md),
+        ) {
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(AppSpacing.xs)) {
+                Text(
+                    text = stringResource(R.string.subscription_detail_usage_title),
+                    style = AppThemeTokens.typography.labelMd,
+                    color = AppThemeTokens.colors.textSecondary,
+                )
+                Text(
+                    text =
+                        usage.costPerUseKrw?.let { cost ->
+                            stringResource(
+                                R.string.subscription_detail_usage_summary,
+                                usage.count,
+                                formatMoney(Money(cost, Currency.KRW)),
+                            )
+                        } ?: stringResource(R.string.subscription_detail_usage_none),
+                    style = AppThemeTokens.typography.bodyMd.copy(fontFeatureSettings = "tnum"),
+                    color = AppThemeTokens.colors.textPrimary,
+                    modifier = Modifier.testTag("usage_summary"),
+                )
+            }
+            SubCalPrimaryButton(
+                text = stringResource(R.string.subscription_detail_usage_add),
+                onClick = { onAction(SubscriptionDetailAction.UsageAddClicked) },
+                size = SubCalButtonSize.SMALL,
+                onLongClick = { onAction(SubscriptionDetailAction.UsageAddLongClicked) },
+                longClickLabel = stringResource(R.string.subscription_detail_usage_pick_date),
+                modifier = Modifier.testTag("usage_add_button"),
             )
         }
     }

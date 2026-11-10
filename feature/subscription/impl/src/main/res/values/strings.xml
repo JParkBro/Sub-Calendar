@@ -73,6 +73,15 @@
     <string name="subscription_edit_cancel_url">해지 페이지 주소</string>
     <string name="subscription_edit_cancel_url_placeholder">https://</string>
     <string name="subscription_edit_memo">메모</string>
+    <string name="subscription_detail_usage_title">사용 체크</string>
+    <string name="subscription_detail_usage_summary">이번 달 %1$d번 썼어요 · 1회당 %2$s</string>
+    <string name="subscription_detail_usage_none">이번 달에는 아직 기록이 없어요</string>
+    <string name="subscription_detail_usage_add">+1</string>
+    <string name="subscription_detail_usage_pick_date">날짜를 골라 기록</string>
+    <string name="subscription_detail_usage_recorded">사용을 기록했어요</string>
+    <string name="subscription_detail_usage_undo">실행 취소</string>
+    <string name="subscription_edit_track_usage">사용 체크</string>
+    <string name="subscription_edit_track_usage_hint">쓸 때마다 기록해서 1회당 비용을 계산해요</string>
     <string name="subscription_edit_delete">삭제</string>
     <string name="subscription_edit_delete_title">구독을 삭제할까요?</string>
     <string name="subscription_edit_delete_message">잘못 등록한 구독을 지울 때 쓰세요. 그만 쓰는 구독은 상세에서 해지로 표시해야 아낀 돈에 남아요.</string>

@@ -14,7 +14,14 @@ internal fun previewSavingsState(tab: SavingsTab): SavingsState =
         tab = tab,
         considerItems =
             listOf(
-                ConsiderItem("tving", "티빙", "ORANGE", 10_900, duplicateWith = listOf("넷플릭스 프리미엄", "유튜브 프리미엄")),
+                ConsiderItem(
+                    "tving",
+                    "티빙",
+                    "ORANGE",
+                    10_900,
+                    duplicateWith = listOf("넷플릭스 프리미엄", "유튜브 프리미엄"),
+                    useCount = 0,
+                ),
                 ConsiderItem("melon", "멜론", "GREEN", 10_900, duplicateWith = listOf("스포티파이")),
             ),
         considerAnnualKrw = 261_600,

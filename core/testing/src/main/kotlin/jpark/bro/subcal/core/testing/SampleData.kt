@@ -13,6 +13,7 @@ import jpark.bro.subcal.core.model.Subscription
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.SubscriptionStatus
 import jpark.bro.subcal.core.model.TrialOutcome
+import jpark.bro.subcal.core.model.UsageLog
 import java.time.Clock
 import java.time.LocalDate
 import java.time.ZoneId
@@ -44,7 +45,7 @@ object SampleData {
             amount = 13_500,
             first = "2024-07-02",
             colorKey = "RED",
-        ).copy(
+        ) { copy(trackUsage = true) }.copy(
             priceChanges =
                 listOf(
                     PriceChange(
@@ -65,7 +66,7 @@ object SampleData {
             amount = 7_890,
             first = "2025-02-05",
             colorKey = "ORANGE",
-        )
+        ) { copy(trackUsage = true) }
 
     val googleOne: SubscriptionRecord =
         record(
@@ -86,7 +87,7 @@ object SampleData {
             amount = 14_900,
             first = "2025-01-14",
             colorKey = "PINK",
-        )
+        ) { copy(trackUsage = true) }
 
     val tving: SubscriptionRecord =
         record(
@@ -174,9 +175,22 @@ object SampleData {
                 ),
         )
 
+    /** 10월 사용 체크: 넷플릭스 2회 · 쿠팡 와우 15회 · 유튜브 프리미엄 20회 · 티빙 0회 */
+    val usageLogs: List<UsageLog> =
+        usage("netflix", 2) + usage("coupang_wow", 15) + usage("youtube_premium", 20)
+
     /** 이용 중 7개 + 체험 중 2개 + 해지 1개 */
     val records: List<SubscriptionRecord> =
         listOf(spotify, netflix, coupangWow, googleOne, youtubePremium, tving, melon, disneyPlus, millie, watcha)
+
+    /** 10월 1일부터 하루 한 번씩 [count]번 */
+    private fun usage(
+        subscriptionId: String,
+        count: Int,
+    ): List<UsageLog> =
+        (0 until count).map { day ->
+            UsageLog("$subscriptionId-usage-$day", subscriptionId, LocalDate.of(2026, 10, 1).plusDays(day.toLong()), 0)
+        }
 
     private fun preset(
         id: String,

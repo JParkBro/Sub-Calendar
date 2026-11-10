@@ -49,6 +49,7 @@ import jpark.bro.subcal.core.ui.categoryLabel
 import jpark.bro.subcal.core.ui.formatMoney
 import jpark.bro.subcal.feature.insight.api.SavingsKey
 import jpark.bro.subcal.feature.insight.impl.R
+import jpark.bro.subcal.feature.insight.impl.value.ValueAnalysisKey
 import jpark.bro.subcal.feature.subscription.api.SubscriptionListKey
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.absoluteValue
@@ -64,6 +65,7 @@ internal fun StatsRoot(
         when (event) {
             is StatsEvent.OpenList -> onSwitchTab(SubscriptionListKey(event.category))
             is StatsEvent.OpenSavings -> onNavigate(SavingsKey(event.tab))
+            StatsEvent.OpenValueAnalysis -> onNavigate(ValueAnalysisKey)
         }
     }
     StatsScreen(state = state, onAction = viewModel::onAction)
@@ -124,6 +126,7 @@ private fun StatsScreen(
                     modifier = Modifier.weight(1f).testTag("saved_card"),
                 )
             }
+            ValueCard(state = state, onClick = { onAction(StatsAction.ValueCardClicked) })
         }
     }
 }

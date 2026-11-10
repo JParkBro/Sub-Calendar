@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import jpark.bro.subcal.core.data.repository.PresetRepository
 import jpark.bro.subcal.core.data.repository.SettingsRepository
 import jpark.bro.subcal.core.data.repository.SubscriptionRepository
+import jpark.bro.subcal.core.data.repository.UsageRepository
 import jpark.bro.subcal.core.model.PresetCatalog
 import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.ui.MviViewModel
@@ -18,6 +19,7 @@ import java.time.LocalDate
 internal class SavingsViewModel(
     key: SavingsKey,
     subscriptionRepository: SubscriptionRepository,
+    usageRepository: UsageRepository,
     settingsRepository: SettingsRepository,
     presetRepository: PresetRepository,
     private val clock: Clock,
@@ -37,9 +39,10 @@ internal class SavingsViewModel(
             settingsRepository.observeAppSettings(),
             tab,
             catalog,
-        ) { records, settings, tab, catalog ->
+            usageRepository.observeUsageLogs(),
+        ) { records, settings, tab, catalog, usageLogs ->
             this.records = records
-            val state = buildSavingsState(tab, records, catalog, settings.usdKrwRate, LocalDate.now(clock))
+            val state = buildSavingsState(records, usageLogs, catalog, settings, LocalDate.now(clock)).copy(tab = tab)
             setState { state }
         }.launchIn(viewModelScope)
     }

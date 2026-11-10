@@ -47,4 +47,27 @@
     <string name="insight_savings_saved_cancelled_on">%1$d.%2$d.%3$d 해지</string>
     <string name="insight_savings_saved_empty">해지한 구독이 없어요</string>
     <string name="insight_savings_open_failed">해지 페이지를 열지 못했어요</string>
+    <string name="insight_savings_consider_usage">이번 달 사용 %1$d회</string>
+    <string name="insight_savings_consider_unused">이번 달 사용 안 함</string>
+    <string name="insight_stats_value_title">가성비 분석</string>
+    <string name="insight_stats_value_off">구독 수정에서 사용 체크를 켜 보세요</string>
+    <string name="insight_stats_value_unused">사용 안 함 %1$d</string>
+    <string name="insight_stats_value_count">사용 체크 %1$d개 · 이번 달 1회당 비용</string>
+    <string name="insight_value_title">가성비 분석</string>
+    <string name="insight_value_back">뒤로</string>
+    <string name="insight_value_header">이번 달 사용 기록 기준, 1회당 비용</string>
+    <string name="insight_value_month">%1$d월 기준</string>
+    <string name="insight_value_tip">사용 횟수가 적을수록 1회당 비용이 높아져요.</string>
+    <string name="insight_value_use_count">%1$d회 사용</string>
+    <string name="insight_value_unused">사용 안 함</string>
+    <string name="insight_value_monthly">월 %1$s</string>
+    <string name="insight_value_per_use">1회당</string>
+    <string name="insight_value_suggest_title">해지 고민함에 담을까요?</string>
+    <string name="insight_value_suggest_body">%1$s · 이번 달 사용 안 함 · 월 %2$s</string>
+    <string name="insight_value_suggest_add">담기</string>
+    <string name="insight_value_consider_added">해지 고민함에 담았어요</string>
+    <string name="insight_value_action_failed">저장하지 못했어요. 다시 시도해 주세요</string>
+    <string name="insight_value_footer">구독 상세의 +1 버튼으로 쓸 때마다 기록해요. 길게 누르면 날짜를 고를 수 있어요.</string>
+    <string name="insight_value_empty_title">사용 체크를 켠 구독이 없어요</string>
+    <string name="insight_value_empty_body">구독 수정에서 사용 체크를 켜면 이번 달 1회당 비용을 볼 수 있어요.</string>
 </resources>

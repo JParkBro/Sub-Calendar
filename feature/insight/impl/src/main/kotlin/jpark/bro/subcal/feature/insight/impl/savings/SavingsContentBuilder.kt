@@ -1,5 +1,6 @@
 package jpark.bro.subcal.feature.insight.impl.savings
 
+import jpark.bro.subcal.core.domain.billing.BillingPeriod
 import jpark.bro.subcal.core.domain.billing.monthlyEquivalentKrw
 import jpark.bro.subcal.core.domain.billing.priceOn
 import jpark.bro.subcal.core.domain.insight.annualPlanOptions
@@ -8,24 +9,27 @@ import jpark.bro.subcal.core.domain.insight.considerCancelRecords
 import jpark.bro.subcal.core.domain.insight.duplicateGroups
 import jpark.bro.subcal.core.domain.insight.savedItems
 import jpark.bro.subcal.core.domain.insight.totalSavedKrw
+import jpark.bro.subcal.core.domain.insight.usageCount
+import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.PresetCatalog
 import jpark.bro.subcal.core.model.SubscriptionRecord
-import jpark.bro.subcal.feature.insight.api.SavingsTab
+import jpark.bro.subcal.core.model.UsageLog
 import java.time.LocalDate
 
-/** 저장된 구독에서 아낀 돈 · 해지 고민 화면 값을 만든다. 계산은 모두 core:domain */
+/** 저장된 구독에서 아낀 돈 · 해지 고민 화면 값을 만든다 (탭은 ViewModel이 채운다). 계산은 모두 core:domain */
 internal fun buildSavingsState(
-    tab: SavingsTab,
     records: List<SubscriptionRecord>,
+    usageLogs: List<UsageLog>,
     catalog: PresetCatalog?,
-    usdKrwRate: Long,
+    settings: AppSettings,
     today: LocalDate,
 ): SavingsState {
+    val usdKrwRate = settings.usdKrwRate
+    val period = BillingPeriod.containing(today, settings.monthStartDay)
     val duplicates = duplicateGroups(records, today, usdKrwRate)
     val duplicateNames = duplicates.associate { group -> group.category to group.records.map { it.subscription.name } }
     return SavingsState(
         isLoading = false,
-        tab = tab,
         considerItems =
             considerCancelRecords(records, today)
                 .map { record ->
@@ -36,6 +40,8 @@ internal fun buildSavingsState(
                         colorKey = subscription.colorKey,
                         monthlyKrw = record.monthlyEquivalentKrw(today, usdKrwRate),
                         duplicateWith = duplicateNames[subscription.category].orEmpty() - subscription.name,
+                        useCount =
+                            usageCount(subscription.id, usageLogs, period).takeIf { subscription.trackUsage },
                     )
                 }.sortedWith(compareByDescending<ConsiderItem> { it.monthlyKrw }.thenBy { it.name }),
         considerAnnualKrw = considerCancelAnnualKrw(records, today, usdKrwRate),

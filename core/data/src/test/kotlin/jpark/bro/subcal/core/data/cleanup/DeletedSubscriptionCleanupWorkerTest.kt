@@ -10,6 +10,7 @@ import androidx.work.WorkerParameters
 import androidx.work.testing.TestListenableWorkerBuilder
 import jpark.bro.subcal.core.data.mapper.toEntity
 import jpark.bro.subcal.core.database.SubCalDatabase
+import jpark.bro.subcal.core.database.entity.UsageLogEntity
 import jpark.bro.subcal.core.model.BillingCycle
 import jpark.bro.subcal.core.model.Currency
 import jpark.bro.subcal.core.model.CycleUnit
@@ -88,5 +89,34 @@ class DeletedSubscriptionCleanupWorkerTest {
             assertEquals(0, db.dataDao().purgeDeletedBefore(now.minus(SoftDeleteRetention).toEpochMilli()))
             assertEquals(2, db.dataDao().purgeDeletedBefore(Long.MAX_VALUE))
             assertEquals(listOf("이용 중"), db.subscriptionDao().get("이용 중")?.let { listOf(it.subscription.id) })
+        }
+
+    @Test
+    fun `지운 지 30일이 지난 사용 기록도 정리한다`() =
+        runTest {
+            insert("이용 중", deletedAgo = null)
+
+            fun log(
+                id: String,
+                deletedAgo: Duration?,
+            ) = UsageLogEntity(id, "이용 중", "2026-10-01", 0, deletedAgo?.let { now.minus(it).toEpochMilli() })
+            db.dataDao().insertAll(
+                subscriptions = emptyList(),
+                priceChanges = emptyList(),
+                pauses = emptyList(),
+                usageLogs =
+                    listOf(
+                        log("남김", null),
+                        log("어제 취소", Duration.ofDays(1)),
+                        log("31일 전 취소", Duration.ofDays(31)),
+                    ),
+                partyMembers = emptyList(),
+                partySettlements = emptyList(),
+            )
+
+            runWorker()
+
+            assertEquals(1, db.dataDao().purgeDeletedBefore(Long.MAX_VALUE))
+            assertEquals(listOf("남김"), db.dataDao().getUsageLogs().map { it.id })
         }
 }

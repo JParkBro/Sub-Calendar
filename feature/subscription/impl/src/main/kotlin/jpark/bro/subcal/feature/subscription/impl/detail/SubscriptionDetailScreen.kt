@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
@@ -41,6 +44,7 @@ import jpark.bro.subcal.core.ui.ObserveEvents
 import jpark.bro.subcal.core.ui.SubCalDatePickerDialog
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
 import jpark.bro.subcal.feature.subscription.impl.R
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import jpark.bro.subcal.core.designsystem.R as DesignR
@@ -58,6 +62,9 @@ internal fun SubscriptionDetailRoot(
     val uriHandler = LocalUriHandler.current
     val actionFailed = stringResource(R.string.subscription_detail_action_failed)
     val openFailed = stringResource(R.string.subscription_detail_open_failed)
+    val usageRecorded = stringResource(R.string.subscription_detail_usage_recorded)
+    val undo = stringResource(R.string.subscription_detail_usage_undo)
+    val scope = rememberCoroutineScope()
 
     ObserveEvents(viewModel.event) { event ->
         when (event) {
@@ -76,6 +83,22 @@ internal fun SubscriptionDetailRoot(
             is SubscriptionDetailEvent.OpenCancelPage -> {
                 // 브라우저가 없거나 주소가 잘못돼도 돌아오면 "해지했나요?"로 표시할 수 있다
                 runCatching { uriHandler.openUri(event.url) }.onFailure { toastHostState.showSnackbar(openFailed) }
+            }
+
+            is SubscriptionDetailEvent.UsageRecorded -> {
+                // 토스트가 떠 있는 동안에도 다음 이벤트를 받도록 따로 띄운다. 새 토스트가 오면 이전 것은 닫힌다
+                toastHostState.currentSnackbarData?.dismiss()
+                scope.launch {
+                    val result =
+                        toastHostState.showSnackbar(
+                            usageRecorded,
+                            actionLabel = undo,
+                            duration = SnackbarDuration.Long,
+                        )
+                    if (result == SnackbarResult.ActionPerformed) {
+                        viewModel.onAction(SubscriptionDetailAction.UsageUndoClicked(event.usageLogId))
+                    }
+                }
             }
 
             SubscriptionDetailEvent.ActionFailed -> {
@@ -144,6 +167,7 @@ private fun SubscriptionDetailScreen(
             DetailHeaderCard(content)
             StatCards(content)
             content.nextPayment?.let { NextPaymentCard(next = it, isTrial = content.status == DetailStatus.TRIAL) }
+            content.usage?.let { UsageCard(usage = it, onAction = onAction) }
             HistoryCard(
                 entries = content.recentHistory,
                 onShowAll =
@@ -160,6 +184,14 @@ private fun SubscriptionDetailScreen(
 
     if (state.isCancelSheetOpen) {
         CancelSheet(state = state, onAction = onAction)
+    }
+    if (state.isUsageDatePickerOpen) {
+        SubCalDatePickerDialog(
+            initial = state.today,
+            onConfirm = { onAction(SubscriptionDetailAction.UsageDatePicked(it)) },
+            onDismiss = { onAction(SubscriptionDetailAction.UsageDatePickerDismissed) },
+            maxDate = state.today,
+        )
     }
     if (state.isCancelDatePickerOpen) {
         SubCalDatePickerDialog(

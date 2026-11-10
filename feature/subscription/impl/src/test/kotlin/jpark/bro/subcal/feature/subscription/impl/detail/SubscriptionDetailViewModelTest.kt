@@ -9,6 +9,7 @@ import jpark.bro.subcal.core.model.SubscriptionRecord
 import jpark.bro.subcal.core.model.SubscriptionStatus
 import jpark.bro.subcal.core.testing.FakeSettingsRepository
 import jpark.bro.subcal.core.testing.FakeSubscriptionRepository
+import jpark.bro.subcal.core.testing.FakeUsageRepository
 import jpark.bro.subcal.core.testing.MainDispatcherRule
 import jpark.bro.subcal.core.testing.SampleData
 import jpark.bro.subcal.feature.subscription.api.SubscriptionDetailKey
@@ -28,9 +29,10 @@ class SubscriptionDetailViewModelTest {
 
     private val subscriptions = FakeSubscriptionRepository(SampleData.records)
     private val settings = FakeSettingsRepository()
+    private val usage = FakeUsageRepository(SampleData.usageLogs)
 
     private fun viewModel(id: String) =
-        SubscriptionDetailViewModel(SubscriptionDetailKey(id), subscriptions, settings, SampleData.clock)
+        SubscriptionDetailViewModel(SubscriptionDetailKey(id), subscriptions, usage, settings, SampleData.clock)
 
     private val SubscriptionDetailViewModel.content: DetailContent
         get() = requireNotNull(state.value.content)
@@ -245,4 +247,62 @@ class SubscriptionDetailViewModelTest {
                 .considerCancel,
         )
     }
+
+    @Test
+    fun `사용 체크 카드는 이번 달 횟수와 1회당 비용을 보여준다`() {
+        assertEquals(DetailUsage(count = 2, costPerUseKrw = 8_500), viewModel("netflix").content.usage)
+        assertEquals(DetailUsage(count = 0, costPerUseKrw = null), viewModel("tving").content.usage)
+        // 사용 체크를 끈 구독 · 체험 결과를 기다리는 구독에는 카드가 없다
+        assertNull(viewModel("melon").content.usage)
+        assertNull(viewModel("disney_plus").content.usage)
+    }
+
+    @Test
+    fun `+1은 오늘로 기록하고 실행 취소하면 되돌린다`() =
+        runTest {
+            val viewModel = viewModel("tving")
+            viewModel.event.test {
+                viewModel.onAction(SubscriptionDetailAction.UsageAddClicked)
+
+                val recorded = awaitItem() as SubscriptionDetailEvent.UsageRecorded
+                assertEquals(DetailUsage(1, 10_900), viewModel.content.usage)
+                assertEquals(
+                    SampleData.today,
+                    usage.logs.value
+                        .last()
+                        .usedOn,
+                )
+
+                viewModel.onAction(SubscriptionDetailAction.UsageUndoClicked(recorded.usageLogId))
+                assertEquals(DetailUsage(0, null), viewModel.content.usage)
+            }
+        }
+
+    @Test
+    fun `+1을 길게 누르면 고른 날짜로 기록한다`() =
+        runTest {
+            val viewModel = viewModel("netflix")
+            viewModel.event.test {
+                viewModel.onAction(SubscriptionDetailAction.UsageAddLongClicked)
+                assertTrue(viewModel.state.value.isUsageDatePickerOpen)
+
+                viewModel.onAction(SubscriptionDetailAction.UsageDatePicked(LocalDate.of(2026, 10, 5)))
+
+                assertTrue(awaitItem() is SubscriptionDetailEvent.UsageRecorded)
+                assertFalse(viewModel.state.value.isUsageDatePickerOpen)
+                assertEquals(DetailUsage(3, 5_667), viewModel.content.usage)
+            }
+        }
+
+    @Test
+    fun `사용 기록에 실패하면 알린다`() =
+        runTest {
+            usage.failure = IllegalStateException("db")
+            val viewModel = viewModel("netflix")
+            viewModel.event.test {
+                viewModel.onAction(SubscriptionDetailAction.UsageAddClicked)
+
+                assertEquals(SubscriptionDetailEvent.ActionFailed, awaitItem())
+            }
+        }
 }

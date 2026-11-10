@@ -6,7 +6,11 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jpark.bro.subcal.core.common.IdGenerator
 import jpark.bro.subcal.core.data.repository.DefaultSubscriptionRepository
+import jpark.bro.subcal.core.data.repository.DefaultUsageRepository
 import jpark.bro.subcal.core.database.SubCalDatabase
+import jpark.bro.subcal.core.database.entity.PartyMemberEntity
+import jpark.bro.subcal.core.database.entity.PartySettlementEntity
+import jpark.bro.subcal.core.database.entity.UsageLogEntity
 import jpark.bro.subcal.core.datastore.SettingsDataStore
 import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.AppThemeMode
@@ -23,6 +27,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -63,8 +68,14 @@ class DefaultBackupRepositoryTest {
                 },
             )
         private var nextId = 0
-        val subscriptions = DefaultSubscriptionRepository(db.subscriptionDao(), IdGenerator { "id-${++nextId}" }, clock)
+        private val ids = IdGenerator { "id-${++nextId}" }
+        val subscriptions = DefaultSubscriptionRepository(db.subscriptionDao(), ids, clock)
+        val usage = DefaultUsageRepository(db.usageLogDao(), db.subscriptionDao(), ids, clock)
         val backup = DefaultBackupRepository(db.subscriptionDao(), db.dataDao(), settings, clock)
+
+        /** 사용 기록 · 파티 멤버 · 정산 (내보내기와 같은 기준) */
+        suspend fun activity(): List<List<Any>> =
+            listOf(db.dataDao().getUsageLogs(), db.dataDao().getPartyMembers(), db.dataDao().getPartySettlements())
 
         suspend fun records(): List<SubscriptionRecord> = subscriptions.observeRecords().first()
     }
@@ -86,14 +97,32 @@ class DefaultBackupRepositoryTest {
         colorKey = "RED",
     )
 
-    /** 가격 변경 · 일시정지 · 삭제한 구독과 바꾼 설정이 있는 기기 */
+    /** 가격 변경 · 일시정지 · 사용 기록 · 파티 · 삭제한 구독과 바꾼 설정이 있는 기기 */
     private suspend fun filledDevice(): Device =
         Device().apply {
             val netflix = subscriptions.add(input("넷플릭스", amount = 13_500)).getOrThrow()
             subscriptions.update(netflix, input("넷플릭스", amount = 17_000), PriceChangeTiming.NEXT_PAYMENT).getOrThrow()
+            usage.add(netflix, LocalDate.of(2026, 10, 3)).getOrThrow()
+            usage.add(netflix, LocalDate.of(2026, 10, 3)).getOrThrow()
+            usage.remove(usage.add(netflix, LocalDate.of(2026, 10, 30)).getOrThrow()).getOrThrow()
             val tving = subscriptions.add(input("티빙")).getOrThrow()
             subscriptions.pause(tving).getOrThrow()
+            db.dataDao().insertAll(
+                subscriptions = emptyList(),
+                priceChanges = emptyList(),
+                pauses = emptyList(),
+                usageLogs = emptyList(),
+                partyMembers =
+                    listOf(
+                        PartyMemberEntity("민지", netflix, "민지", null, 0, 1, 1, null),
+                        PartyMemberEntity("준호", netflix, "준호", 4_000, 1, 1, 2, null),
+                        PartyMemberEntity("나간 멤버", netflix, "나간 멤버", null, 2, 1, 3, deletedAt = 3),
+                    ),
+                partySettlements =
+                    listOf(PartySettlementEntity("민지", "2026-10", 5), PartySettlementEntity("나간 멤버", "2026-09", 6)),
+            )
             val wrong = subscriptions.add(input("잘못 등록")).getOrThrow()
+            usage.add(wrong, LocalDate.of(2026, 10, 1)).getOrThrow()
             subscriptions.delete(wrong).getOrThrow()
             settings.setAppSettings(AppSettings(themeMode = AppThemeMode.DARK, monthStartDay = 25, usdKrwRate = 1_385))
             settings.setNotificationSettings(NotificationSettings(defaultDaysBefore = 3, time = LocalTime.of(20, 0)))
@@ -110,6 +139,7 @@ class DefaultBackupRepositoryTest {
             target.backup.restore(json).getOrThrow()
 
             assertEquals(source.records(), target.records())
+            assertEquals(source.activity(), target.activity())
             assertEquals(source.settings.appSettings.first(), target.settings.appSettings.first())
             assertEquals(source.settings.notificationSettings.first(), target.settings.notificationSettings.first())
         }
@@ -125,6 +155,47 @@ class DefaultBackupRepositoryTest {
             assertEquals(clock.millis(), summary.exportedAt)
             assertTrue(!json.contains("잘못 등록"))
             assertTrue(json.contains("\"format\":\"subcal-backup\""))
+        }
+
+    @Test
+    fun `지운 사용 기록 · 멤버와 지운 구독의 기록은 내보내지 않는다`() =
+        runTest {
+            val target = Device()
+            target.backup.restore(filledDevice().backup.export(appVersion = "1.0.0").getOrThrow()).getOrThrow()
+
+            val (usageLogs, members, settlements) = target.activity()
+            assertEquals(listOf("2026-10-03", "2026-10-03"), usageLogs.map { (it as UsageLogEntity).usedOn })
+            assertEquals(listOf("민지", "준호"), members.map { (it as PartyMemberEntity).name })
+            assertEquals(listOf(PartySettlementEntity("민지", "2026-10", 5)), settlements)
+            assertEquals(0, target.db.dataDao().purgeDeletedBefore(Long.MAX_VALUE))
+        }
+
+    @Test
+    fun `3차 배열이 없는 예전 v1 파일도 불러온다`() =
+        runTest {
+            val json =
+                filledDevice()
+                    .backup
+                    .export(appVersion = "1.0.0")
+                    .getOrThrow()
+                    .replace(Regex(",\"usageLogs\":\\[.*$"), "}")
+            assertFalse(json.contains("usageLogs"))
+
+            val target = Device()
+            target.backup.restore(json).getOrThrow()
+
+            assertEquals(2, target.records().size)
+            assertEquals(listOf(emptyList<Any>(), emptyList(), emptyList()), target.activity())
+        }
+
+    @Test
+    fun `없는 멤버를 가리키는 정산이 있으면 거부한다`() =
+        runTest {
+            val json = filledDevice().backup.export(appVersion = "1.0.0").getOrThrow()
+
+            val orphan = json.replace("\"partyMemberId\":\"민지\"", "\"partyMemberId\":\"없는 멤버\"")
+
+            assertTrue(Device().backup.restore(orphan).isFailure)
         }
 
     @Test
