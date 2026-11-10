@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 테마 아이콘(Android 13+): 한 가지 색으로 칠하므로 달력은 윤곽선, ₩은 선으로 그린다 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:pathData="M39,35.5 H69 A6.5,6.5 0 0 1 75.5,42 V70 A6.5,6.5 0 0 1 69,76.5 H39 A6.5,6.5 0 0 1 32.5,70 V42 A6.5,6.5 0 0 1 39,35.5 Z M32.5,46 H75.5"
+        android:strokeWidth="3"
+        android:strokeColor="#FFFFFF" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42.5,29 A2.5,2.5 0 0 1 45,31.5 V37.5 A2.5,2.5 0 0 1 42.5,40 A2.5,2.5 0 0 1 40,37.5 V31.5 A2.5,2.5 0 0 1 42.5,29 Z M65.5,29 A2.5,2.5 0 0 1 68,31.5 V37.5 A2.5,2.5 0 0 1 65.5,40 A2.5,2.5 0 0 1 63,37.5 V31.5 A2.5,2.5 0 0 1 65.5,29 Z" />
+    <path
+        android:pathData="M41,53 L46,71 L54,56.5 L62,71 L67,53"
+        android:strokeWidth="4.2"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M38,60 H70 M38,65 H70"
+        android:strokeWidth="2.6"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round" />
+</vector>

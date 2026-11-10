@@ -1,0 +1,10 @@
+<!-- 구독캘린더 앱 아이콘 원본 (108×108 적응형 아이콘 좌표). 스토어 아이콘은 안전 영역 18~90을 512px로 그린다 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <rect width="108" height="108" fill="#3D4FD6"/>
+  <path d="M39,34 H69 A8,8 0 0 1 77,42 V70 A8,8 0 0 1 69,78 H39 A8,8 0 0 1 31,70 V42 A8,8 0 0 1 39,34 Z" fill="#FFFFFF"/>
+  <path d="M39,34 H69 A8,8 0 0 1 77,42 V46 H31 V42 A8,8 0 0 1 39,34 Z" fill="#C7CDF6"/>
+  <path d="M42.5,29 A2.5,2.5 0 0 1 45,31.5 V37.5 A2.5,2.5 0 0 1 42.5,40 A2.5,2.5 0 0 1 40,37.5 V31.5 A2.5,2.5 0 0 1 42.5,29 Z" fill="#FFFFFF" stroke="#3D4FD6" stroke-width="2"/>
+  <path d="M65.5,29 A2.5,2.5 0 0 1 68,31.5 V37.5 A2.5,2.5 0 0 1 65.5,40 A2.5,2.5 0 0 1 63,37.5 V31.5 A2.5,2.5 0 0 1 65.5,29 Z" fill="#FFFFFF" stroke="#3D4FD6" stroke-width="2"/>
+  <path d="M41,53 L46,71 L54,56.5 L62,71 L67,53" fill="none" stroke="#3D4FD6" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M38,60 H70 M38,65 H70" fill="none" stroke="#3D4FD6" stroke-width="2.6" stroke-linecap="round"/>
+</svg>
