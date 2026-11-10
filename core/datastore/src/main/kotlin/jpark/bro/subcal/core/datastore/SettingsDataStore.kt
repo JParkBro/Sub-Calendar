@@ -117,6 +117,11 @@ class SettingsDataStore(
         dataStore.edit { prefs -> prefs[LAST_PAYMENT_REMINDER_DATE] = date.toString() }
     }
 
+    /** 모든 데이터 삭제 (product-spec 6장): 설정 · 온보딩 완료 · 알림 기록까지 처음 상태로 */
+    suspend fun clear() {
+        dataStore.edit { prefs -> prefs.clear() }
+    }
+
     private companion object {
         val THEME_MODE = stringPreferencesKey("theme_mode")
         val MONTH_START_DAY = intPreferencesKey("month_start_day")

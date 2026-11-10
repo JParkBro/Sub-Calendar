@@ -8,7 +8,7 @@
 | 날짜 | `yyyy-MM-dd` 문자열 (LocalDate) | 결제일은 날짜 문제. 시간대에 흔들리지 않게 |
 | 시각 | epoch millis (Long) | `created_at`, `updated_at`, `deleted_at` |
 | 금액 | `amount_minor` Long + `currency` | 부동소수 오차 방지. KRW는 원, USD는 센트 |
-| 삭제 | soft delete (`deleted_at`), 30일 뒤 정리 | 실수 복구, 백업 일관성 |
+| 삭제 | soft delete (`deleted_at`), 30일 뒤 정리 (`core:data` 정리 Worker, 하루 1회) | 실수 복구, 백업 일관성 |
 | 열거형 | 대문자 문자열 (`MONTH`, `CANCELLED`) | 숫자 코드보다 읽기 쉽고 백업 JSON이 안전 |
 | 계산 값 | **저장하지 않음** | 결제 내역 · 누적 지출 · 아낀 돈 · 월 합계는 규칙에서 계산 (product-spec 2장) |
 
@@ -237,6 +237,6 @@ data class PriceChangeEntity(
 | 빼는 것 | soft delete 행, 위젯 설정, 광고 기록, 온보딩 상태 |
 | 불러오기 검사 | `format` 일치, `version` ≤ 앱이 아는 최신, 모든 행 파싱 성공, 참조 무결성(없는 구독을 가리키는 행). 하나라도 실패하면 아무것도 바꾸지 않고 "백업 파일을 읽지 못했어요" |
 | 불러오기 적용 | 한 트랜잭션에서 모든 테이블 비우기 → 넣기 → 설정 덮어쓰기 → 알림 다시 예약(알림 시각이 바뀌면 `ReminderScheduler`가 자동으로) → 위젯 갱신(2차). 설정 값 범위는 DB를 바꾸기 전에 검사한다 |
-| 구현 | `core:data` `BackupV1` · `DefaultBackupRepository`. 파일 읽기 · 쓰기는 더보기 화면(Root)이 SAF로 하고 Repository는 JSON 문자열만 다룬다 |
+| 구현 | `core:data` `BackupV1` · `DefaultBackupRepository`, `core:database` `DataDao`(통째로 바꾸기 · 모두 지우기 · 정리). 파일 읽기 · 쓰기는 더보기 화면(Root)이 SAF로 하고 Repository는 JSON 문자열만 다룬다 |
 | 버전 올리기 | 스키마가 바뀌면 `version`을 올리고 `BackupV{n}` 클래스를 추가. 옛 버전은 `BackupV{n-1} → V{n}` 변환으로 읽는다. 왕복 테스트(내보내기 → 불러오기 → 같은 데이터) 필수 |
 | 개인정보 | 백업 파일에는 결제 수단 · 메모 · 파티 멤버 이름이 들어 있다고 내보내기 화면에 안내 |

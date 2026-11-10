@@ -70,13 +70,13 @@ internal class MoreViewModel(
                 setState { copy(sheet = null, restorePreview = null) }
             }
 
-            is MoreAction.Backup -> {
-                onBackupAction(action)
+            is MoreAction.Data -> {
+                onDataAction(action)
             }
         }
     }
 
-    private fun onBackupAction(action: MoreAction.Backup) {
+    private fun onDataAction(action: MoreAction.Data) {
         when (action) {
             MoreAction.ExportClicked -> {
                 export()
@@ -99,6 +99,21 @@ internal class MoreViewModel(
             MoreAction.RestoreConfirmed -> {
                 restore()
             }
+
+            MoreAction.DeleteAllConfirmed -> {
+                deleteAll()
+            }
+        }
+    }
+
+    private fun deleteAll() {
+        setState { copy(sheet = null, deleteAllInput = "", isBackupBusy = true) }
+        viewModelScope.launch {
+            backupRepository
+                .deleteAll()
+                .onSuccess { sendEvent(MoreEvent.DataDeleted) }
+                .onFailure { showBackupMessage(BackupMessage.DELETE_FAILED) }
+            setState { copy(isBackupBusy = false) }
         }
     }
 

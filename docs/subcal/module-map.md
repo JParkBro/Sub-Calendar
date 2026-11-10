@@ -37,7 +37,7 @@ subcalendar/
 │  ├─ database/       Room (subscription, price_change, pause, usage_log, party_member, party_settlement, widget_config)
 │  ├─ datastore/      설정(화면 모드 · 알림 · 월 시작일 · 환율 · 정렬), 온보딩 완료, 광고 노출 기록, 광고 제거 캐시
 │  ├─ firebase/       Crashlytics · Analytics 래퍼, Remote Config(광고 빈도 · 차단 스위치)  ※ 출시 단계
-│  ├─ data/           Repository: Subscription, Party, Usage, Settings, Preset, Backup / 프리셋 JSON 읽기
+│  ├─ data/           Repository: Subscription, Party, Usage, Settings, Preset, Backup(백업 · 모든 데이터 삭제) / 프리셋 JSON 읽기 / 지운 구독 정리 Worker
 │  ├─ notification/   결제 · 체험 · 정산 · 월초 요약 로컬 알림 (WorkManager, `ReminderScheduler` · `ReminderWorker` · `PaymentNotifier`)
 │  ├─ ads/            AdMob 배너 · 전면광고, 맞춤 광고 동의(UMP), 빈도 규칙  ※ 출시 단계
 │  ├─ billing/        Play Billing 광고 제거 (비소모성)  ※ 출시 단계
