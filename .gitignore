@@ -26,3 +26,6 @@ google-services.json
 
 # Kotlin 컴파일러 캐시
 .kotlin/
+
+# Firebase CLI 배포 캐시
+.firebase/
