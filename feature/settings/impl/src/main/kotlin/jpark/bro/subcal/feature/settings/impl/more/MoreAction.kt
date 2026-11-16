@@ -26,6 +26,9 @@ internal sealed interface MoreAction {
     /** 위젯 설정 */
     data object WidgetClicked : Navigate
 
+    /** 정보 → 개인정보 처리방침 (브라우저) */
+    data object PrivacyPolicyClicked : Navigate
+
     /** Root가 기기에서 읽은 앱 버전 이름 */
     data class AppVersionLoaded(
         val versionName: String,

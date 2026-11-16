@@ -138,7 +138,7 @@ subcalendar/
 | 무료체험 | 있음 | 입력 이동, 결과 저장 스낵바 |
 | 파티 정산 | 있음 | 공유 시트(요청 문구), 저장 실패 · 직접 입력 합 초과 토스트, 뒤로(삭제됨) |
 | 파티 관리 | 있음 | 파티 정산 이동 |
-| 더보기 | 있음 | 하위 화면 이동, 파일 저장 · 선택 창, 메일 앱 |
+| 더보기 | 있음 | 하위 화면 이동, 파일 저장 · 선택 창, 개인정보 처리방침 열기(브라우저), 메일 앱 |
 | 알림 설정 | 있음 | 시스템 알림 설정 열기 |
 | 광고 제거 | 있음 | 결제 창, 결과 스낵바 |
 | 위젯 설정 | 있음 | 위젯 추가 요청 실패 안내 |
@@ -190,12 +190,13 @@ Firebase · AdMob 열은 출시 단계(9장 10단계)부터 적용한다. 그 �
 | `core:firebase`(Crashlytics · Analytics · Remote Config) | Firebase 프로젝트 생성, 앱 2개 등록, `google-services.json` 받기 |
 | `core:ads`(배너 · 전면 · UMP), 구독 저장 후 전면광고, 통계 배너 | AdMob 앱 · 광고 단위 등록, `local.properties`에 prod 값, GDPR 메시지 |
 | `core:billing`, 광고 제거 화면 | Play Console 인앱 상품 `remove_ads` 등록 |
-| `policy-site/`, 개인정보 처리방침 웹뷰 | Firebase Hosting 배포 |
-| 더보기의 광고 제거 · 앱 평가하기 · 다른 앱 둘러보기 · 개인정보 처리방침 메뉴 | Play 스토어 등록 |
+| `policy-site/`의 `app-ads.txt` · 계정 삭제 안내, 개인정보 처리방침 웹뷰 · 2.0.0 내용으로 다시 쓰기 | Firebase Hosting 배포 |
+| 더보기의 광고 제거 · 앱 평가하기 · 다른 앱 둘러보기 · 약관 및 정책 메뉴 | Play 스토어 등록 |
 | 더보기의 문의하기 · 오픈소스 라이선스 (배포할 때 필요) | 문의 메일 주소 정하기 |
 | `core:auth`(Firebase Auth · Credential Manager · Kakao SDK), `feature:account`(더보기 → 계정), 클라우드 백업 · 복원 · 계정 삭제 (`account-backup.md`) | Firebase Blaze · 예산 알림 · Auth · Firestore · App Check, SHA 등록, Kakao Developers 앱 · 키 해시, Google Cloud OAuth 동의 화면 |
 | `firebase/` Firestore 보안 규칙 · Functions `kakaoCustomToken` | `firebase deploy --only firestore:rules,functions` (사용자 확인 후) |
 | 출시 체크리스트 (`infra.md` 4장) | Play Console 앱 콘텐츠(데이터 보안 · 계정 삭제 URL) · 스토어 정보 |
 
 - 개인용 단계 빌드에는 출시 단계 메뉴 · 광고 자리를 넣지 않는다 (비활성 표시도 하지 않음).
+- 예외 (2026-11-16): 개인정보 처리방침은 1.x에 먼저 넣었다. `policy-site/`의 `privacy.html` · `index.html`을 Firebase Hosting에 올리고, 더보기 → 정보에 브라우저로 여는 메뉴를 둔다. Play가 데이터를 수집하지 않는 앱에도 URL과 앱 안 링크를 요구하기 때문이다 (`infra.md` 3장).
 - 출시 단계 모듈이 없어도 앱이 빌드 · 실행되어야 한다. 화면 · ViewModel이 광고 · 결제 · Firebase를 미리 참조하지 않는다.

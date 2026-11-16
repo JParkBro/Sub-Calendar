@@ -36,6 +36,8 @@
     <string name="settings_more_theme_light">라이트</string>
     <string name="settings_more_theme_dark">다크</string>
     <string name="settings_more_theme_system">시스템 설정</string>
+    <string name="settings_more_privacy_policy">개인정보 처리방침</string>
+    <string name="settings_more_open_failed">페이지를 열지 못했어요. 브라우저를 확인해 주세요</string>
     <string name="settings_more_app_version">앱 버전</string>
     <string name="settings_more_save">저장</string>
     <string name="settings_more_save_failed">저장하지 못했어요. 다시 시도해 주세요</string>

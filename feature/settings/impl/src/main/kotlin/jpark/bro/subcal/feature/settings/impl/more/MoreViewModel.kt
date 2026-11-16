@@ -187,4 +187,5 @@ private fun MoreAction.Navigate.toEvent(thisYear: Int): MoreEvent =
         MoreAction.PartyClicked -> MoreEvent.OpenParty
         MoreAction.WidgetClicked -> MoreEvent.OpenWidgetSettings
         MoreAction.YearReportClicked -> MoreEvent.OpenYearReport(thisYear)
+        MoreAction.PrivacyPolicyClicked -> MoreEvent.OpenPrivacyPolicy
     }

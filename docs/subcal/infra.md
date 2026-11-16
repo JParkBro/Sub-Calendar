@@ -36,8 +36,9 @@
 ## 3. 정책 페이지 (`policy-site/`)
 
 - 데이즈와 같은 방식: `policy-site/public/`에 `privacy.html` · `index.html` · `app-ads.txt`, `policy-site/firebase.json`에 Hosting 설정(`cleanUrls`).
-- 앱에서는 `https://{project}.web.app/privacy`를 `SubCalWebView`로 연다 (테마 `?theme=light|dark`).
-- 개인정보 처리방침에 적을 것: 사용자 입력은 기기에 저장 / 로그인하고 클라우드 백업을 쓰면 백업 내용(구독 · 메모 · 파티 멤버 이름 등)과 계정 식별자(Firebase uid · 카카오 회원번호)를 Firebase에 저장 / 계정 삭제 시 함께 삭제 / 백업 파일은 사용자가 관리 / 수집: 광고 ID(AdMob), 오류 · 사용 통계(Firebase, 개인 식별 정보 없음) / 문의처.
+- 앱에서는 `https://{project}.web.app/privacy`를 연다. 1.x는 인터넷 권한이 없어 더보기 → 정보 → 개인정보 처리방침이 **브라우저로** 연다 (페이지가 시스템 다크 모드를 따름). 2.0.0에서 `SubCalWebView`로 바꾼다 (테마 `?theme=light|dark`).
+- **1.x 페이지를 먼저 올린다 (2026-11-16).** Play는 데이터를 수집하지 않는 앱에도 개인정보 처리방침 URL을 요구하므로 `privacy.html` · `index.html`만 먼저 만든다. 1.x 내용: 입력은 기기에만 저장 · 서버 전송 없음 · 인터넷 권한 없음 / 기기 밖으로 나가는 것은 Android 자동 백업과 내보낸 백업 파일뿐 / 알림 권한 / 삭제 방법 / 문의처. `app-ads.txt` · `delete-account.html`은 2.0.0에서 추가한다.
+- 2.0.0에서 개인정보 처리방침에 적을 것(1.x 페이지를 다시 쓰고 시행일을 올린다): 사용자 입력은 기기에 저장 / 로그인하고 클라우드 백업을 쓰면 백업 내용(구독 · 메모 · 파티 멤버 이름 등)과 계정 식별자(Firebase uid · 카카오 회원번호)를 Firebase에 저장 / 계정 삭제 시 함께 삭제 / 백업 파일은 사용자가 관리 / 수집: 광고 ID(AdMob), 오류 · 사용 통계(Firebase, 개인 식별 정보 없음) / 문의처.
 - 계정 삭제 안내 페이지(`delete-account.html`): Play 정책상 웹에서 삭제를 요청하는 방법 (`account-backup.md` 5장).
 - 배포는 직접 실행하지 않고 사용자 확인 후: `npx firebase deploy --only hosting --project {project}` (`policy-site/` 안에서).
 
