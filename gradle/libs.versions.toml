@@ -1,7 +1,7 @@
 [versions]
 # project
 projectApplicationId = "jpark.bro.subcal"
-projectVersionCode = "2"
+projectVersionCode = "3"
 projectVersionName = "1.0.0"
 projectCompileSdkVersion = "37"
 projectMinSdkVersion = "30"

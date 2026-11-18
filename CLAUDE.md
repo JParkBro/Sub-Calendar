@@ -131,8 +131,12 @@ Ktor는 쓰지 않는다. 그 밖의 외부 HTTP가 필요해지면 먼저 사�
 사용자가 AAB를 만들어 달라고 하면:
 
 1. `gradle/libs.versions.toml`의 `projectVersionCode`를 **항상 1 올린다** (스토어에 올린 versionCode는 다시 쓸 수 없음).
-2. `projectVersionName`(예: `1.0.0`)은 사용자가 따로 요청할 때만 올린다.
-3. `./gradlew :app:bundleProdRelease`로 만들고 `jarsigner -verify`로 서명을 확인한 뒤, 경로와 versionCode · versionName을 알린다.
+2. `projectVersionName`(예: `1.0.0`)은 사용자가 요청할 때만, 요청한 값으로 바꾼다 ("1.1.0으로", "마이너 올려서" 등). 요청이 없으면 그대로 둔다.
+3. `./gradlew :app:bundleProdRelease`로 만들고 `jarsigner -verify`로 서명을 확인한다.
+4. Play Console에 붙여 넣을 **출시 이름**과 **출시 노트**를 쓴다.
+   - 출시 이름: `{versionCode} ({versionName})` (예: `3 (1.0.0)`)
+   - 출시 노트: 직전 AAB 이후 바뀐 것. 범위는 `git log -G'projectVersionCode' -- gradle/libs.versions.toml`로 찾은 직전 versionCode 변경 커밋 이후 `main`에 병합된 PR이다. 사용자가 체감하는 변화만 한국어로 짧게 적고(문서 · 리팩터링 · 빌드 설정 제외), `<ko-KR>` 태그로 감싸 500자 이내로 쓴다. 바뀐 것이 없으면 "안정성 개선"처럼 한 줄로 쓴다.
+5. AAB 경로, versionCode · versionName, 출시 이름, 출시 노트를 알린다.
 
 공통 규칙(`GIT_CONVENTIONS.md` 6-2, versionName에서 versionCode 계산)과 다르다 (`docs/subcal/README.md` 예외 항목).
 
