@@ -124,6 +124,17 @@ Ktor는 쓰지 않는다. 그 밖의 외부 HTTP가 필요해지면 먼저 사�
 | 포맷 자동 수정 | `./gradlew ktlintFormat` |
 | 정적 분석 | `./gradlew ktlintCheck detekt lintDevDebug` |
 | DB 마이그레이션 테스트 | `./gradlew :core:database:connectedDevDebugAndroidTest` (기기 필요) |
+| 출시 번들(AAB) | `./gradlew :app:bundleProdRelease` → `app/build/outputs/bundle/prodRelease/app-prod-release.aab` (`keystore.properties` 필요) |
+
+### 출시 번들(AAB) 만들기
+
+사용자가 AAB를 만들어 달라고 하면:
+
+1. `gradle/libs.versions.toml`의 `projectVersionCode`를 **항상 1 올린다** (스토어에 올린 versionCode는 다시 쓸 수 없음).
+2. `projectVersionName`(예: `1.0.0`)은 사용자가 따로 요청할 때만 올린다.
+3. `./gradlew :app:bundleProdRelease`로 만들고 `jarsigner -verify`로 서명을 확인한 뒤, 경로와 versionCode · versionName을 알린다.
+
+공통 규칙(`GIT_CONVENTIONS.md` 6-2, versionName에서 versionCode 계산)과 다르다 (`docs/subcal/README.md` 예외 항목).
 
 ### 모듈 규칙
 
