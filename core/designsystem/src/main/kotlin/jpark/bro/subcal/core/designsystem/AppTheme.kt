@@ -13,6 +13,7 @@ import jpark.bro.subcal.core.model.AppThemeMode
 
 val LocalAppColors = staticCompositionLocalOf<AppColors> { error("AppTheme 밖에서 AppThemeTokens를 사용했습니다.") }
 val LocalAppTypography = staticCompositionLocalOf<AppTypography> { error("AppTheme 밖에서 AppThemeTokens를 사용했습니다.") }
+val LocalAppDarkTheme = staticCompositionLocalOf<Boolean> { error("AppTheme 밖에서 AppThemeTokens를 사용했습니다.") }
 
 /**
  * 앱 테마 (theme-guide.md 8장). 화면 모드는 DataStore에 저장하고 위젯도 같은 팔레트를 쓴다.
@@ -28,6 +29,7 @@ fun AppTheme(
     CompositionLocalProvider(
         LocalAppColors provides colors,
         LocalAppTypography provides DefaultTypography,
+        LocalAppDarkTheme provides dark,
     ) {
         MaterialTheme(
             colorScheme = colors.toColorScheme(dark),
@@ -56,6 +58,12 @@ object AppThemeTokens {
         @Composable
         @ReadOnlyComposable
         get() = LocalAppTypography.current
+
+    /** 지금 다크 팔레트인지. 웹 페이지에 테마를 넘길 때 쓴다 (`SubCalWebView`) */
+    val isDark: Boolean
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalAppDarkTheme.current
 }
 
 private fun AppColors.toColorScheme(dark: Boolean): ColorScheme {
