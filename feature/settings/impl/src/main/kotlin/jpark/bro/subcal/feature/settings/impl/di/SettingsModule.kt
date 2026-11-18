@@ -7,6 +7,9 @@ import jpark.bro.subcal.feature.settings.api.MoreKey
 import jpark.bro.subcal.feature.settings.api.NotificationSettingsKey
 import jpark.bro.subcal.feature.settings.impl.more.MoreRoot
 import jpark.bro.subcal.feature.settings.impl.more.MoreViewModel
+import jpark.bro.subcal.feature.settings.impl.moreapps.MoreAppsKey
+import jpark.bro.subcal.feature.settings.impl.moreapps.MoreAppsRoot
+import jpark.bro.subcal.feature.settings.impl.moreapps.MoreAppsViewModel
 import jpark.bro.subcal.feature.settings.impl.notification.NotificationSettingsRoot
 import jpark.bro.subcal.feature.settings.impl.notification.NotificationSettingsViewModel
 import jpark.bro.subcal.feature.settings.impl.widget.WidgetSettingsKey
@@ -23,6 +26,7 @@ val settingsModule =
         viewModelOf(::MoreViewModel)
         viewModelOf(::NotificationSettingsViewModel)
         viewModelOf(::WidgetSettingsViewModel)
+        viewModelOf(::MoreAppsViewModel)
 
         navigation<MoreKey> {
             val navigator = get<Navigator>()
@@ -39,5 +43,9 @@ val settingsModule =
         navigation<NotificationSettingsKey> {
             val navigator = get<Navigator>()
             NotificationSettingsRoot(onBack = navigator::goBack)
+        }
+        navigation<MoreAppsKey> {
+            val navigator = get<Navigator>()
+            MoreAppsRoot(onBack = navigator::goBack)
         }
     }

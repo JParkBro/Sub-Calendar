@@ -13,6 +13,8 @@ internal sealed interface MoreEvent {
         val year: Int,
     ) : MoreEvent
 
+    data object OpenMoreApps : MoreEvent
+
     /** 개인정보 처리방침 페이지를 브라우저로 연다 */
     data object OpenPrivacyPolicy : MoreEvent
 

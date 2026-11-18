@@ -48,6 +48,7 @@ import jpark.bro.subcal.feature.insight.api.YearReportKey
 import jpark.bro.subcal.feature.party.api.PartyListKey
 import jpark.bro.subcal.feature.settings.api.NotificationSettingsKey
 import jpark.bro.subcal.feature.settings.impl.R
+import jpark.bro.subcal.feature.settings.impl.moreapps.MoreAppsKey
 import jpark.bro.subcal.feature.settings.impl.notification.daysBeforeLabel
 import jpark.bro.subcal.feature.settings.impl.notification.formatReminderTime
 import jpark.bro.subcal.feature.settings.impl.widget.WidgetSettingsKey
@@ -55,7 +56,7 @@ import jpark.bro.subcal.feature.trial.api.TrialKey
 import org.koin.compose.viewmodel.koinViewModel
 import jpark.bro.subcal.core.designsystem.R as DesignR
 
-/** 정책 페이지 (policy-site/, infra.md 3장). 1.x는 인터넷 권한이 없어 브라우저로 연다 */
+/** 정책 페이지 (policy-site/, infra.md 3장). 1.x는 브라우저로 연다 */
 private const val PRIVACY_POLICY_URL = "https://sub-calendar-f4e8d.web.app/privacy"
 
 @Composable
@@ -95,6 +96,10 @@ internal fun MoreRoot(
 
             is MoreEvent.OpenYearReport -> {
                 onNavigate(YearReportKey(event.year))
+            }
+
+            MoreEvent.OpenMoreApps -> {
+                onNavigate(MoreAppsKey)
             }
 
             MoreEvent.OpenPrivacyPolicy -> {
@@ -240,6 +245,13 @@ private fun MoreScreen(
             }
             SettingsSection(state = state, onAction = onAction)
             DataSection(isBusy = state.isBackupBusy, onAction = onAction)
+            SubCalSection(title = stringResource(R.string.settings_more_section_support)) {
+                SubCalListItem(
+                    title = stringResource(R.string.settings_more_more_apps),
+                    onClick = { onAction(MoreAction.MoreAppsClicked) },
+                    modifier = Modifier.testTag("more_more_apps"),
+                )
+            }
             SubCalSection(title = stringResource(R.string.settings_more_section_info)) {
                 SubCalListItem(
                     title = stringResource(R.string.settings_more_privacy_policy),

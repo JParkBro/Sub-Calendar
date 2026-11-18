@@ -22,6 +22,8 @@
     <string name="settings_more_notification_off">결제 알림 꺼짐</string>
     <string name="settings_more_section_settings">설정</string>
     <string name="settings_more_section_info">정보</string>
+    <string name="settings_more_section_support">지원</string>
+    <string name="settings_more_more_apps">다른 앱 둘러보기</string>
     <string name="settings_more_month_start_day">월 시작 기준일</string>
     <string name="settings_more_month_start_day_hint">월급일에 맞추면 이번 달 구독료를 그 날부터 셉니다</string>
     <string name="settings_more_day">%1$d일</string>
@@ -89,4 +91,8 @@
     <string name="settings_notification_default_with_days">기본 (%1$s)</string>
     <string name="settings_notification_sheet_title">%1$s 알림 시점</string>
     <string name="settings_notification_save_failed">저장하지 못했어요. 다시 시도해 주세요</string>
+    <string name="settings_more_apps_title">다른 앱 둘러보기</string>
+    <string name="settings_more_apps_back">뒤로</string>
+    <string name="settings_more_apps_failed">페이지를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</string>
+    <string name="settings_more_apps_retry">다시 시도</string>
 </resources>
