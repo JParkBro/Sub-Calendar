@@ -63,6 +63,16 @@ class MoreViewModelTest {
         }
 
     @Test
+    fun `개인정보 처리방침을 누르면 페이지를 여는 Event를 보낸다`() =
+        runTest {
+            viewModel.event.test {
+                viewModel.onAction(MoreAction.PrivacyPolicyClicked)
+
+                assertEquals(MoreEvent.OpenPrivacyPolicy, awaitItem())
+            }
+        }
+
+    @Test
     fun `월 시작 기준일을 고르면 저장하고 시트를 닫는다`() {
         viewModel.onAction(MoreAction.MonthStartDayClicked)
         assertEquals(MoreSheet.MONTH_START_DAY, state.sheet)

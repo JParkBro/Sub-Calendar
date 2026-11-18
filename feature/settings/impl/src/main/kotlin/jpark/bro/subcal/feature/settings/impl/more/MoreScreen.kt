@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -54,6 +55,9 @@ import jpark.bro.subcal.feature.trial.api.TrialKey
 import org.koin.compose.viewmodel.koinViewModel
 import jpark.bro.subcal.core.designsystem.R as DesignR
 
+/** 정책 페이지 (policy-site/, infra.md 3장). 1.x는 인터넷 권한이 없어 브라우저로 연다 */
+private const val PRIVACY_POLICY_URL = "https://sub-calendar-f4e8d.web.app/privacy"
+
 @Composable
 internal fun MoreRoot(
     onNavigate: (NavKey) -> Unit,
@@ -64,7 +68,9 @@ internal fun MoreRoot(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val toastHostState = remember { SnackbarHostState() }
+    val uriHandler = LocalUriHandler.current
     val saveFailed = stringResource(R.string.settings_more_save_failed)
+    val openFailed = stringResource(R.string.settings_more_open_failed)
     val backupMessages = BackupMessage.entries.associateWith { stringResource(it.textRes) }
     val backupFiles = rememberBackupFileLaunchers(onAction = viewModel::onAction)
 
@@ -89,6 +95,12 @@ internal fun MoreRoot(
 
             is MoreEvent.OpenYearReport -> {
                 onNavigate(YearReportKey(event.year))
+            }
+
+            MoreEvent.OpenPrivacyPolicy -> {
+                // 브라우저가 없는 기기에서도 앱이 죽지 않게 한다
+                runCatching { uriHandler.openUri(PRIVACY_POLICY_URL) }
+                    .onFailure { toastHostState.showSnackbar(openFailed) }
             }
 
             MoreEvent.SaveFailed -> {
@@ -229,6 +241,13 @@ private fun MoreScreen(
             SettingsSection(state = state, onAction = onAction)
             DataSection(isBusy = state.isBackupBusy, onAction = onAction)
             SubCalSection(title = stringResource(R.string.settings_more_section_info)) {
+                SubCalListItem(
+                    title = stringResource(R.string.settings_more_privacy_policy),
+                    onClick = { onAction(MoreAction.PrivacyPolicyClicked) },
+                    emphasized = true,
+                    modifier = Modifier.testTag("more_privacy_policy"),
+                )
+                SubCalDivider()
                 SubCalListItem(
                     title = stringResource(R.string.settings_more_app_version),
                     trailing = { ValueText(state.appVersion) },

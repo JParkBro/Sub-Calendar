@@ -13,6 +13,9 @@ internal sealed interface MoreEvent {
         val year: Int,
     ) : MoreEvent
 
+    /** 개인정보 처리방침 페이지를 브라우저로 연다 */
+    data object OpenPrivacyPolicy : MoreEvent
+
     data object SaveFailed : MoreEvent
 
     /** 시스템 파일 저장 창을 열어 [json]을 [fileName]으로 저장한다 */
