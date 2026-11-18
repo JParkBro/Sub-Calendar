@@ -56,6 +56,7 @@
 | 항목 | 공통 규칙 | 구독캘린더 | 이유 |
 |---|---|---|---|
 | Room 스키마 버전 | 스키마를 바꾸면 version을 올리고 Migration · 마이그레이션 테스트 추가 | **출시 전까지 version 1을 고쳐 쓰고** `schemas/…/1.json`을 덮어씀 | 출시 전에는 보존할 사용자 데이터가 없음. **첫 출시 빌드부터는 공통 규칙을 따름** |
+| Android 버전 코드 (GIT_CONVENTIONS 6-2) | `versionCode = MAJOR * 10000 + MINOR * 100 + PATCH`, 재빌드는 PATCH를 올림 | **AAB를 만들 때마다 `projectVersionCode`를 1 올림.** `projectVersionName`은 사용자가 요청할 때만 올림 | 내부 · 비공개 테스트에 같은 versionName으로 여러 번 올리기 위함 (2026-11-18 결정) |
 | `core:network` (Ktor) | 공통 구조에 포함 | **만들지 않음** | 외부 HTTP가 없음. 환율 자동 갱신 같은 기능이 생기면 그때 추가 |
 | 오프라인 우선 동기화 (ARCHITECTURE 8-3) | 서버 동기화 패턴 | **적용 안 함** | 실시간 동기화가 없음. 2.0.0 클라우드 백업은 백업 JSON 한 덩어리를 올리고 내려받기만 한다 |
 | detekt `TooManyFunctions` | 기본값(클래스 · 인터페이스 11개) | **override는 세지 않고 인터페이스는 15개까지** | Repository 인터페이스가 데이터 연산 목록이라 기능마다 늘어난다. 구현 · Fake는 인터페이스를 그대로 따른다 |
