@@ -26,6 +26,9 @@ internal sealed interface MoreAction {
     /** 위젯 설정 */
     data object WidgetClicked : Navigate
 
+    /** 지원 → 다른 앱 둘러보기 (웹뷰) */
+    data object MoreAppsClicked : Navigate
+
     /** 정보 → 개인정보 처리방침 (브라우저) */
     data object PrivacyPolicyClicked : Navigate
 

@@ -73,6 +73,16 @@ class MoreViewModelTest {
         }
 
     @Test
+    fun `다른 앱 둘러보기를 누르면 소개 화면을 연다`() =
+        runTest {
+            viewModel.event.test {
+                viewModel.onAction(MoreAction.MoreAppsClicked)
+
+                assertEquals(MoreEvent.OpenMoreApps, awaitItem())
+            }
+        }
+
+    @Test
     fun `월 시작 기준일을 고르면 저장하고 시트를 닫는다`() {
         viewModel.onAction(MoreAction.MonthStartDayClicked)
         assertEquals(MoreSheet.MONTH_START_DAY, state.sheet)
