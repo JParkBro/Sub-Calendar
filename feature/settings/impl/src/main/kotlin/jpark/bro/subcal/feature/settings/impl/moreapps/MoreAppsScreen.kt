@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +29,7 @@ import jpark.bro.subcal.core.designsystem.AppTheme
 import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.component.SubCalButtonSize
 import jpark.bro.subcal.core.designsystem.component.SubCalIconButton
+import jpark.bro.subcal.core.designsystem.component.SubCalMascotLoading
 import jpark.bro.subcal.core.designsystem.component.SubCalSecondaryButton
 import jpark.bro.subcal.core.designsystem.component.SubCalToastHost
 import jpark.bro.subcal.core.designsystem.component.SubCalTopBar
@@ -130,9 +130,9 @@ private fun MoreAppsScreen(
                 }
 
                 state.isLoading -> {
-                    CircularProgressIndicator(
-                        color = AppThemeTokens.colors.primary,
-                        modifier = Modifier.align(Alignment.Center),
+                    SubCalMascotLoading(
+                        contentDescription = stringResource(R.string.settings_more_apps_loading),
+                        modifier = Modifier.align(Alignment.Center).testTag("more_apps_loading"),
                     )
                 }
             }

@@ -93,6 +93,7 @@
     <string name="settings_notification_save_failed">저장하지 못했어요. 다시 시도해 주세요</string>
     <string name="settings_more_apps_title">다른 앱 둘러보기</string>
     <string name="settings_more_apps_back">뒤로</string>
+    <string name="settings_more_apps_loading">불러오는 중</string>
     <string name="settings_more_apps_failed">페이지를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</string>
     <string name="settings_more_apps_retry">다시 시도</string>
 </resources>

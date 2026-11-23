@@ -34,6 +34,8 @@ import jpark.bro.subcal.core.designsystem.component.SubCalFab
 import jpark.bro.subcal.core.designsystem.component.SubCalFilterChip
 import jpark.bro.subcal.core.designsystem.component.SubCalIconButton
 import jpark.bro.subcal.core.designsystem.component.SubCalListItem
+import jpark.bro.subcal.core.designsystem.component.SubCalMascot
+import jpark.bro.subcal.core.designsystem.component.SubCalMascotPose
 import jpark.bro.subcal.core.designsystem.component.SubCalSecondaryButton
 import jpark.bro.subcal.core.designsystem.component.SubCalTopBar
 import jpark.bro.subcal.core.designsystem.preview.ScreenPreviews
@@ -78,16 +80,23 @@ internal fun BillingDateHintCard(onAction: (HomeAction) -> Unit) {
     }
 }
 
-/** 빈 상태: 안내 + 빠른 등록 칩 */
+/** 빈 상태: 손 흔드는 마스코트 + 안내 + 빠른 등록 칩 */
 @Composable
 internal fun EmptyCard(onAction: (HomeAction) -> Unit) {
     SubCalCard(modifier = Modifier.testTag("empty_card")) {
         Column(modifier = Modifier.padding(AppSpacing.lg), verticalArrangement = Arrangement.spacedBy(AppSpacing.md)) {
-            Text(
-                text = stringResource(R.string.home_empty_title),
-                style = AppThemeTokens.typography.headlineSm,
-                color = AppThemeTokens.colors.textPrimary,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(AppSpacing.md),
+            ) {
+                // 꾸밈용이라 스크린 리더는 안내 문구만 읽는다
+                SubCalMascot(pose = SubCalMascotPose.WAVE, contentDescription = null, size = 64.dp)
+                Text(
+                    text = stringResource(R.string.home_empty_title),
+                    style = AppThemeTokens.typography.headlineSm,
+                    color = AppThemeTokens.colors.textPrimary,
+                )
+            }
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(AppSpacing.sm),
                 verticalArrangement = Arrangement.spacedBy(AppSpacing.sm),
