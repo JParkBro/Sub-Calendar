@@ -183,6 +183,7 @@ di/{Feature}Module.kt  viewModelOf + navigation<{Feature}Key>
 ### 인앱 업데이트
 
 - Play In-App Updates는 **FLEXIBLE만** 쓴다. 새 버전 안내 · 재시작 모두 `SubCalBottomSheet`로 먼저 묻고, 확인 없이 업데이트 · 재시작하지 않는다.
+- 새 버전 안내는 앱을 켤 때만 하루 한 번(답한 날을 DataStore에 저장), 재시작 확인은 앱으로 돌아올 때마다 묻는다.
 - 판단은 app의 `UpdateViewModel`, Play 호출(`startUpdateFlowForResult` · `completeUpdate`)은 MainActivity가 `UpdateEvent`로 받아서 한다. feature 모듈은 이 기능을 모른다.
 - 수정 전에 `docs/subcal/in-app-update.md`를 본다.
 

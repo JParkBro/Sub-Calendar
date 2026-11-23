@@ -117,6 +117,14 @@ class SettingsDataStore(
         dataStore.edit { prefs -> prefs[LAST_PAYMENT_REMINDER_DATE] = date.toString() }
     }
 
+    /** 새 버전 안내에 마지막으로 답한 날 ("업데이트" · "나중에"). 같은 날에는 다시 묻지 않는다 */
+    val updatePromptAnsweredOn: Flow<LocalDate?> =
+        preferences.map { prefs -> prefs[UPDATE_PROMPT_ANSWERED_ON].toLocalDateOrNull() }
+
+    suspend fun setUpdatePromptAnsweredOn(date: LocalDate) {
+        dataStore.edit { prefs -> prefs[UPDATE_PROMPT_ANSWERED_ON] = date.toString() }
+    }
+
     /** 모든 데이터 삭제 (product-spec 6장): 설정 · 온보딩 완료 · 알림 기록까지 처음 상태로 */
     suspend fun clear() {
         dataStore.edit { prefs -> prefs.clear() }
@@ -137,6 +145,7 @@ class SettingsDataStore(
         val ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
         val BILLING_DATE_HINT_PENDING = booleanPreferencesKey("billing_date_hint_pending")
         val LAST_PAYMENT_REMINDER_DATE = stringPreferencesKey("last_payment_reminder_date")
+        val UPDATE_PROMPT_ANSWERED_ON = stringPreferencesKey("update_prompt_answered_on")
     }
 }
 

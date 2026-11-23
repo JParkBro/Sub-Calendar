@@ -4,6 +4,7 @@ import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.ListSort
 import jpark.bro.subcal.core.model.NotificationSettings
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 interface SettingsRepository {
     fun observeAppSettings(): Flow<AppSettings>
@@ -28,4 +29,9 @@ interface SettingsRepository {
     fun observeBillingDateHintPending(): Flow<Boolean>
 
     suspend fun setBillingDateHintPending(pending: Boolean): Result<Unit>
+
+    /** 인앱 업데이트 새 버전 안내에 마지막으로 답한 날. 같은 날에는 다시 묻지 않는다 (in-app-update.md) */
+    fun observeUpdatePromptAnsweredOn(): Flow<LocalDate?>
+
+    suspend fun setUpdatePromptAnsweredOn(date: LocalDate): Result<Unit>
 }

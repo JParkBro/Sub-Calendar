@@ -53,6 +53,22 @@ class SettingsDataStoreTest {
             assertEquals(LocalDate.of(2026, 10, 30), store.lastPaymentReminderDate.first())
         }
 
+    @Test
+    fun `새 버전 안내에 답한 날을 기억한다`() =
+        runTest {
+            val store =
+                SettingsDataStore(
+                    PreferenceDataStoreFactory.create {
+                        File(Files.createTempDirectory("settings").toFile(), "settings.preferences_pb")
+                    },
+                )
+            assertNull(store.updatePromptAnsweredOn.first())
+
+            store.setUpdatePromptAnsweredOn(LocalDate.of(2026, 10, 30))
+
+            assertEquals(LocalDate.of(2026, 10, 30), store.updatePromptAnsweredOn.first())
+        }
+
     @Test(expected = IllegalStateException::class)
     fun `읽기 오류가 아닌 예외는 그대로 던진다`() =
         runTest {
