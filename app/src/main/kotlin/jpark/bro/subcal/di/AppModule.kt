@@ -1,5 +1,7 @@
 package jpark.bro.subcal.di
 
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import jpark.bro.subcal.MainViewModel
 import jpark.bro.subcal.core.data.di.dataModule
 import jpark.bro.subcal.core.database.di.databaseModule
@@ -19,7 +21,9 @@ import jpark.bro.subcal.feature.trial.impl.di.trialModule
 import jpark.bro.subcal.navigation.AppDataResetHandler
 import jpark.bro.subcal.navigation.AppOnboardingResultHandler
 import jpark.bro.subcal.navigation.TopLevelDestination
+import jpark.bro.subcal.update.UpdateViewModel
 import jpark.bro.subcal.widget.di.widgetModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -30,6 +34,9 @@ val appModule =
         single<OnboardingResultHandler> { AppOnboardingResultHandler(get()) }
         single<DataResetHandler> { AppDataResetHandler(get()) }
         viewModelOf(::MainViewModel)
+        // UpdateViewModel(리스너 · 확인)과 MainActivity(Play 화면 · 재시작)가 같은 인스턴스를 써야 한다
+        single<AppUpdateManager> { AppUpdateManagerFactory.create(androidContext()) }
+        viewModelOf(::UpdateViewModel)
 
         includes(
             // core

@@ -5,4 +5,13 @@
     <string name="app_tab_calendar">캘린더</string>
     <string name="app_tab_stats">통계</string>
     <string name="app_tab_more">더보기</string>
+
+    <!-- 인앱 업데이트 -->
+    <string name="app_update_available_title">새 버전이 나왔어요</string>
+    <string name="app_update_available_message">지금 업데이트할까요? 내려받는 동안에도 앱을 계속 쓸 수 있어요.</string>
+    <string name="app_update_available_confirm">업데이트</string>
+    <string name="app_update_ready_title">업데이트 준비 완료</string>
+    <string name="app_update_ready_message">다운로드가 끝났어요. 앱을 다시 시작해서 설치할까요?</string>
+    <string name="app_update_ready_confirm">재시작</string>
+    <string name="app_update_later">나중에</string>
 </resources>

@@ -16,7 +16,13 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.koin.androidx.workmanager)
 
+    // 인앱 업데이트 (docs/subcal/in-app-update.md)
+    implementation(libs.app.update)
+    implementation(libs.app.update.ktx)
+
     // core
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
     implementation(projects.core.navigation)
     implementation(projects.core.designsystem)
     implementation(projects.core.model)
@@ -45,4 +51,5 @@ dependencies {
     implementation(projects.feature.settings.impl)
 
     testImplementation(projects.core.testing)
+    testImplementation(libs.bundles.robolectric)
 }
