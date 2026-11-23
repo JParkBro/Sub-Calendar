@@ -25,7 +25,7 @@ subcalendar/
 
 ```
 subcalendar/
-├─ app/
+├─ app/              MainActivity, 탭 · 결과 핸들러, 인앱 업데이트(`update/`, in-app-update.md)
 ├─ build-logic/
 ├─ core/
 │  ├─ model/          [JVM] Subscription, SubscriptionInput, PriceChange, Pause, SubscriptionRecord, Payment, Preset, AppSettings, NotificationSettings, PartyMember, UsageLog, Category, Money, BillingCycle
@@ -148,7 +148,7 @@ subcalendar/
 
 | 모듈 | 정의 위치 |
 |---|---|
-| `appModule` | app — Navigator, 결과 핸들러, 전체 `includes` |
+| `appModule` | app — Navigator, 결과 핸들러, `AppUpdateManager` · `UpdateViewModel`, 전체 `includes` |
 | `databaseModule`, `datastoreModule` | core |
 | `firebaseModule` | core:firebase — `CrashReporter`, `AnalyticsLogger`, `RemoteFlags` (출시 단계) |
 | `dataModule` | core:data (`core:domain`은 순수 함수만 있어 Koin 모듈이 없다) |

@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,20 +18,34 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.install.model.AppUpdateType
 import jpark.bro.subcal.core.designsystem.AppTheme
 import jpark.bro.subcal.core.designsystem.AppThemeTokens
 import jpark.bro.subcal.core.designsystem.isDarkTheme
 import jpark.bro.subcal.core.navigation.AppIntents
 import jpark.bro.subcal.core.navigation.Navigator
+import jpark.bro.subcal.core.ui.ObserveEvents
 import jpark.bro.subcal.navigation.AppOpenRequest
 import jpark.bro.subcal.navigation.SubCalApp
 import jpark.bro.subcal.navigation.open
+import jpark.bro.subcal.update.UpdateAction
+import jpark.bro.subcal.update.UpdateEvent
+import jpark.bro.subcal.update.UpdateSheet
+import jpark.bro.subcal.update.UpdateViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModel()
+    private val updateViewModel: UpdateViewModel by viewModel()
+    private val appUpdateManager: AppUpdateManager by inject()
+
+    // Play 업데이트 화면. STARTED 전에 등록해야 해서 필드로 둔다. 취소해도 할 일이 없어 결과는 쓰지 않는다
+    private val updateFlowLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {}
 
     /** 알림에서 연 구독 id. 화면에 반영하면 비운다 */
     private var openRequest by mutableStateOf<AppOpenRequest?>(null)
@@ -68,8 +83,32 @@ class MainActivity : ComponentActivity() {
                     }
                     SubCalApp(navigator = navigator)
                 }
+
+                val updateState by updateViewModel.state.collectAsStateWithLifecycle()
+                ObserveEvents(updateViewModel.event) { event ->
+                    when (event) {
+                        is UpdateEvent.StartUpdateFlow -> {
+                            appUpdateManager.startUpdateFlowForResult(
+                                event.info,
+                                updateFlowLauncher,
+                                AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE).build(),
+                            )
+                        }
+
+                        UpdateEvent.CompleteUpdate -> {
+                            appUpdateManager.completeUpdate()
+                        }
+                    }
+                }
+                UpdateSheet(prompt = updateState.prompt, onAction = updateViewModel::onAction)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 백그라운드 다운로드가 앱 밖에 있는 동안 끝났을 수 있다
+        updateViewModel.onAction(UpdateAction.AppResumed)
     }
 
     /** 앱이 떠 있을 때 알림을 누르면 (singleTop) */
