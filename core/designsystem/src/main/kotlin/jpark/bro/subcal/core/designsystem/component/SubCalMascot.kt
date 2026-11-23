@@ -32,6 +32,10 @@ import jpark.bro.subcal.core.designsystem.preview.SubCalPreviewSurface
 private const val LOADING_FRAMES = 2
 private const val LOADING_FRAME_MILLIS = 300
 
+/** 대기 애니메이션 프레임 수 · 한 프레임 시간 (숨쉬기 시트: 8프레임 · 8fps, 한 바퀴 1초) */
+private const val IDLE_FRAMES = 8
+private const val IDLE_FRAME_MILLIS = 125
+
 /**
  * 마스코트 정지 이미지. [size] 안에 들어가는 가장 큰 **정수 배율**로, 보간 없이 그려 픽셀이 번지지 않는다.
  * 꾸밈용이면 [contentDescription]에 null을 넘겨 스크린 리더가 건너뛰게 한다.
@@ -58,19 +62,46 @@ fun SubCalMascotLoading(
     modifier: Modifier = Modifier,
     size: Dp = 80.dp,
 ) {
-    val frame by rememberInfiniteTransition(label = "mascot_loading").animateValue(
-        initialValue = 0,
-        targetValue = LOADING_FRAMES,
-        typeConverter = Int.VectorConverter,
-        animationSpec = infiniteRepeatable(tween(LOADING_FRAMES * LOADING_FRAME_MILLIS, easing = LinearEasing)),
-        label = "frame",
-    )
     MascotSprite(
         sheet = ImageBitmap.imageResource(R.drawable.mascot_bounce_sheet_80x80_2f),
         frameCount = LOADING_FRAMES,
-        frame = frame % LOADING_FRAMES,
+        frame = rememberLoopFrame(LOADING_FRAMES, LOADING_FRAME_MILLIS),
         modifier = modifier.size(size).mascotSemantics(contentDescription, loading = true),
     )
+}
+
+/**
+ * 마스코트가 숨쉬며 눈을 깜빡이는 대기 애니메이션. 빈 화면처럼 사용자를 기다리는 자리에 쓴다.
+ * 로딩(기다리게 하는 쪽)에는 [SubCalMascotLoading]을 쓴다. 꾸밈용이면 [contentDescription]에 null.
+ */
+@Composable
+fun SubCalMascotIdle(
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    size: Dp = 120.dp,
+) {
+    MascotSprite(
+        sheet = ImageBitmap.imageResource(R.drawable.mascot_breath_sheet_80x80_8f),
+        frameCount = IDLE_FRAMES,
+        frame = rememberLoopFrame(IDLE_FRAMES, IDLE_FRAME_MILLIS),
+        modifier = modifier.size(size).mascotSemantics(contentDescription, loading = false),
+    )
+}
+
+/** 0 → [frameCount] - 1을 [frameMillis]마다 넘기며 끝없이 반복 */
+@Composable
+private fun rememberLoopFrame(
+    frameCount: Int,
+    frameMillis: Int,
+): Int {
+    val frame by rememberInfiniteTransition(label = "mascot").animateValue(
+        initialValue = 0,
+        targetValue = frameCount,
+        typeConverter = Int.VectorConverter,
+        animationSpec = infiniteRepeatable(tween(frameCount * frameMillis, easing = LinearEasing)),
+        label = "frame",
+    )
+    return frame % frameCount
 }
 
 /** [availablePx] 안에 [spritePx] 그림이 들어가는 가장 큰 정수 배율. 작아도 1배는 그린다 */
@@ -126,6 +157,9 @@ private fun SubCalMascotPreview() {
             SubCalMascot(pose = SubCalMascotPose.WAVE, contentDescription = null)
             SubCalMascot(pose = SubCalMascotPose.FACE_SMILE, contentDescription = null, size = 80.dp)
         }
-        SubCalMascotLoading(contentDescription = "불러오는 중")
+        Row {
+            SubCalMascotIdle(contentDescription = null, size = 80.dp)
+            SubCalMascotLoading(contentDescription = "불러오는 중")
+        }
     }
 }

@@ -126,7 +126,7 @@ WCAG: 일반 텍스트 4.5:1, 큰 텍스트 · UI 그래픽 3:1.
 |---|---|
 | 그대로 | `SubCalPrimaryButton` · `SubCalSecondaryButton` · `SubCalOutlineButton` · `SubCalDangerButton`, `SubCalIconButton` · `SubCalFab`, `SubCalFilterChip` · `SubCalSegmentedControl`, `SubCalCard` · `SubCalSection` · `SubCalListItem` · `SubCalDivider`, `SubCalTextField`, `SubCalSwitch` · `SubCalCheckbox`, `SubCalProgressBar`, `SubCalTopBar` · `SubCalBottomBar`(탭 5개), `SubCalBottomSheet`, `SubCalInfoBox` · `SubCalToast` |
 | 바꿈 | `SubCalBadge(tone = CYCLE · CATEGORY · SOON · SUCCESS · PAUSED · CANCELLED)`, `DdayText` → `SubCalDdayText(daysUntil)` (6장 3번 색 규칙), `SubCalPrimaryButton(onLongClick)`(사용 체크 "+1" 길게 눌러 날짜 선택), `SubCalToast(actionLabel)`(사용 기록 "실행 취소". `SubCalToastHost`가 스낵바의 actionLabel을 넘긴다), `SubCalProgressBar(color)`(가성비 "사용 안 함"은 `danger` 한 색), `SubCalAmountField(onCurrencyChange = null)`(통화 선택 숨김, 파티 몫 입력) |
-| 추가 | `SubCalServiceIcon(name, colorKey, size, dimmed)`, `SubCalAmountField`(숫자 키패드 · 천 단위 쉼표 · 통화 선택), `SubCalDonutChart` · `SubCalBarChart`(Canvas, 외부 차트 라이브러리 없음), `SubCalMascot(pose, contentDescription, size)` · `SubCalMascotLoading(contentDescription, size)`(아래 "마스코트") |
+| 추가 | `SubCalServiceIcon(name, colorKey, size, dimmed)`, `SubCalAmountField`(숫자 키패드 · 천 단위 쉼표 · 통화 선택), `SubCalDonutChart` · `SubCalBarChart`(Canvas, 외부 차트 라이브러리 없음), `SubCalMascot(pose, contentDescription, size)` · `SubCalMascotLoading(contentDescription, size)` · `SubCalMascotIdle(contentDescription, size)`(아래 "마스코트") |
 | 제외 | `DaysKakaoButton`, `DaysItemIcon`, 커플 · 사진 관련 컴포넌트 |
 
 `core:ui`: `MoneyText(money, style, tone)` · `formatMoney` · `formatKrwInManwon`(만 원 단위), `PaymentRow`(아이콘 · 이름 · 날짜 · D-day · 금액 한 줄), `SubCalDatePickerDialog`, `SubCalWebView`(정책 문서 · 다른 앱 둘러보기).
@@ -140,12 +140,13 @@ WCAG: 일반 텍스트 4.5:1, 큰 텍스트 · UI 그래픽 3:1.
 | 파일 | `core/designsystem/src/main/res/drawable-nodpi/mascot_*.png` (80×80, 투명 배경). `nodpi`라 기기 밀도로 늘어나지 않는다 |
 | 정지 | `SubCalMascot(pose)` — `SubCalMascotPose` 20종: 정면 · 손 흔들기 · 점프 · 두 팔 들기, 덩어리형 4종, 표정 12종(`FACE_*`, 상반신) |
 | 로딩 | `SubCalMascotLoading()` — 통통 튀기 2프레임 × 300ms 반복. 진행률을 모르는 기다림에만 쓴다 |
+| 대기 | `SubCalMascotIdle()` — 숨쉬기 + 눈 깜빡임 8프레임 × 125ms(8fps) 반복. 빈 화면처럼 사용자를 기다리는 자리에 쓴다 (홈 빈 카드) |
 | 그리기 | `size` 안에 들어가는 가장 큰 정수 배율, 보간 없이(`FilterQuality.None`). 이미지를 직접 `Image`로 그리지 않는다 |
 | 색 | 그림 자체 색이라 테마 토큰 규칙의 예외. 다크 모드에서는 외곽선(`#150F33`)이 배경(`bg` `#111318`)에 묻혀 보라색 몸만 보인다 |
 | 접근성 | 꾸밈용이면 `contentDescription = null`. 로딩은 설명을 받고 진행 중(불확정) 상태로 읽힌다 |
 
 - 한 화면에 마스코트는 하나만 둔다. 원본마다 캐릭터 크기가 조금씩 달라 나란히 두면 차이가 보인다.
-- 원본 · 정리 스크립트는 저장소에 두지 않는다 (큰 AI 생성 원본). 새 포즈를 넣을 때는 같은 규격(80×80, 투명, 같은 색상표)으로 만든 PNG를 `drawable-nodpi`에 추가하고 `SubCalMascotPose`에 항목을 더한다.
+- 원본 · 정리 스크립트는 저장소에 두지 않는다 (큰 AI 생성 원본). 정리본 · 다른 프로젝트용 안내는 `~/Documents/WorkSpace/Mascot/`(숨쉬기), 나머지 정리본 · 원본은 `~/Downloads/Mascot/`에 있다. 새 포즈를 넣을 때는 같은 규격(80×80, 투명, 같은 색상표)으로 만든 PNG를 `drawable-nodpi`에 추가하고 `SubCalMascotPose`에 항목을 더한다.
 
 ### 앱 아이콘
 
