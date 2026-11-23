@@ -6,6 +6,7 @@ import jpark.bro.subcal.core.model.AppSettings
 import jpark.bro.subcal.core.model.ListSort
 import jpark.bro.subcal.core.model.NotificationSettings
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 internal class DefaultSettingsRepository(
     private val dataStore: SettingsDataStore,
@@ -33,4 +34,9 @@ internal class DefaultSettingsRepository(
 
     override suspend fun setBillingDateHintPending(pending: Boolean): Result<Unit> =
         suspendRunCatching { dataStore.setBillingDateHintPending(pending) }
+
+    override fun observeUpdatePromptAnsweredOn(): Flow<LocalDate?> = dataStore.updatePromptAnsweredOn
+
+    override suspend fun setUpdatePromptAnsweredOn(date: LocalDate): Result<Unit> =
+        suspendRunCatching { dataStore.setUpdatePromptAnsweredOn(date) }
 }

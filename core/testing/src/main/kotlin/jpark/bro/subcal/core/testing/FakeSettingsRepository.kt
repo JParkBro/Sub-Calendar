@@ -6,6 +6,7 @@ import jpark.bro.subcal.core.model.ListSort
 import jpark.bro.subcal.core.model.NotificationSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.time.LocalDate
 
 class FakeSettingsRepository : SettingsRepository {
     val appSettings = MutableStateFlow(AppSettings())
@@ -13,6 +14,7 @@ class FakeSettingsRepository : SettingsRepository {
     val listSort = MutableStateFlow(ListSort.NEXT_BILLING)
     val onboardingDone = MutableStateFlow(false)
     val billingDateHintPending = MutableStateFlow(false)
+    val updatePromptAnsweredOn = MutableStateFlow<LocalDate?>(null)
 
     /** 넣으면 모든 쓰기가 그 예외로 실패한다 */
     var failure: Throwable? = null
@@ -49,6 +51,11 @@ class FakeSettingsRepository : SettingsRepository {
 
     override suspend fun setBillingDateHintPending(pending: Boolean): Result<Unit> =
         fakeWrite(failure) { billingDateHintPending.value = pending }
+
+    override fun observeUpdatePromptAnsweredOn(): Flow<LocalDate?> = updatePromptAnsweredOn
+
+    override suspend fun setUpdatePromptAnsweredOn(date: LocalDate): Result<Unit> =
+        fakeWrite(failure) { updatePromptAnsweredOn.value = date }
 }
 
 private fun fakeWrite(

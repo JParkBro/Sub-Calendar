@@ -146,6 +146,7 @@ erDiagram
 | `onboarding_done` | Boolean | false | ✗ | ✓ |
 | `billing_date_hint_pending` | Boolean (온보딩 등록 후 홈 "결제일을 확인해 주세요" 카드) | false | ✗ | ✓ |
 | `last_payment_reminder_date` | `yyyy-MM-dd` (결제 알림을 마지막으로 보낸 날, 하루 두 번 보내지 않기 위해) | – | ✗ | ✓ |
+| `update_prompt_answered_on` | `yyyy-MM-dd` (인앱 업데이트 새 버전 안내에 마지막으로 답한 날, 같은 날 다시 묻지 않기 위해. `in-app-update.md`) | – | ✗ | ✓ |
 | `dismissed_cards` | Set<String> | – | ✗ | ✓ |
 | `ads_installed_at` · `ads_last_interstitial_at` · `ads_interstitial_count_today` · `ads_count_date` | Long · Long · Int · String | – | ✗ | ✗ |
 | `remove_ads_cached` | Boolean | false | ✗ | ✗ (Play에서 다시 확인) |
